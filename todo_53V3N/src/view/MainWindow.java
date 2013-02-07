@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+// This comment is just a test.. Marco
+// im testing egit plugin
+
 public class MainWindow extends JFrame {
 
 

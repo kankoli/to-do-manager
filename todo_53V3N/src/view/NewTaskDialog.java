@@ -87,6 +87,7 @@ public class NewTaskDialog {
 		pane.add(label, c);
 
 		JComboBox<String> cmbCategory = new JComboBox<String>();
+
 		String[] items = Helpers.categoryItems();
 		for (int i = 0; i < items.length; i++)
 			cmbCategory.addItem(items[i]);
