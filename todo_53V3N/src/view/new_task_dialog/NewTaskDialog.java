@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-package view;
+package view.new_task_dialog;
 
 /*
  * GridBagLayoutDemo.java requires no other files.

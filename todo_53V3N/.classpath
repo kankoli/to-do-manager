@@ -6,5 +6,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_13.jdk/Contents/Home"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="jdom-2/jdom-2.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
