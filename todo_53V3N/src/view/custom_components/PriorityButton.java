@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 
+@SuppressWarnings("serial")
 public class PriorityButton extends ImageButton {
 
 	private int value;
@@ -26,8 +27,12 @@ public class PriorityButton extends ImageButton {
 				// TODO Auto-generated method stub
 				if (isClicked) {
 					isClicked = false;
+
 					PriorityBar.value = 0;
 					PriorityBar.setButtons();
+					
+					
+					
 				}
 				else {
 					isClicked = true;

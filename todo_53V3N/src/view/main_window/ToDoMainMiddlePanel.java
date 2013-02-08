@@ -3,27 +3,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import org.jdom2.JDOMException;
 
 import model.dbConnector;
 
-
+/**
+ * This class represents the middle part of the ToDo application
+ * 
+ * @author Magnus Larsson
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
 public class ToDoMainMiddlePanel extends JPanel {
 	
 	private JButton pendingButton;
@@ -70,17 +69,14 @@ public class ToDoMainMiddlePanel extends JPanel {
 		add(completedButton, pendingCompletedButtonsCons);
 	}
 	
-	private void addSortingBar() {
+	private void addSortingBar() { //ToDoSortingBar will be completely revamped
 		GridBagConstraints sortingBarCons = new GridBagConstraints();
 		
-		sortingBar = new ToDoSortingBar(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//System.exit(0);
-			}
-			
-		}, Arrays.asList("Name", "Date", "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
+		try {
+			sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date", "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		sortingBarCons.gridy = 1;
 		sortingBarCons.weightx = 1;
@@ -90,11 +86,11 @@ public class ToDoMainMiddlePanel extends JPanel {
 		add(sortingBar, sortingBarCons);
 	}
 	
-	private void addTaskPanel() {
+	private void addTaskPanel() { //Will be revamped in future release
 		GridBagConstraints taskPanelCons = new GridBagConstraints();
 		
-		int sizes[] = { 10, 20, 30, 40};
-		dbConnector db = null;
+		int sizes[] = { 10, 20, 30, 40}; //Temporary offset values for area sizes of TaskScrollPanel.
+		dbConnector db = null;	//Only a temporary solution, will be moved.
 		try {
 			db = new dbConnector();
 		} catch (JDOMException e) {

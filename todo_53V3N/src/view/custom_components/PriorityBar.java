@@ -6,9 +6,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class PriorityBar extends JPanel {
+
+	
+
 	protected static int value;
 	
+
+	// XXX Marco note to Kadir and Madelen: Why using static variables? Im just being curious because i see few warnings from compiler
+	// there, i tried to solve them but was getting too long, i didnt change.. it seems like is because we r using
+	// static variables and not instance variables, there is good reason? Just to know!
+
+	// Compiler gives this warning, for all fields below
+	//The static field PriorityBar.hover2 should be accessed in a static way	PriorityBar.java	/todo_53V3N/src/view/custom_components	line 38	Java Problem
+	// ...
+
 	protected static ImageIcon def;
 	protected static ImageIcon hover1;
 	protected static ImageIcon pressed1;
@@ -53,6 +66,7 @@ public class PriorityBar extends JPanel {
 		add(btn3);
 	}
 	
+	
 	protected static void setButtons() {
 		if (value == 0) {
 			btn1.setIcon(def);
@@ -90,7 +104,7 @@ public class PriorityBar extends JPanel {
 			System.out.println("Whaaa");
 		}
 	}
-	
+
 	protected static void setButtons(int hoverValue) {
 		if (hoverValue == 0) {
 			btn1.setIcon(def);

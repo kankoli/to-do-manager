@@ -23,19 +23,20 @@ import view.GlobalValues;
 import model.Task;
 
 /**
- * This component represent one row (one task) in the task scroll panel
+ * This component represent one row (one task) in the task scroll panel, with
+ * wich user can interact.
  * 
  * @author Marco Dondio
  * 
  */
 
-public class TaskRow extends JPanel {
+public final class TaskRow extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	// makes easier managing data
 	// see JavaDoc for other formats
-	// TODO this will read an option for desired format
+	// TODO this will read an option (defined into database) for desired format
 	private static SimpleDateFormat sdf = new SimpleDateFormat(
 			"dd-MM-yyyy HH:mm");
 
@@ -43,7 +44,7 @@ public class TaskRow extends JPanel {
 	private Task t; // reference to task in datamodel
 
 	private JButton doneBut;
-	private JTextField nameField; // TODO array???
+	private JTextField nameField; // TODO Maybe doing an JTextField[] is better?
 	private JTextField dateField;
 	private JTextField categoryField;
 	private JTextField priorityField;
@@ -62,7 +63,7 @@ public class TaskRow extends JPanel {
 		sdf.setLenient(false); // This makes a date like "31-13-2013 17:45" not
 								// valid!
 
-		// TODO sistema layout!!!!!
+		// TODO layout has to be fixed a lot! I didnt mind about it now
 		this.setLayout(new FlowLayout(FlowLayout.LEFT,
 				GlobalValues.TASKROW_ELEMENT_SPACING_X,
 				GlobalValues.TASKROW_ELEMENT_SPACING_Y));
@@ -73,8 +74,10 @@ public class TaskRow extends JPanel {
 			public void mousePressed(MouseEvent me) {
 				t.setCompleted(!t.getCompleted());
 
-				// TODO questo dovrebbe inoltre notificare il parent
-				// cosi da comparire solo nella sezione pending/completed
+				// TODO
+				// This button will notify the parent (scrollpanel component)
+				// that this TaskRow has to be moved to completed or pending
+				// section.
 
 				JOptionPane
 						.showMessageDialog(
@@ -86,10 +89,10 @@ public class TaskRow extends JPanel {
 
 		nameField = new JTextField(t.getName());
 		nameField.setEnabled(false);
-//		nameField.setBackground(Color.LIGHT_GRAY);
+		// nameField.setBackground(Color.LIGHT_GRAY);
 		nameField.setFont(new Font(null, Font.BOLD, 30));
-		// nameArea.setDisabledTextColor(Color.BLACK);	
-		//nameField.setBorder(null);		
+		// nameArea.setDisabledTextColor(Color.BLACK);
+		// nameField.setBorder(null);
 		add(nameField);
 
 		// date format
@@ -97,7 +100,7 @@ public class TaskRow extends JPanel {
 		dateField.setEnabled(false);
 		// dateField.setBackground(Color.GREEN);
 		// dateField.setDisabledTextColor(Color.BLACK);
-		//dateField.setBorder(null);		
+		// dateField.setBorder(null);
 		add(dateField);
 
 		categoryField = new JTextField(t.getCategory());
@@ -105,7 +108,7 @@ public class TaskRow extends JPanel {
 		categoryField.setEnabled(false);
 		// categoryField.setBackground(Color.GREEN);
 		// categoryField.setDisabledTextColor(Color.BLACK);
-		//categoryField.setBorder(null);		
+		// categoryField.setBorder(null);
 		add(categoryField);
 
 		priorityField = new JTextField(t.getPrio().toString());
@@ -113,12 +116,11 @@ public class TaskRow extends JPanel {
 		priorityField.setEnabled(false);
 		// priorityField.setBackground(Color.GREEN);
 		// priorityField.setDisabledTextColor(Color.BLACK);
-		//priorityField.setBorder(null);		
+		// priorityField.setBorder(null);
 		add(priorityField);
 
 		descriptionArea = new JTextArea(t.getDescription(),
-				GlobalValues.TASKROW_DESC_ROWS,
-				GlobalValues.TASKROW_DESC_COLS);
+				GlobalValues.TASKROW_DESC_ROWS, GlobalValues.TASKROW_DESC_COLS);
 
 		// descriptionArea = new JTextArea(t.getDescription());
 		// descriptionArea.setBounds( 0, 0, 200, 200 );
@@ -129,7 +131,10 @@ public class TaskRow extends JPanel {
 		descriptionArea.setLineWrap(true);
 		descriptionArea.setWrapStyleWord(true);
 
-		descriptionArea.setAlignmentX(CENTER_ALIGNMENT); // TODO works???
+		descriptionArea.setAlignmentX(CENTER_ALIGNMENT); // TODO not sure it
+															// works.. once
+															// again check
+															// layout
 
 		descriptionPane = new JScrollPane(descriptionArea);
 		descriptionPane.setVisible(false);
@@ -143,11 +148,11 @@ public class TaskRow extends JPanel {
 				// TODO in future, graphical icons instead of text button.
 				if (editBut.getActionCommand().equals("Edit")) {
 
-//					nameField.setBackground(Color.GREEN);
-//					dateField.setBackground(Color.GREEN);
-//					categoryField.setBackground(Color.GREEN);
-//					priorityField.setBackground(Color.GREEN);
-//					descriptionArea.setBackground(Color.GREEN);
+					// nameField.setBackground(Color.GREEN);
+					// dateField.setBackground(Color.GREEN);
+					// categoryField.setBackground(Color.GREEN);
+					// priorityField.setBackground(Color.GREEN);
+					// descriptionArea.setBackground(Color.GREEN);
 
 					editBut.setText("Stop editing");
 
@@ -156,6 +161,10 @@ public class TaskRow extends JPanel {
 					// Now i store back into Task object modifications: first
 					// check values
 
+					// TODO
+					// priority will be a radiobutton, for the moment it's just
+					// some text
+					// did this for quick prototype
 					Date d = null;
 					try {
 						d = sdf.parse(dateField.getText());
@@ -181,8 +190,8 @@ public class TaskRow extends JPanel {
 					t.setPrio(Task.Priority.valueOf(priorityField.getText()));
 					t.setDescription(descriptionArea.getText());
 
-				//	JOptionPane.showMessageDialog(null, "Editing succesfully");
-
+					// JOptionPane.showMessageDialog(null,
+					// "Editing succesfully");
 					nameField.setBackground(Color.WHITE);
 					dateField.setBackground(Color.WHITE);
 					categoryField.setBackground(Color.WHITE);
@@ -199,7 +208,6 @@ public class TaskRow extends JPanel {
 
 			}
 		});
-		// -----------------------------------------------------------------------------
 
 		editBut.setVisible(false);
 		add(editBut);
@@ -209,12 +217,9 @@ public class TaskRow extends JPanel {
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 
-				// TODO questo dovrebbe rimuovere questo component, ridisegnare
-				// poi la lista
-				// ovviamente va messo nello scroll panel.. chiama metodo
-				// repaint???
-
-				// Display a dialog for confirmation
+				// Display a dialog for confirmation and read answer
+				// if yes, delete (call to parent, he knows already we r
+				// focused)
 				if (JOptionPane.showOptionDialog(null,
 						"Are you sure you want to delete \"" + t.getName()
 								+ "\"", "Confirm task deletion",
@@ -222,9 +227,6 @@ public class TaskRow extends JPanel {
 						null, null, null) == JOptionPane.YES_OPTION) {
 
 					taskScrollPanel.deleteTask();
-					// TODO
-					// elimina il task
-
 				}
 			}
 
@@ -232,16 +234,14 @@ public class TaskRow extends JPanel {
 		deleteBut.setVisible(false);
 		add(deleteBut);
 
-		// TODO dovrebbe mandare un messaggio allo scrollPanel in modo da
-		// mandare inattivi gli altri
-
 		// Finally add panel listeners
 		addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent me) {
+			// public void mousePressed(MouseEvent me) {
 
-				// TODO i think it's useless!!!!!
-				// to discuss
-			}
+			// XXX: to be discussed with team, do we really need a
+			// fixed focus when someone clicks? I feel that the onfocus
+			// event is enough!
+			// }
 
 			public void mouseEntered(MouseEvent e) {
 
@@ -270,14 +270,7 @@ public class TaskRow extends JPanel {
 
 	}
 
-	// TODO qui ci andrˆ la definizione della row
-	// il suo layout
-	// i suoi listener
-
-	// TODO da capire: come settare tutti i subcomponent per usare gli stessi
-	// listener???
-
-	public void setSelected(boolean visible) {
+	public final void setSelected(boolean visible) {
 
 		if (visible) {
 			taskScrollPanel.selectTaskRow(this);
@@ -288,16 +281,19 @@ public class TaskRow extends JPanel {
 			setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
 		if (!descriptionArea.getText().isEmpty())
-			descriptionPane.setVisible(visible); // TODO description dovrebbe
-													// andare sotto ed essere
-													// lunga
+			descriptionPane.setVisible(visible);
+
 		editBut.setVisible(visible);
 		deleteBut.setVisible(visible);
 
 		isSelected = visible;
 	}
 
-	public Task getTask() {
+	/**
+	 * Returns the current Task associated to this TaskRow object
+	 * @return current Task object
+	 */
+	public final Task getTask() {
 		return t;
 	}
 

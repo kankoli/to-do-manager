@@ -8,9 +8,14 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.sun.awt.*;
 
-
+/**
+ * This class represents the main frame and base panel of the ToDo application
+ * 
+ * @author Magnus Larsson
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
 public class ToDoMainFrame extends JFrame {
 	
 	private JPanel basePanel;
@@ -18,6 +23,11 @@ public class ToDoMainFrame extends JFrame {
 	private ToDoMainMiddlePanel middlePanel;
 	private ToDoMainBottomPanel bottomPanel;
 	
+	/**
+	 * 
+	 * @param width width of frame in pixels
+	 * @param height height of frame in pixels
+	 */
 	public ToDoMainFrame(int width, int height) {
 		super();
 		
@@ -33,16 +43,16 @@ public class ToDoMainFrame extends JFrame {
 		addMiddlePanel();
 		addBottomPanel();
 
-		//getContentPane().add(basePanel); 
 		setContentPane(basePanel);
       
 		pack();                                    
         setVisible(true);                          
-        setDefaultCloseOperation(EXIT_ON_CLOSE); //OVERRIDE WTIH CUSTOM CODE TO SAVE ETC.
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM CODE TO SAVE ETC.
 	}
 	
 	public static void main(String[] args) {
-		ToDoMainFrame toDoFrame = new ToDoMainFrame(800, 600);
+		//ToDoMainFrame toDoFrame = 		// XXX Marco: i commented it, do we need a reference to Frame?
+				new ToDoMainFrame(800, 600);
 	}
 
 	private void addTopPanel() {

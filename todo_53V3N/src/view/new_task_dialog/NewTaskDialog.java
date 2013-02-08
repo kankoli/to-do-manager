@@ -27,7 +27,7 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */ 
+ */
 
 package view.new_task_dialog;
 
@@ -44,9 +44,7 @@ import javax.swing.JTextField;
 import view.custom_components.ImageButton;
 import view.custom_components.PriorityBar;
 
-
 import control.Helpers;
-
 
 public class NewTaskDialog {
 
@@ -71,7 +69,9 @@ public class NewTaskDialog {
 		c.gridy = 1;
 		pane.add(label, c);
 
-		ImageButton imageButton = new ImageButton("assets/def.png", "assets/hover1.png", "assets/pressed1.png", "assets/pressed1.png");
+		ImageButton imageButton = new ImageButton("assets/def.png",
+				"assets/hover1.png", "assets/pressed1.png",
+				"assets/pressed1.png");
 		c.gridx = 1;
 		c.gridy = 1;
 		pane.add(imageButton, c);
@@ -88,9 +88,12 @@ public class NewTaskDialog {
 
 		JComboBox<String> cmbCategory = new JComboBox<String>();
 
+		// XXX Marco: here we will use the category provided by datamodel
 		String[] items = Helpers.categoryItems();
 		for (int i = 0; i < items.length; i++)
 			cmbCategory.addItem(items[i]);
+
+		
 		c.gridx = 1;
 		c.gridy = 3;
 		pane.add(cmbCategory, c);
@@ -100,28 +103,30 @@ public class NewTaskDialog {
 		c.gridy = 4;
 		pane.add(label, c);
 
-		PriorityBar bar = new PriorityBar("assets/def.png", 
-				"assets/hover1.png", "assets/pressed1.png", "assets/pressed1.png", 
-				"assets/hover2.png", "assets/pressed2.png", "assets/pressed2.png", 
-				"assets/hover3.png", "assets/pressed3.png", "assets/pressed3.png");
+		PriorityBar bar = new PriorityBar("assets/def.png",
+				"assets/hover1.png", "assets/pressed1.png",
+				"assets/pressed1.png", "assets/hover2.png",
+				"assets/pressed2.png", "assets/pressed2.png",
+				"assets/hover3.png", "assets/pressed3.png",
+				"assets/pressed3.png");
 		c.gridx = 1;
 		c.gridy = 4;
 		pane.add(bar, c);
 
 		JButton button = new JButton("Cancel");
-		c.weighty = 1.0;   //request any extra vertical space
-		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
-		c.insets = new Insets(10,0,0,0);  //top padding
-		c.gridx = 0;       //aligned with button 2
-		c.gridy = 5;       //third row
+		c.weighty = 1.0; // request any extra vertical space
+		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
+		c.insets = new Insets(10, 0, 0, 0); // top padding
+		c.gridx = 0; // aligned with button 2
+		c.gridy = 5; // third row
 		pane.add(button, c);
 
 		button = new JButton("Ok");
-		c.weighty = 1.0;   //request any extra vertical space
-		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
-		c.insets = new Insets(10,0,0,0);  //top padding
-		c.gridx = 1;       //aligned with button 2
-		c.gridy = 5;       //third row
+		c.weighty = 1.0; // request any extra vertical space
+		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
+		c.insets = new Insets(10, 0, 0, 0); // top padding
+		c.gridx = 1; // aligned with button 2
+		c.gridy = 5; // third row
 		pane.add(button, c);
 	}
 }

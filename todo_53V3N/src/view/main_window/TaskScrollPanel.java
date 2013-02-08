@@ -11,26 +11,24 @@ import model.Task;
 import model.dbConnector;
 
 /**
- * This class represent the task scrollable panel
+ * This class represent the task scrollable panel, wich contains the list of TaskRow
  * 
  * @author Marco Dondio
  * 
  */
-public class TaskScrollPanel extends JScrollPane {
-
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public final class TaskScrollPanel extends JScrollPane {
 
 	private dbConnector dataModel;
-
 	private JPanel viewPort;
-	private List<TaskRow> taskList;
-	private TaskRow curSelected;
+	private List<TaskRow> taskList;	// we store our child here, useful to access them
+	private TaskRow curSelected;	// here we have reference to currently selected TaskRow
 
 	/**
 	 * Constructor
 	 * 
 	 * @param offsets
-	 *            the offsets of textarea fields
+	 *            the offsets of textarea fields, not used now (check with Magnus)
 	 * @param dataModel
 	 *            the dataModel object
 	 */
@@ -45,25 +43,22 @@ public class TaskScrollPanel extends JScrollPane {
 	}
 
 	/**
-	 * This method accesses dataModel to retrieve data and
+	 * This method set the content of viewport using actuale data model state
 	 */
-	public void refreshView() {
+	public final void refreshView() {
 
 		viewPort = new JPanel();
 		taskList = new LinkedList<TaskRow>();
 		curSelected = null;
 
-		// box layout ideale
 
+// TODO layout is not ready yet		
 		// http://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
-		// TODO spippola con layout e distanze fra vari oggetti...
 
 		viewPort.setLayout(new BoxLayout(viewPort, BoxLayout.PAGE_AXIS));
 
-		// poi qui loada dal model/controller i dati iniziali!
+		// Load from datamodel tasks
 		for (Task t : dataModel.getTaskList()) {
-			// TODO
-			// TaskRow row = new TaskRow(t.getName());
 			TaskRow row = new TaskRow(this, t);
 
 			// Now i add one row to the panel and to my List
@@ -72,31 +67,30 @@ public class TaskScrollPanel extends JScrollPane {
 		}
 
 		// Finally set the new viewport, new panel with all rows
-		// TODO controlla che refreshi
 		setViewportView(viewPort);
-
-		// setVisible(true);
 	}
 
-	public void setDataModel(dbConnector dataModel) {
+	public final void setDataModel(dbConnector dataModel) {
 		this.dataModel = dataModel;
 	}
 
 	/**
-	 * Called to resize internal text areas
+	 * Called to resize internal text areas. Unused yet
 	 * 
 	 * @param offsets
 	 */
-	public void resizeColumnsContent(int[] offsets) {
+	public final void resizeColumnsContent(int[] offsets) {
 
+		// TODO check with Magnus
 	}
 
 	/**
-	 * This method is called by a row
+	 * This method is called by a row, to signal that he is selected.
+	 * This method will make the panel aware of who is the currently selected Row
 	 * 
-	 * @param row
+	 * @param row the row wich is selected
 	 */
-	protected void selectTaskRow(TaskRow row) {
+	protected final void selectTaskRow(TaskRow row) {
 
 		// Deselect previous TaskRow
 		if (curSelected != null)
@@ -107,14 +101,16 @@ public class TaskScrollPanel extends JScrollPane {
 	}
 
 	/**
-	 * This method is called by a TaskRow when user deletes it
+	 * This method is called by a TaskRow when user deletes it.
+	 * This makes TaskScrollPanel delete it from viewport and removes it also in 
+	 * the datamodel itself.
 	 */
-	protected void deleteTask() {
+	protected final void deleteTask() {
 
 		Task t = curSelected.getTask();
 
-	//	JOptionPane.showMessageDialog(null, "Task \"" + t.getName()
-		//		+ "\" removed!");
+		// JOptionPane.showMessageDialog(null, "Task \"" + t.getName()
+		// + "\" removed!");
 
 		// Removes
 		taskList.remove(curSelected);
@@ -130,15 +126,12 @@ public class TaskScrollPanel extends JScrollPane {
 	}
 
 	/**
-	 * This method is called by a TaskRow when user has finished editing it
+	 * This method is called by a TaskRow when user has finished editing it.
+	 * It just forces the viewport of this ScrollPanel to be revalidated and repainted.
+	 * Modifications on Task are reflected automatically in dataModel, because
+	 * we are accessing same objects.
 	 */
-	protected void editedTask() {
-
-		// TODO
-		// TODO
-		// not sure is needed
-		// in pratica che devo fare?
-		// lastSelected
+	protected final void editedTask() {
 
 		// Redraw panel
 		viewPort.revalidate();

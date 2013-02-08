@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class ImageButton extends JLabel {
 	protected ImageIcon def;
 	protected ImageIcon hover;

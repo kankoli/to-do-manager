@@ -8,7 +8,13 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+/**
+ * This class represents the bottom part of the ToDo application
+ * 
+ * @author Magnus Larsson
+ * @version 1.0
+ */
+@SuppressWarnings("serial")
 public class ToDoMainBottomPanel extends JPanel {
 	
 	private JLabel statusLabel;
