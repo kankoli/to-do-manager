@@ -1,4 +1,4 @@
-package marco_tests;
+package marco_tests.someTablesExamples;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

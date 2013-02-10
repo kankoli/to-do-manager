@@ -1,73 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<todoManagerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="todoManagerData.xsd">
-  <tasks>
-    <task>
-      <name>Task1</name>
-      <date>2013-01-24T22:30:00.000+01:00</date>
-      <priority>LOW</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description />
-    </task>
-    <task>
-      <name>ciao</name>
-      <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description>ajkdajksdj aksj daklsj dalskjd lajd klasjd lajd ksd jalsd jkldj aldj alsdjalk jdalsd jaldj aklj dladj</description>
-    </task>
-    <task>
-      <name>New task!</name>
-      <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description>some brief text.</description>
-    </task>
-    <task>
-      <name>Task2</name>
-      <date>2013-01-26T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>meeting</category>
-      <description />
-    </task>
-    <task>
-      <name>Task0</name>
-      <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description />
-    </task>
-    <task>
-      <name>Another task!</name>
-      <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description>a description...</description>
-    </task>
-  </tasks>
-  <categories>
-    <category>
-      <name>meeting</name>
-      <color>-16777216</color>
-    </category>
-    <category>
-      <name>fun</name>
-      <color>-16423322</color>
-    </category>
-  </categories>
-  <options>
-    <option>
-      <key>one_option_name</key>
-      <value>1</value>
-    </option>
-    <option>
-      <key>some_other_option</key>
-      <value>0</value>
-    </option>
-  </options>
+<todoManagerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="todoManagerData.xsd">
+	<tasks>
+		<task>
+			<name>Task1</name>
+			<date>2013-01-24T22:30:00.000+01:00</date>
+			<priority>LOW</priority>
+			<completed>false</completed>
+			<category>fun</category>
+			<description />
+		</task>
+		<task>
+			<name>ciao</name>
+			<date>2013-01-27T12:30:00.000+01:00</date>
+			<priority>HIGH</priority>
+			<completed>false</completed>
+			<category>fun</category>
+			<description>ajkdajksdj aksj daklsj dalskjd lajd klasjd lajd ksd
+				jalsd jkldj aldj alsdjalk jdalsd jaldj aklj dladj</description>
+		</task>
+		<task>
+			<name>New task!</name>
+			<date>2013-01-31T17:45:00.000+01:00</date>
+			<priority>HIGH</priority>
+			<completed>false</completed>
+			<category>fun</category>
+			<description>some brief text.</description>
+		</task>
+		<task>
+			<name>Task2</name>
+			<date>2013-01-26T12:30:00.000+01:00</date>
+			<priority>HIGH</priority>
+			<completed>false</completed>
+			<category>meeting</category>
+			<description />
+		</task>
+		<task>
+			<name>Task0</name>
+			<date>2013-01-27T12:30:00.000+01:00</date>
+			<priority>HIGH</priority>
+			<completed>false</completed>
+			<category>fun</category>
+			<description />
+		</task>
+		<task>
+			<name>Another task!</name>
+			<date>2013-01-31T17:45:00.000+01:00</date>
+			<priority>HIGH</priority>
+			<completed>false</completed>
+			<category>fun</category>
+			<description>a description...</description>
+		</task>
+	</tasks>
+	<categories>
+		<category>
+			<name>meeting</name>
+			<color>-38924</color>
+		</category>
+		<category>
+			<name>fun</name>
+			<color>-16423322</color>
+		</category>
+	</categories>
+	<options>
+		<option>
+			<key>one_option_name</key>
+			<value>1</value>
+		</option>
+		<option>
+			<key>some_other_option</key>
+			<value>0</value>
+		</option>
+	</options>
 </todoManagerData>
