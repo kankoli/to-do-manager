@@ -1,4 +1,5 @@
 package marco_tests.taskScrollImproved;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Color;
@@ -11,7 +12,6 @@ import javax.swing.JPanel;
 import view.main_window.ToDoMainBottomPanel;
 import view.main_window.ToDoMainTopPanel;
 
-
 /**
  * This class represents the main frame and base panel of the ToDo application
  * 
@@ -20,42 +20,46 @@ import view.main_window.ToDoMainTopPanel;
  */
 @SuppressWarnings("serial")
 public class ToDoMainFrame extends JFrame {
-	
+
 	private JPanel basePanel;
 	private ToDoMainTopPanel topPanel;
 	private ToDoMainMiddlePanel middlePanel;
 	private ToDoMainBottomPanel bottomPanel;
-	
+
 	/**
 	 * 
-	 * @param width width of frame in pixels
-	 * @param height height of frame in pixels
+	 * @param width
+	 *            width of frame in pixels
+	 * @param height
+	 *            height of frame in pixels
 	 */
 	public ToDoMainFrame(int width, int height) {
 		super();
-		
+
 		setPreferredSize(new Dimension(width, height));
 		setMinimumSize(new Dimension(width, height));
-		
+
 		basePanel = new JPanel();
 		basePanel.setBackground(Color.white);
 		basePanel.setLayout(new GridBagLayout());
 		basePanel.setPreferredSize(new Dimension(width, height));
-		
+
 		addTopPanel();
 		addMiddlePanel();
 		addBottomPanel();
 
 		setContentPane(basePanel);
-      
-		pack();                                    
-        setVisible(true);                          
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM CODE TO SAVE ETC.
+
+		pack();
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM
+													// CODE TO SAVE ETC.
 	}
-	
+
 	public static void main(String[] args) {
-		//ToDoMainFrame toDoFrame = 		// XXX Marco: i commented it, do we need a reference to Frame?
-				new ToDoMainFrame(800, 600);
+		// ToDoMainFrame toDoFrame = // XXX Marco: i commented it, do we need a
+		// reference to Frame?
+		new ToDoMainFrame(800, 600);
 	}
 
 	private void addTopPanel() {
@@ -68,7 +72,7 @@ public class ToDoMainFrame extends JFrame {
 		topCons.fill = GridBagConstraints.BOTH;
 		basePanel.add(topPanel, topCons);
 	}
-	
+
 	private void addMiddlePanel() {
 		GridBagConstraints middleCons = new GridBagConstraints();
 		middlePanel = new ToDoMainMiddlePanel();
@@ -80,7 +84,7 @@ public class ToDoMainFrame extends JFrame {
 		middleCons.fill = GridBagConstraints.BOTH;
 		basePanel.add(middlePanel, middleCons);
 	}
-	
+
 	private void addBottomPanel() {
 		GridBagConstraints bottomCons = new GridBagConstraints();
 		bottomPanel = new ToDoMainBottomPanel();

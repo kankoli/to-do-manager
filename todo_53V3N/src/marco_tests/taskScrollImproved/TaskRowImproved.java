@@ -102,6 +102,8 @@ public final class TaskRowImproved extends JPanel {
 		con.weightx = 1.0;
 //		con.insets = new Insets(0, 100, 0, 0);
 		con.anchor = GridBagConstraints.LINE_START;
+//		con.anchor = GridBagConstraints.LINE_END;
+
 		add(doneBut, con);
 
 		nameField = new JTextField(t.getName());
@@ -114,10 +116,12 @@ public final class TaskRowImproved extends JPanel {
 		con = new GridBagConstraints();
 		con.gridx = 1;
 		con.gridy = 0;
-		//con.weightx = 0;
-  //      con.fill = GridBagConstraints.EAST;
+		con.weightx = 1.0;
+//        con.fill = GridBagConstraints.WEST;
 //		con.insets = new Insets(0, 0, 0, 100);
-		con.anchor = GridBagConstraints.CENTER;
+//	    con.insets = Insets.WEST_INSETS : EAST_INSETS;
+
+		con.anchor = GridBagConstraints.LINE_START;
 		add(nameField, con);
 
 		// date format
@@ -130,7 +134,7 @@ public final class TaskRowImproved extends JPanel {
 		con.gridx = 2;
 		con.gridy = 0;
 		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
+//		con.anchor = GridBagConstraints.LINE_START;
 		add(dateField, con);
 
 		// now build category ComboBox
@@ -171,6 +175,7 @@ public final class TaskRowImproved extends JPanel {
 		descriptionArea = new JTextArea(t.getDescription(),
 				GlobalValues.TASKROW_DESC_ROWS, GlobalValues.TASKROW_DESC_COLS);
 
+
 		// descriptionArea = new JTextArea(t.getDescription());
 		// descriptionArea.setBounds( 0, 0, 200, 200 );
 		// descriptionArea.addMouseListener(my);
@@ -190,8 +195,9 @@ public final class TaskRowImproved extends JPanel {
 		con = new GridBagConstraints();
 		con.gridx = 5;
 		con.gridy = 0;
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
+		if (!descriptionArea.getText().isEmpty())
+			descriptionPane.setVisible(true);
+
 		add(descriptionPane, con);
 
 		// Now the edit button
@@ -275,10 +281,7 @@ public final class TaskRowImproved extends JPanel {
 		con.gridx = 6;
 		con.gridy = 0;
 		con.weightx = 1.0;
-//		con.insets = new Insets(0, 100, 0, 0);
 		con.anchor = GridBagConstraints.LINE_END;
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
 		add(editBut, con);
 
 		// Delete button apre un popup di conferma
@@ -302,10 +305,8 @@ public final class TaskRowImproved extends JPanel {
 		});
 		deleteBut.setVisible(false);
 		con = new GridBagConstraints();
-		con.gridx = 7;
-		con.gridy = 0;
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
+//		con.gridx = 7;
+//		con.gridy = 0;
 		add(deleteBut, con);
 
 		// Finally add panel listeners
