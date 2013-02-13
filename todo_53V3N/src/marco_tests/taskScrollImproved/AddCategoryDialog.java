@@ -171,9 +171,15 @@ public final class AddCategoryDialog extends JFrame {
 							"Category is already existing. Change name.",
 							"Invalid Category", JOptionPane.WARNING_MESSAGE);
 
+					// TODO vorrei selezionare il testo
 					categoryField.setFocusable(true);
+				} else {
+					String name = categoryField.getName();
+					Category ca = new Category(name, jcc.getSelectionModel()
+							.getSelectedColor());
+					dataModel.getCategories().put(categoryField.getText(), ca);
 				}
-				// if(datamModel.)
+
 			}
 		});
 		gbc = new GridBagConstraints();
@@ -185,7 +191,7 @@ public final class AddCategoryDialog extends JFrame {
 		setContentPane(basePanel);
 		pack();
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM
 													// CODE TO SAVE ETC.
 	}
 
@@ -193,7 +199,6 @@ public final class AddCategoryDialog extends JFrame {
 		try {
 			new AddCategoryDialog(new dbConnectorImproved());
 		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

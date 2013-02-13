@@ -9,17 +9,20 @@ import javax.swing.JScrollPane;
 
 
 
-// TODO
+// TODO: log
 // LAVORATO CIRCA 1H 20
 // ho implementato la drop down, colori che cambiano...
 
+// Lavorato 2h: fatto il dialog con color chooser
+
 // 1) metti drop down list, con aggiunta categorie e controlli dinamici. Sistema layout...
 // sistema priority
-// need button to add category
 
+// 1) need button to add category, will open the dialog i created with color chooser. WHERE?????
 // 2) crea controller, da discutere col team! sorter, checker
 // 3) metti pulsanti immagini..
-// 4) metti priority
+// 4) metti priority, pulsanti animati???
+// 5) fix layout!!!!
 
 /**
  * This class represent the task scrollable panel, wich contains the list of TaskRow
