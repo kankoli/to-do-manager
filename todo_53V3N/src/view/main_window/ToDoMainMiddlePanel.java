@@ -93,6 +93,7 @@ public class ToDoMainMiddlePanel extends JPanel {
 		dbConnector db = null;	//Only a temporary solution, will be moved.
 		try {
 			db = new dbConnector();
+			
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

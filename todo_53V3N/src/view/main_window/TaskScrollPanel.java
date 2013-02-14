@@ -2,6 +2,8 @@ package view.main_window;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -17,7 +19,7 @@ import model.dbConnector;
  * 
  */
 @SuppressWarnings("serial")
-public final class TaskScrollPanel extends JScrollPane {
+public final class TaskScrollPanel extends JScrollPane implements Observer {
 
 	private dbConnector dataModel;
 	private JPanel viewPort;
@@ -36,6 +38,8 @@ public final class TaskScrollPanel extends JScrollPane {
 		super();
 		this.dataModel = dataModel;
 
+		this.dataModel.addObserver(this);		// temp solution...
+		
 		setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
 		refreshView();
@@ -136,6 +140,14 @@ public final class TaskScrollPanel extends JScrollPane {
 		// Redraw panel
 		viewPort.revalidate();
 		viewPort.repaint();
+	}
+
+
+
+	// this method is called when observed object, the data model, changes..
+	public final void update(Observable o, Object arg) {
+
+// TODO not ready yet
 	}
 
 }

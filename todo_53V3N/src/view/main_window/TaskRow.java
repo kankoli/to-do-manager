@@ -18,7 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
-import view.GlobalValues;
+import utility.GlobalValues;
 
 import model.Task;
 

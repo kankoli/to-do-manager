@@ -26,7 +26,8 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import view.GlobalValues;
+import utility.GeneralFunctions;
+import utility.GlobalValues;
 
 /**
  * This class manages, in transparent way, the I/O with the DB (wich is a simple
@@ -92,22 +93,6 @@ public final class dbConnectorImproved {
 
 	}
 
-	// This small function adds :, to have a valid ISO8601
-	// datetime format, same used in xs:date for XSD validation
-	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
-	private final String RFC822toISO8601(String dateString) {
-		return new StringBuilder(dateString).insert(dateString.length() - 2,
-				':').toString();
-	}
-
-	// This small function removes :, to have valid RFC822
-	// format compatible with Java format
-	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
-	private final String ISO8601toRFC822(String dateString) {
-		int j = dateString.lastIndexOf(":");
-		return new StringBuilder(dateString).replace(j, j + 1, "").toString();
-	}
-
 	private final List<TaskImproved> retrieveTaskList(Element tasksNode)
 			throws ParseException {
 
@@ -117,7 +102,7 @@ public final class dbConnectorImproved {
 			TaskImproved t = new TaskImproved();
 
 			t.setName(taskNode.getChildText("name"));
-			t.setDate(RFC822DATETIME.parse(ISO8601toRFC822(taskNode
+			t.setDate(RFC822DATETIME.parse(GeneralFunctions.ISO8601toRFC822(taskNode
 					.getChildText("date"))));
 			t.setPrio(TaskImproved.Priority.valueOf(taskNode
 					.getChildText("priority")));
@@ -223,7 +208,7 @@ public final class dbConnectorImproved {
 			// task.setAttribute("id", "" + task.getId());
 			task.addContent(new Element("name").setText(t.getName()));
 			task.addContent(new Element("date")
-					.setText(RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
+					.setText(GeneralFunctions.RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
 			task.addContent(new Element("priority").setText(t.getPrio().name()));
 			task.addContent(new Element("completed").setText(Boolean.toString(t
 					.getCompleted())));

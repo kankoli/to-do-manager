@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import model.Task.Priority;
+import java.util.Observable;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -26,7 +25,8 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import view.GlobalValues;
+import utility.GeneralFunctions;
+import utility.GlobalValues;
 
 /**
  * This class manages, in transparent way, the I/O with the DB (wich is a simple
@@ -39,10 +39,12 @@ import view.GlobalValues;
  * @version 1.0
  * 
  */
-public final class dbConnector {
+
+public final class dbConnector extends Observable {
 
 	// datetime formate used in xs:datetime format
 	// NOTE: im using two small private function below to handle this..
+	// see utility.GeneralFunctions
 	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
 	private static final SimpleDateFormat RFC822DATETIME = new SimpleDateFormat(
 			"yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -89,23 +91,10 @@ public final class dbConnector {
 		categories = retrieveCategories(root.getChild("categories"));
 		options = retrieveOptions(root.getChild("options"));
 
+		// Then signal data model has changed
+		signalChanges(null);	// TODO discuss what to pass
 	}
 
-	// This small function adds :, to have a valid ISO8601
-	// datetime format, same used in xs:date for XSD validation
-	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
-	private final String RFC822toISO8601(String dateString) {
-		return new StringBuilder(dateString).insert(dateString.length() - 2,
-				':').toString();
-	}
-
-	// This small function removes :, to have valid RFC822
-	// format compatible with Java format
-	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
-	private final String ISO8601toRFC822(String dateString) {
-		int j = dateString.lastIndexOf(":");
-		return new StringBuilder(dateString).replace(j, j + 1, "").toString();
-	}
 
 	private final List<Task> retrieveTaskList(Element tasksNode)
 			throws ParseException {
@@ -116,8 +105,8 @@ public final class dbConnector {
 			Task t = new Task();
 
 			t.setName(taskNode.getChildText("name"));
-			t.setDate(RFC822DATETIME.parse(ISO8601toRFC822(taskNode
-					.getChildText("date"))));
+			t.setDate(RFC822DATETIME.parse(GeneralFunctions
+					.ISO8601toRFC822(taskNode.getChildText("date"))));
 			t.setPrio(Task.Priority.valueOf(taskNode.getChildText("priority")));
 			t.setCompleted(Boolean.parseBoolean(taskNode
 					.getChildText("completed")));
@@ -201,8 +190,8 @@ public final class dbConnector {
 			Element task = new Element("task");
 			// task.setAttribute("id", "" + task.getId());
 			task.addContent(new Element("name").setText(t.getName()));
-			task.addContent(new Element("date")
-					.setText(RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
+			task.addContent(new Element("date").setText(GeneralFunctions
+					.RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
 			task.addContent(new Element("priority").setText(t.getPrio().name()));
 			task.addContent(new Element("completed").setText(Boolean.toString(t
 					.getCompleted())));
@@ -270,10 +259,21 @@ public final class dbConnector {
 
 	/**
 	 * Returns categories
-	 * @return 
+	 * 
+	 * @return
 	 * @return categories
 	 */
-	public final  Map<String, Category> getCategories() {
+	public final Map<String, Category> getCategories() {
 		return categories;
+	}
+
+	/**
+	 * This function will be called to signal that internal status has changed:
+	 * registered observers will receive a notification
+	 * @param msg
+	 */
+	public final void signalChanges(Object msg) {
+		setChanged();
+		notifyObservers(msg);
 	}
 }

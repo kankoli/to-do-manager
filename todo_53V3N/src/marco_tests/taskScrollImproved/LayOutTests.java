@@ -25,7 +25,7 @@ import model.Category;
 
 import org.jdom2.JDOMException;
 
-import view.GlobalValues;
+import utility.GlobalValues;
 
 public class LayOutTests {
 
