@@ -24,7 +24,7 @@ import model.dbConnector;
 public final class Controller {
 
 	public static enum SortType {
-		DATE, CATEGORY, PRIORITY, NONE
+		DATE, CATEGORY, PRIORITY, NONE, MARCO
 	};
 
 	private dbConnector dataModel;
