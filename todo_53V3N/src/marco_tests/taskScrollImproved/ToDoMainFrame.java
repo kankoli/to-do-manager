@@ -28,6 +28,7 @@ public class ToDoMainFrame extends JFrame {
 	
 	int useless_variable;
 	int useless_variable2;
+	int useless_variable3;
 
 	/**
 	 * 
