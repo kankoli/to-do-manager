@@ -25,6 +25,8 @@ public class ToDoMainFrame extends JFrame {
 	private ToDoMainTopPanel topPanel;
 	private ToDoMainMiddlePanel middlePanel;
 	private ToDoMainBottomPanel bottomPanel;
+	
+	int useless_variable;
 
 	/**
 	 * 
