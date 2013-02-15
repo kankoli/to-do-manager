@@ -59,7 +59,7 @@ public final class Controller {
 		default: // NONE or others, no ordering
 			break;
 		}
-
+		// TODO Change return type to void and tell the model to signal task changes for the 'observers'
 		return taskList;
 	}
 
@@ -78,6 +78,8 @@ public final class Controller {
 
 		Category c = new Category(categoryName, categoryColor);
 		categories.put(categoryName, c);
+		
+		//TODO Tell the model to signal category change.
 	}
 
 	/**
@@ -106,6 +108,9 @@ public final class Controller {
 		t.setDescription(description);
 
 		dataModel.getTaskList().add(t);
+		
+
+		//TODO Tell the model to signal task change.
 	}
 
 	/**
@@ -114,6 +119,8 @@ public final class Controller {
 	 */
 	public final void deleteTask(Task task) {
 		dataModel.getTaskList().remove(task);
+
+		//TODO Tell the model to signal task change.
 	}
 
 	// TODO other methods: not implemented, just ideas
