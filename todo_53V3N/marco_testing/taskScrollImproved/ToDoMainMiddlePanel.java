@@ -1,4 +1,4 @@
-package view.main_window;
+package marco_tests.taskScrollImproved;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -12,9 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.dbConnectorImproved;
+
 import org.jdom2.JDOMException;
 
-import model.DataModel;
+import view.main_window.TaskScrollPanelImproved;
+import view.main_window.ToDoSortingBar;
+
 
 /**
  * This class represents the middle part of the ToDo application
@@ -90,10 +94,9 @@ public class ToDoMainMiddlePanel extends JPanel {
 		GridBagConstraints taskPanelCons = new GridBagConstraints();
 		
 		int sizes[] = { 10, 20, 30, 40}; //Temporary offset values for area sizes of TaskScrollPanel.
-		DataModel db = null;	//Only a temporary solution, will be moved.
+		dbConnectorImproved db = null;	//Only a temporary solution, will be moved.
 		try {
-			db = new DataModel();
-			
+			db = new dbConnectorImproved();
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -102,7 +105,7 @@ public class ToDoMainMiddlePanel extends JPanel {
 			e.printStackTrace();
 		}
 		
-		taskPanel = new TaskScrollPanel(sizes, db);
+		taskPanel = new TaskScrollPanelImproved(sizes, db);
 		taskPanelCons.gridy = 2;
 		taskPanelCons.weightx = 0;
 		taskPanelCons.weighty = 1;

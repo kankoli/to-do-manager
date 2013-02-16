@@ -10,7 +10,7 @@ import exceptions.InvalidCategoryException;
 
 import model.Category;
 import model.Task;
-import model.dbConnector;
+import model.DataModel;
 
 // TODO: discuss with team! This is just a basic implementation to start with!
 /**
@@ -27,9 +27,9 @@ public final class Controller {
 		DATE, CATEGORY, PRIORITY, NONE, MARCO
 	};
 
-	private dbConnector dataModel;
+	private DataModel dataModel;
 
-	public Controller(dbConnector dataModel) {
+	public Controller(DataModel dataModel) {
 
 		this.dataModel = dataModel;
 
@@ -104,7 +104,7 @@ public final class Controller {
 		t.setDate(date);
 		t.setPrio(Task.Priority.valueOf(priority)); 	// TODO to fix
 		t.setCompleted(completed);
-		t.setCategory(categoryName); 					// TODO fix: reference to category object, not string
+		t.setCategory(dataModel.getCategories().get(categoryName)); 					// TODO fix: reference to category object, not string
 		t.setDescription(description);
 
 		dataModel.getTaskList().add(t);

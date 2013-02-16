@@ -2,15 +2,35 @@ package view.main_window;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+
 import model.Task;
-import model.dbConnector;
+import model.DataModel;
+
+
+
+// TODO: log
+// LAVORATO CIRCA 1H 20
+// ho implementato la drop down, colori che cambiano...
+
+// Lavorato 2h: fatto il dialog con color chooser
+
+
+// altre 1.30 h per il primo design del controller mostrato al meeting, aggiunte eccezioni e small fixes
+
+
+// 1) metti drop down list, con aggiunta categorie e controlli dinamici. Sistema layout...
+// sistema priority
+
+// 1) need button to add category, will open the dialog i created with color chooser. WHERE?????
+// 2) crea controller, da discutere col team! sorter, checker
+// 3) metti pulsanti immagini..
+// 4) metti priority, pulsanti animati???
+// 5) fix layout!!!!
 
 /**
  * This class represent the task scrollable panel, wich contains the list of TaskRow
@@ -19,9 +39,9 @@ import model.dbConnector;
  * 
  */
 @SuppressWarnings("serial")
-public final class TaskScrollPanel extends JScrollPane implements Observer {
+public final class TaskScrollPanel extends JScrollPane {
 
-	private dbConnector dataModel;
+	private DataModel dataModel;
 	private JPanel viewPort;
 	private List<TaskRow> taskList;	// we store our child here, useful to access them
 	private TaskRow curSelected;	// here we have reference to currently selected TaskRow
@@ -34,11 +54,9 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 	 * @param dataModel
 	 *            the dataModel object
 	 */
-	public TaskScrollPanel(int[] offsets, dbConnector dataModel) {
+	public TaskScrollPanel(int[] offsets, DataModel dataModel) {
 		super();
 		this.dataModel = dataModel;
-
-		this.dataModel.addObserver(this);		// temp solution...
 		
 		setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -74,10 +92,13 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		setViewportView(viewPort);
 	}
 
-	public final void setDataModel(dbConnector dataModel) {
+	public final void setDataModel(DataModel dataModel) {
 		this.dataModel = dataModel;
 	}
 
+	public final DataModel getDataModel(){
+		return dataModel;
+	}
 	/**
 	 * Called to resize internal text areas. Unused yet
 	 * 
@@ -140,14 +161,6 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		// Redraw panel
 		viewPort.revalidate();
 		viewPort.repaint();
-	}
-
-
-
-	// this method is called when observed object, the data model, changes..
-	public final void update(Observable o, Object arg) {
-
-// TODO not ready yet
 	}
 
 }

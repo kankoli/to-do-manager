@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+
 /**
  * This class represents a basic task, with name, date, type and priority. It
  * contains getter (to retrieve values) and setters (to store new values)
@@ -17,7 +18,7 @@ public final class Task {
 	}; 
 	private String name;
 	private Date date;
-	private String category;		// XXX perchè non direttamente reference a category???
+	private Category category;		// XXX perchè non direttamente reference a category???
 	private Priority prio;
 	private boolean completed;
 	private String description;
@@ -26,7 +27,7 @@ public final class Task {
 		
 	}
 	
-	public Task(String name, Date date, String category, Priority prio, String description) {
+	public Task(String name, Date date, Category category, Priority prio, String description) {
 		this.name = name;
 		this.date = date;
 		this.category = category;
@@ -52,11 +53,11 @@ public final class Task {
 		this.date = date;
 	}
 
-	public final String getCategory() {
+	public final Category getCategory() {
 		return category;
 	}
 
-	public final void setCategory(String category) {
+	public final void setCategory(Category category) {
 		this.category = category;
 	}
 
