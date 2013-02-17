@@ -153,6 +153,7 @@ public final class TaskRow extends JPanel {
 		// Add this special value for adding a task, will register listener
 		categoryBox.addItem("New Category...");
 
+		
 		categoryBox.addActionListener(new ActionListener() {
 
 
