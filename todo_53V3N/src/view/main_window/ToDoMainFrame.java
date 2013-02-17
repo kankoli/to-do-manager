@@ -5,10 +5,16 @@ import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.ParseException;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import model.DataModel;
@@ -67,6 +73,7 @@ public class ToDoMainFrame extends JFrame {
 		addTopPanel();
 		addMiddlePanel();
 		addBottomPanel();
+		addMenu(); 
 
 		setContentPane(basePanel);
 
@@ -82,6 +89,64 @@ public class ToDoMainFrame extends JFrame {
 		new ToDoMainFrame(800, 600);
 	}
 
+	private void addMenu() {
+		JMenuBar mb = new JMenuBar();
+		this.setJMenuBar(mb);
+
+		    JMenu menu = new JMenu("File");
+		    menu.setMnemonic(KeyEvent.VK_F);
+		    getJMenuBar().add(menu);
+
+		    JMenuItem menuItem = new JMenuItem("Import...");
+		    menuItem.setMnemonic(KeyEvent.VK_M);
+		    menu.add(menuItem);
+
+		    menuItem = new JMenuItem("Export...");
+		    menuItem.setMnemonic(KeyEvent.VK_X);
+		    menu.add(menuItem);
+
+		    menu.addSeparator();
+		    menuItem = new JMenuItem("Quit");
+		    menuItem.setMnemonic(KeyEvent.VK_Q);
+		    menuItem.addActionListener(
+		            new ActionListener() {
+		                @Override
+		                public void actionPerformed(ActionEvent ae) {
+		                    System.out.println("System exiting...");
+		                    // TODO Save data before exiting. Possibly modify to call the shared action.
+		                    System.exit(0);
+		                }
+
+		            });
+		    menu.add(menuItem);
+
+		    //*****************************
+
+		    menu = new JMenu("Edit");
+		    menu.setMnemonic(KeyEvent.VK_E);
+		    getJMenuBar().add(menu);
+
+		    JMenu subMenu = new JMenu("Add...");
+		    subMenu.setMnemonic(KeyEvent.VK_A);
+
+		    menuItem = new JMenuItem("New Task");
+		    menuItem.setMnemonic(KeyEvent.VK_T);
+		    subMenu.add(menuItem);
+
+		    menuItem = new JMenuItem("New Category");
+		    menuItem.setMnemonic(KeyEvent.VK_C);
+		    subMenu.add(menuItem);
+
+		    menu.add(subMenu);
+
+		    //********************************
+
+		    menu = new JMenu("Help");
+		    menu.setMnemonic(KeyEvent.VK_H);
+		    getJMenuBar().add(menu);
+
+
+		}
 	private void addTopPanel() {
 		GridBagConstraints topCons = new GridBagConstraints();
 		topPanel = new ToDoMainTopPanel();
