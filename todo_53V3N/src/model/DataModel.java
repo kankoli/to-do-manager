@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
+import model.Task.Priority;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -42,7 +44,13 @@ import utility.GlobalValues;
 
 // XXX category can be null in a task, remember
 
-public final class DataModel {
+// TODO: come gestici editing???
+
+public final class DataModel extends Observable {
+
+	public static enum ChangeMessage {
+		NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+	};
 
 	// datetime formate used in xs:datetime format
 	// NOTE: im using two small private function below to handle this..
@@ -63,8 +71,7 @@ public final class DataModel {
 	 * @throws JDOMException
 	 * @throws ParseException
 	 */
-	public DataModel() throws JDOMException, IOException,
-			ParseException {
+	public DataModel() throws JDOMException, IOException, ParseException {
 		RFC822DATETIME.setLenient(false); // This makes a date like
 											// "31-13-2013 17:45" not valid!
 		loadDB();
@@ -104,10 +111,9 @@ public final class DataModel {
 			Task t = new Task();
 
 			t.setName(taskNode.getChildText("name"));
-			t.setDate(RFC822DATETIME.parse(GeneralFunctions.ISO8601toRFC822(taskNode
-					.getChildText("date"))));
-			t.setPrio(Task.Priority.valueOf(taskNode
-					.getChildText("priority")));
+			t.setDate(RFC822DATETIME.parse(GeneralFunctions
+					.ISO8601toRFC822(taskNode.getChildText("date"))));
+			t.setPrio(Task.Priority.valueOf(taskNode.getChildText("priority")));
 			t.setCompleted(Boolean.parseBoolean(taskNode
 					.getChildText("completed")));
 
@@ -128,9 +134,8 @@ public final class DataModel {
 			t.setCategory(c);
 			t.setDescription(taskNode.getChildText("description"));
 
-			
-//			System.out.println()
-			
+			// System.out.println()
+
 			tl.add(t);
 
 			// System.out.println("load: " + t.toString() + " - " +
@@ -209,8 +214,8 @@ public final class DataModel {
 			Element task = new Element("task");
 			// task.setAttribute("id", "" + task.getId());
 			task.addContent(new Element("name").setText(t.getName()));
-			task.addContent(new Element("date")
-					.setText(GeneralFunctions.RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
+			task.addContent(new Element("date").setText(GeneralFunctions
+					.RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
 			task.addContent(new Element("priority").setText(t.getPrio().name()));
 			task.addContent(new Element("completed").setText(Boolean.toString(t
 					.getCompleted())));
@@ -269,12 +274,39 @@ public final class DataModel {
 	}
 
 	/**
+	 * This method is called to add a new task to the data Model
+	 * 
+	 * @param task
+	 */
+	public final void addTask(Task task) {
+		taskList.add(task);
+		hasChanged(ChangeMessage.NEW_TASK);
+	}
+
+	/**
+	 * This method is called to edit an existing task
+	 */
+	public final void editTask(Task task, String name, Date date,
+			Priority prio, Boolean completed, Category c, String description) {
+
+		// Now i can store into task
+		task.setName(name);
+		task.setPrio(prio);
+		task.setDate(date);
+		task.setCompleted(completed);
+		task.setCategory(c);
+		task.setDescription(description);
+		hasChanged(ChangeMessage.EDIT_TASK);
+	}
+
+	/**
 	 * This method is needed to remove a Task object from data Model
 	 * 
-	 * @param t
+	 * @param task
 	 */
-	public final void removeTask(Task t) {
-		taskList.remove(t);
+	public final void deleteTask(Task task) {
+		taskList.remove(task);
+		hasChanged(ChangeMessage.DELETED_TASK);
 	}
 
 	/**
@@ -285,5 +317,42 @@ public final class DataModel {
 	 */
 	public final Map<String, Category> getCategories() {
 		return categories;
+	}
+
+	/**
+	 * This is called to add a category
+	 * 
+	 * @param c
+	 */
+	public final void addCategory(Category c) {
+		categories.put(c.getName(), c);
+		hasChanged(ChangeMessage.NEW_CATEGORY);
+	}
+
+	/**
+	 * This method is needed to remove a Task object from data Model
+	 * 
+	 * @param task
+	 */
+	public final void deleteCategory(Category c) {
+
+		// TODO vedi che fare: magari un flag che modifica
+		// tutti i task con quella categoria (es delete?)
+		// si fa nel controller magari??'
+
+		categories.remove(c);
+		hasChanged(ChangeMessage.DELETED_CATEGORY);
+	}
+
+	/**
+	 * This method is called by either datamodel or controller, to trigger the
+	 * change process.
+	 * 
+	 * @param msg
+	 *            the cause
+	 */
+	public final void hasChanged(ChangeMessage msg) {
+		setChanged();
+		notifyObservers(msg);
 	}
 }

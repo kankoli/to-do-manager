@@ -2,16 +2,17 @@ package view.main_window;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import control.Controller;
 
-import model.Task;
 import model.DataModel;
-
-
+import model.Task;
 
 // TODO: log
 // LAVORATO CIRCA 1H 20
@@ -19,9 +20,7 @@ import model.DataModel;
 
 // Lavorato 2h: fatto il dialog con color chooser
 
-
 // altre 1.30 h per il primo design del controller mostrato al meeting, aggiunte eccezioni e small fixes
-
 
 // 1) metti drop down list, con aggiunta categorie e controlli dinamici. Sistema layout...
 // sistema priority
@@ -33,31 +32,38 @@ import model.DataModel;
 // 5) fix layout!!!!
 
 /**
- * This class represent the task scrollable panel, wich contains the list of TaskRow
+ * This class represent the task scrollable panel, wich contains the list of
+ * TaskRow
  * 
  * @author Marco Dondio
  * 
  */
 @SuppressWarnings("serial")
-public final class TaskScrollPanel extends JScrollPane {
+public final class TaskScrollPanel extends JScrollPane implements Observer {
 
-	private DataModel dataModel;
+	private Controller controller;
 	private JPanel viewPort;
-	private List<TaskRow> taskList;	// we store our child here, useful to access them
-	private TaskRow curSelected;	// here we have reference to currently selected TaskRow
+	private List<TaskRow> taskList; // we store our child here, useful to access
+									// them
+	private TaskRow curSelected; // here we have reference to currently selected
+									// TaskRow
 
 	/**
 	 * Constructor
 	 * 
 	 * @param offsets
-	 *            the offsets of textarea fields, not used now (check with Magnus)
-	 * @param dataModel
-	 *            the dataModel object
+	 *            the offsets of textarea fields, not used now (check with
+	 *            Magnus)
+	 * @param controller
+	 *            the controller object
 	 */
-	public TaskScrollPanel(int[] offsets, DataModel dataModel) {
+	public TaskScrollPanel(int[] offsets, Controller controller) {
 		super();
-		this.dataModel = dataModel;
-		
+		this.controller = controller;
+
+		// register as observer
+		controller.registerAsObserver(this);
+
 		setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
 		refreshView();
@@ -73,15 +79,14 @@ public final class TaskScrollPanel extends JScrollPane {
 		taskList = new LinkedList<TaskRow>();
 		curSelected = null;
 
-
-// TODO layout is not ready yet		
+		// TODO layout is not ready yet
 		// http://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 
 		viewPort.setLayout(new BoxLayout(viewPort, BoxLayout.PAGE_AXIS));
 
 		// Load from datamodel tasks
-		for (Task t : dataModel.getTaskList()) {
-			TaskRow row = new TaskRow(this, t);
+		for (Task t : controller.getTaskList()) {
+			TaskRow row = new TaskRow(controller, this, t);
 
 			// Now i add one row to the panel and to my List
 			taskList.add(row);
@@ -92,13 +97,10 @@ public final class TaskScrollPanel extends JScrollPane {
 		setViewportView(viewPort);
 	}
 
-	public final void setDataModel(DataModel dataModel) {
-		this.dataModel = dataModel;
-	}
+	// public final DataModel getDataModel(){
+	// return dataModel;
+	// }
 
-	public final DataModel getDataModel(){
-		return dataModel;
-	}
 	/**
 	 * Called to resize internal text areas. Unused yet
 	 * 
@@ -110,10 +112,11 @@ public final class TaskScrollPanel extends JScrollPane {
 	}
 
 	/**
-	 * This method is called by a row, to signal that he is selected.
-	 * This method will make the panel aware of who is the currently selected Row
+	 * This method is called by a row, to signal that he is selected. This
+	 * method will make the panel aware of who is the currently selected Row
 	 * 
-	 * @param row the row wich is selected
+	 * @param row
+	 *            the row wich is selected
 	 */
 	protected final void selectTaskRow(TaskRow row) {
 
@@ -126,9 +129,9 @@ public final class TaskScrollPanel extends JScrollPane {
 	}
 
 	/**
-	 * This method is called by a TaskRow when user deletes it.
-	 * This makes TaskScrollPanel delete it from viewport and removes it also in 
-	 * the datamodel itself.
+	 * This method is called by a TaskRow when user deletes it. This makes
+	 * TaskScrollPanel delete it from viewport and removes it also in the
+	 * datamodel itself.
 	 */
 	protected final void deleteTask() {
 
@@ -140,23 +143,31 @@ public final class TaskScrollPanel extends JScrollPane {
 		// Removes
 		taskList.remove(curSelected);
 		viewPort.remove(curSelected);
-
-		// remove also in datamodel
-		dataModel.removeTask(t);
 		curSelected = null;
 
-		// Redraw panel
-		viewPort.revalidate();
-		viewPort.repaint();
+		// remove from datamodel
+		controller.deleteTask(t);
 	}
 
 	/**
-	 * This method is called by a TaskRow when user has finished editing it.
-	 * It just forces the viewport of this ScrollPanel to be revalidated and repainted.
-	 * Modifications on Task are reflected automatically in dataModel, because
-	 * we are accessing same objects.
+	 * This method is called by a TaskRow when user has finished editing it. It
+	 * just forces the viewport of this ScrollPanel to be revalidated and
+	 * repainted. Modifications on Task are reflected automatically in
+	 * dataModel, because we are accessing same objects.
 	 */
-	protected final void editedTask() {
+	// protected final void editedTask() {
+	//
+	// // Redraw panel
+	// viewPort.revalidate();
+	// viewPort.repaint();
+	// }
+
+	// TODO add come observer
+	public final void update(Observable o, Object arg) {
+
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
+
+		System.out.println(msg);
 
 		// Redraw panel
 		viewPort.revalidate();

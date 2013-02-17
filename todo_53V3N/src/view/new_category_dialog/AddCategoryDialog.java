@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.IOException;
-import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,10 +19,9 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import model.Category;
-import model.DataModel;
 
-import org.jdom2.JDOMException;
+import control.Controller;
+import exceptions.InvalidCategoryException;
 
 /**
  * This class represents a small dialog wich will be showed when users press add
@@ -38,7 +35,7 @@ import org.jdom2.JDOMException;
 // TODO JDialog o Jframe????
 public final class AddCategoryDialog extends JFrame {
 
-	private DataModel dataModel;
+	private Controller controller;
 	private JPanel basePanel;
 	private JTextField categoryField;
 	private JColorChooser jcc;
@@ -53,9 +50,9 @@ public final class AddCategoryDialog extends JFrame {
 	 * @param height
 	 *            height of frame in pixels
 	 */
-	public AddCategoryDialog(final DataModel dataModel) {
+	public AddCategoryDialog(final Controller controller) {
 		super();
-		this.dataModel = dataModel;
+		this.controller = controller;
 
 		// setPreferredSize(new Dimension(width, height));
 		// setMinimumSize(new Dimension(width, height));
@@ -166,19 +163,19 @@ public final class AddCategoryDialog extends JFrame {
 				// for(Category c: dataModel.getCategories().values())
 				// System.out.println(c.getName());
 
-				if (dataModel.getCategories().containsKey(
-						categoryField.getText())) {
-					JOptionPane.showMessageDialog(null,
-							"Category is already existing. Change name.",
+				// try(con)
+
+				String name = categoryField.getName();
+				Color co = jcc.getSelectionModel().getSelectedColor();
+
+				try {
+					controller.addCategory(name, co);
+				} catch (InvalidCategoryException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(),
 							"Invalid Category", JOptionPane.WARNING_MESSAGE);
 
 					// TODO vorrei selezionare il testo
 					categoryField.setFocusable(true);
-				} else {
-					String name = categoryField.getName();
-					Category ca = new Category(name, jcc.getSelectionModel()
-							.getSelectedColor());
-					dataModel.getCategories().put(categoryField.getText(), ca);
 				}
 
 			}
@@ -192,22 +189,8 @@ public final class AddCategoryDialog extends JFrame {
 		setContentPane(basePanel);
 		pack();
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM
-													// CODE TO SAVE ETC.
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // TODO OVERRIDE WTIH
+															// CUSTOM
+		// CODE TO SAVE ETC.
 	}
-
-	public static void main(String[] args) {
-		try {
-			new AddCategoryDialog(new DataModel());
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }

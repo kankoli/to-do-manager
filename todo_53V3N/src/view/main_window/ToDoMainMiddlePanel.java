@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
@@ -12,10 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.jdom2.JDOMException;
 
-import model.DataModel;
-
+import control.Controller;
 /**
  * This class represents the middle part of the ToDo application
  * 
@@ -30,9 +26,12 @@ public class ToDoMainMiddlePanel extends JPanel {
 	private JScrollPane taskPanel;
 	private ToDoSortingBar sortingBar;
 	
-	public ToDoMainMiddlePanel() {
+	private Controller controller;
+	
+	public ToDoMainMiddlePanel(Controller controller) {
 		super();
-		
+
+		this.controller = controller;
 		setLayout(new GridBagLayout());
 		
 		addPendingCompletedButtons();
@@ -89,20 +88,10 @@ public class ToDoMainMiddlePanel extends JPanel {
 	private void addTaskPanel() { //Will be revamped in future release
 		GridBagConstraints taskPanelCons = new GridBagConstraints();
 		
-		int sizes[] = { 10, 20, 30, 40}; //Temporary offset values for area sizes of TaskScrollPanel.
-		DataModel db = null;	//Only a temporary solution, will be moved.
-		try {
-			db = new DataModel();
-			
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		int sizes[] = { 10, 20, 30, 40}; // TODO Temporary offset values for area sizes of TaskScrollPanel.
+
 		
-		taskPanel = new TaskScrollPanel(sizes, db);
+		taskPanel = new TaskScrollPanel(sizes, controller);
 		taskPanelCons.gridy = 2;
 		taskPanelCons.weightx = 0;
 		taskPanelCons.weighty = 1;

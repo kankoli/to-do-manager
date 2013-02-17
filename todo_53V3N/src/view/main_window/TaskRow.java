@@ -1,18 +1,14 @@
 package view.main_window;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,6 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+
+import control.Controller;
+import exceptions.InvalidCategoryException;
+import exceptions.InvalidDateException;
 
 import utility.GlobalValues;
 import view.new_category_dialog.AddCategoryDialog;
@@ -38,6 +38,8 @@ import model.Task;
  * 
  */
 
+// TODO fix layout
+
 public final class TaskRow extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -49,6 +51,8 @@ public final class TaskRow extends JPanel {
 			"dd-MM-yyyy HH:mm");
 
 	private TaskScrollPanel taskScrollPanel; // reference to panel
+	private Controller controller;
+
 	private Task t; // reference to task in datamodel
 
 	private JButton doneBut;
@@ -64,10 +68,11 @@ public final class TaskRow extends JPanel {
 
 	boolean isSelected = false;
 
-	public TaskRow(final TaskScrollPanel taskScrollPanel,
-			Task ta) {
+	public TaskRow(final Controller controller,
+			final TaskScrollPanel taskScrollPanel, Task ta) {
 		super();
 		t = ta;
+		this.controller = controller;
 		this.taskScrollPanel = taskScrollPanel;
 
 		sdf.setLenient(false); // This makes a date like "31-13-2013 17:45" not
@@ -145,8 +150,7 @@ public final class TaskRow extends JPanel {
 		// TODO come fare ad aggiungere categorie???
 		// maybe is better a button? Then simple dialog with colorpicker???
 		categoryBox = new JComboBox<String>();
-		for (Category c : taskScrollPanel.getDataModel().getCategories()
-				.values()) {
+		for (Category c : controller.getCategories().values()) {
 			categoryBox.addItem(c.getName());
 		}
 
@@ -155,23 +159,23 @@ public final class TaskRow extends JPanel {
 
 		categoryBox.addActionListener(new ActionListener() {
 
-
 			// If last "special item" is selected, open add category dialog
 			// will be an action, because also NewTaskDialog will use this
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<String> source = ((JComboBox<String>) e.getSource());
 
-				// Note: this method fails is another category is called "New Category..."
+				// Note: this method fails is another category is called
+				// "New Category..."
 				// because it returns an index wich is not the last one
 				// TODO how do i prevent this problem? Check on values?
-				if (source.getSelectedIndex() == (source.getItemCount() - 1)){
-					
+				if (source.getSelectedIndex() == (source.getItemCount() - 1)) {
+
 					// TODO open add category dialog
 					// modify through controller
 					// view will be updated by observer call
-//					System.out.println("ultimo!");
+					// System.out.println("ultimo!");
 
-					new AddCategoryDialog(taskScrollPanel.getDataModel());
+					new AddCategoryDialog(controller);
 				}
 			}
 		});
@@ -249,53 +253,44 @@ public final class TaskRow extends JPanel {
 
 					editBut.setText("Stop editing");
 
-				} else {
-
-					// Now i store back into Task object modifications: first
-					// check values
+				} else { // call edit task method
 
 					// TODO
 					// priority will be a radiobutton, for the moment it's just
 					// some text
 					// did this for quick prototype
-					Date d = null;
+					String name = nameField.getText();
+
+					String date = dateField.getText();
+					// TODO change priorty to drop down list
+					String priority = priorityField.getText();
+
+					// TODO: non è meglio che categoryBox contenga direttamente
+					// Category???
+					// non stringhe!
+					String categoryName = (String) categoryBox
+							.getSelectedItem();
+					String description = descriptionArea.getText();
+
 					try {
-						d = sdf.parse(dateField.getText());
+						controller.editTask(t, name, sdf, date, priority,
+								t.getCompleted(), categoryName, description);
+					} catch (InvalidCategoryException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),
+								"Category Problem", JOptionPane.WARNING_MESSAGE);
 
-					} catch (ParseException e) {
+					} catch (InvalidDateException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),
+								"Date problem", JOptionPane.WARNING_MESSAGE);
 
-						d = t.getDate();
-						dateField.setText(sdf.format(d));
+						dateField.setText(sdf.format(t.getDate()));
+					} catch (IllegalArgumentException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),
+								"Priority problem", JOptionPane.WARNING_MESSAGE);
 
-						JOptionPane
-								.showMessageDialog(
-										null,
-										"Date is not valid! Using old date for this task",
-										"Invalid date",
-										JOptionPane.WARNING_MESSAGE);
-
+						priorityField.setText(t.getPrio().toString());
 					}
 
-					// Now i can store into task
-					t.setName(nameField.getText());
-					t.setDate(d);
-
-					// Set as category the current selected
-//					t.setCategory((Category) categoryBox.getSelectedItem());
-
-					Category c = 
-					taskScrollPanel.getDataModel().getCategories().get((String) categoryBox.getSelectedItem());
-					t.setCategory(c);
-
-					// And set my background color!
-					setBackground(t.getCategory().getColor());
-
-					t.setPrio(Task.Priority.valueOf(priorityField
-							.getText()));
-					t.setDescription(descriptionArea.getText());
-
-					// JOptionPane.showMessageDialog(null,
-					// "Editing succesfully");
 					nameField.setBackground(Color.WHITE);
 					dateField.setBackground(Color.WHITE);
 					categoryBox.setBackground(Color.WHITE);
@@ -309,7 +304,6 @@ public final class TaskRow extends JPanel {
 				categoryBox.setEnabled(!categoryBox.isEnabled());
 				priorityField.setEnabled(!priorityField.isEnabled());
 				descriptionArea.setEnabled(!descriptionArea.isEnabled());
-
 			}
 		});
 
@@ -335,7 +329,8 @@ public final class TaskRow extends JPanel {
 						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 						null, null, null) == JOptionPane.YES_OPTION) {
 
-					taskScrollPanel.deleteTask();
+					taskScrollPanel.deleteTask(); // TODO changed
+					// controller.deleteTask(t);
 				}
 			}
 
