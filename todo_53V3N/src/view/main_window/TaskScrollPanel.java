@@ -169,7 +169,10 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 
 		System.out.println(msg);
 
-		// Redraw panel
+		// TODO
+		// Redraw panel, redraw row! riorganizzare! da discutere con team
+
+		// this.refreshView();
 		viewPort.revalidate();
 		viewPort.repaint();
 	}
