@@ -93,7 +93,7 @@ public class ToDoMainFrame extends JFrame {
 		
 		int madde;
 		int newVar;
-		
+		int newT;
 		
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
