@@ -22,6 +22,23 @@ import model.Task;
 // altre 1.30 h per il primo design del controller mostrato al meeting, aggiunte eccezioni e small fixes
 // 1h per modifica interfaccia, implement of observer / observable behaviour
 
+// worked with magnus on resourcebundle, properties, planning
+// 4h
+
+
+/// 3 teacher
+
+// 1-10 = 6 +6 +6 = 18 30 L 30 + 30 e lode = laude = distinction
+
+// final graduation ranking: 110 L
+
+// 18 -> 65 / 70
+
+// > 27  -> 110 OR 110L
+
+
+
+//--------------------
 
 // 1) metti drop down list, con aggiunta categorie e controlli dinamici. Sistema layout...
 // sistema priority

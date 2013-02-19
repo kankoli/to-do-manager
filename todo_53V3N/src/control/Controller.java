@@ -1,6 +1,8 @@
 package control;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -8,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Observer;
+import java.util.ResourceBundle;
 
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
@@ -40,12 +43,9 @@ public final class Controller {
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 
-	
-	
-	// TODO the controller ill stores the actions, and have method to retrieve them!
-	
-	
-	
+	// TODO the controller ill stores the actions, and have method to retrieve
+	// them!
+
 	public Controller(DataModel dataModel) {
 
 		this.dataModel = dataModel;
@@ -105,6 +105,36 @@ public final class Controller {
 	 */
 	public List<Task> getTaskList() {
 		return dataModel.getTaskList();
+	}
+
+	/**
+	 * * This method retrieves the property from the dataModel
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public final String getProperty(String key) {
+		return dataModel.getProperty(key);
+	}
+
+	/**
+	 * * This method sets a property on the dataModel
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public final void setProperty(String key, String value) {
+		dataModel.setProperty(key, value);
+	}
+
+	/**
+	 * This method retrieves the current setted languageBundle from dataModel
+	 * 
+	 * @return
+	 */
+	public final ResourceBundle getLanguageBundle() {
+		return dataModel.getLanguageBundle();
 	}
 
 	/**
@@ -235,6 +265,22 @@ public final class Controller {
 	 */
 	public final void deleteObserver(Observer o) {
 		dataModel.deleteObserver(o);
+	}
+
+	// TODO fix exceptions
+	/**
+	 * This method is called to save into files the application state.
+	 */
+	public final void saveDB() {
+		try {
+			dataModel.saveDB();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

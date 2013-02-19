@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,6 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 import model.Task.Priority;
 
@@ -32,12 +35,11 @@ import utility.GlobalValues;
 
 /**
  * This class represent the dataModel of our application. It contains all data
- * needed.
- * This class manages, in transparent way, the I/O with the DB (wich is a simple
- * XML file). XSD Validation scheme is provided, so file will be checked against
- * a valid XSD schema to be sure data is valid. This class builds our internal
- * structures using some defined classes. It offers a clear interface to the
- * controller part
+ * needed. This class manages, in transparent way, the I/O with the DB (wich is
+ * a simple XML file). XSD Validation scheme is provided, so file will be
+ * checked against a valid XSD schema to be sure data is valid. This class
+ * builds our internal structures using some defined classes. It offers a clear
+ * interface to the controller part
  * 
  * @author Marco Dondio
  * @version 1.0
@@ -51,11 +53,11 @@ import utility.GlobalValues;
 public final class DataModel extends Observable {
 
 	public static enum ChangeMessage {
-		NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+		INIT, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
 	};
 
 	// datetime formate used in xs:datetime format
-	
+
 	// NOTE: im using two small private function below to handle this..
 	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
 	private static final SimpleDateFormat RFC822DATETIME = new SimpleDateFormat(
@@ -66,8 +68,12 @@ public final class DataModel extends Observable {
 	private Map<String, Category> categories;
 	private Map<String, Integer> options;
 
-	
-	
+	// Preference files
+	private Properties props;
+
+	// For language support
+	private ResourceBundle languageBundle;
+
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
 	 * into local state, in a more conveniente representation using our classes.
@@ -79,7 +85,51 @@ public final class DataModel extends Observable {
 	public DataModel() throws JDOMException, IOException, ParseException {
 		RFC822DATETIME.setLenient(false); // This makes a date like
 											// "31-13-2013 17:45" not valid!
+
+		// Load database from XML file
 		loadDB();
+
+		// load preferences, if not use default values defined in GlobalValues
+		props = new Properties();
+
+		try {
+			// XXX: Marco: attention to this!!! This file goes NOT in src folder
+			// like languages, but in main folder...
+			props.load(new FileInputStream(GlobalValues.PROPSFILE));
+
+		} catch (Exception e) {
+			System.out.println("where is properties???");
+
+			props.setProperty(GlobalValues.LANGUAGEKEY,
+					GlobalValues.LANGUAGEVAL);
+			props.setProperty(GlobalValues.WINXSIZEKEY,
+					GlobalValues.WINXSIZEKEY);
+			props.setProperty(GlobalValues.WINYSIZEKEY,
+					GlobalValues.WINYSIZEKEY);
+			props.setProperty(GlobalValues.WINXPOSKEY, GlobalValues.WINXPOSVAL);
+			props.setProperty(GlobalValues.WINYPOSKEY, GlobalValues.WINYPOSVAL);
+		}
+
+		// TODO load language bundle: use locale read from props, how???
+		// System.out.println(Locale.ENGLISH);
+
+		// XXX: Marco: attention to this!!! where put properties files???
+		// https://blogs.oracle.com/chengfang/entry/p_java_util_missingresourceexception_can
+
+		// Now load language using the properties
+		int i = Integer.parseInt(props.getProperty(GlobalValues.LANGUAGEKEY));
+
+		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
+				GlobalValues.supportedLocales[i]);
+
+		// debug
+		// String value = languageBundle
+		// .getString("mainFrame.topPanel.button.urgentTasks.name");
+		//
+		// System.out.println(value);
+
+		// Signal the view part we finished loading all internal structure
+		hasChanged(ChangeMessage.INIT);
 	}
 
 	/**
@@ -267,6 +317,9 @@ public final class DataModel extends Observable {
 		// Write the JDOM to file
 		XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
 		xmlOutputter.output(doc, new FileOutputStream(GlobalValues.DBFILE));
+
+		// save also properties
+		props.store(new FileOutputStream(GlobalValues.PROPSFILE), null);
 	}
 
 	/**
@@ -276,6 +329,36 @@ public final class DataModel extends Observable {
 	 */
 	public final List<Task> getTaskList() {
 		return taskList;
+	}
+
+	/**
+	 * * This method retrieves the property
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public final String getProperty(String key) {
+		return props.getProperty(key);
+	}
+
+	/**
+	 * * This method sets a property
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public final void setProperty(String key, String value) {
+		props.setProperty(key, value);
+	}
+
+	/**
+	 * This method retrieves the current setted languageBundle
+	 * 
+	 * @return
+	 */
+	public final ResourceBundle getLanguageBundle() {
+		return languageBundle;
 	}
 
 	/**

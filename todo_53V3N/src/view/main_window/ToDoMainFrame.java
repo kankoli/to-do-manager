@@ -22,6 +22,7 @@ import model.DataModel;
 
 import org.jdom2.JDOMException;
 
+import utility.GlobalValues;
 import view.shared_actions.OpenNewCategoryAction;
 
 import control.Controller;
@@ -94,9 +95,6 @@ public class ToDoMainFrame extends JFrame {
 
 	private void addMenu() {
 
-		int newVar;
-		int madde;
-
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
 
@@ -121,6 +119,8 @@ public class ToDoMainFrame extends JFrame {
 				System.out.println("System exiting...");
 				// TODO Save data before exiting. Possibly modify to call the
 				// shared action.
+
+				controller.saveDB();
 				System.exit(0);
 			}
 
@@ -134,13 +134,15 @@ public class ToDoMainFrame extends JFrame {
 		JMenu subMenu = new JMenu("Add...");
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
-		menuItem = new JMenuItem("New Task");
+		menuItem = new JMenuItem(controller.getLanguageBundle().getString(
+				GlobalValues.NEWTASK)); // TODO this is first language test!
 		menuItem.setMnemonic(KeyEvent.VK_T);
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-//		menuItem = new JMenuItem("New Category");
-		menuItem.setAction(new OpenNewCategoryAction("New Category", null, "This will open new category dialog", KeyEvent.VK_C, controller));		
+		// menuItem = new JMenuItem("New Category");
+		menuItem.setAction(new OpenNewCategoryAction("New Category", null,
+				"This will open new category dialog", KeyEvent.VK_C, controller));
 		subMenu.add(menuItem);
 
 		menu.add(subMenu);
