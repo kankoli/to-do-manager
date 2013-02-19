@@ -19,8 +19,9 @@ import model.Task;
 // ho implementato la drop down, colori che cambiano...
 
 // Lavorato 2h: fatto il dialog con color chooser
-
 // altre 1.30 h per il primo design del controller mostrato al meeting, aggiunte eccezioni e small fixes
+// 1h per modifica interfaccia, implement of observer / observable behaviour
+
 
 // 1) metti drop down list, con aggiunta categorie e controlli dinamici. Sistema layout...
 // sistema priority

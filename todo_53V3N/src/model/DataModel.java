@@ -31,6 +31,8 @@ import utility.GeneralFunctions;
 import utility.GlobalValues;
 
 /**
+ * This class represent the dataModel of our application. It contains all data
+ * needed.
  * This class manages, in transparent way, the I/O with the DB (wich is a simple
  * XML file). XSD Validation scheme is provided, so file will be checked against
  * a valid XSD schema to be sure data is valid. This class builds our internal
@@ -53,6 +55,7 @@ public final class DataModel extends Observable {
 	};
 
 	// datetime formate used in xs:datetime format
+	
 	// NOTE: im using two small private function below to handle this..
 	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
 	private static final SimpleDateFormat RFC822DATETIME = new SimpleDateFormat(
@@ -63,6 +66,8 @@ public final class DataModel extends Observable {
 	private Map<String, Category> categories;
 	private Map<String, Integer> options;
 
+	
+	
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
 	 * into local state, in a more conveniente representation using our classes.
