@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.ParseException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,6 +21,8 @@ import javax.swing.JPanel;
 import model.DataModel;
 
 import org.jdom2.JDOMException;
+
+import view.shared_actions.OpenNewCategoryAction;
 
 import control.Controller;
 
@@ -91,9 +94,7 @@ public class ToDoMainFrame extends JFrame {
 
 	private void addMenu() {
 		
-		int madde;
-		int newVar;
-		int newT;
+		
 		
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
@@ -136,8 +137,9 @@ public class ToDoMainFrame extends JFrame {
 		menuItem.setMnemonic(KeyEvent.VK_T);
 		subMenu.add(menuItem);
 
-		menuItem = new JMenuItem("New Category");
-		menuItem.setMnemonic(KeyEvent.VK_C);
+		menuItem = new JMenuItem();
+//		menuItem = new JMenuItem("New Category");
+		menuItem.setAction(new OpenNewCategoryAction("New Category", null, "This will open new category dialog", KeyEvent.VK_C, controller));		
 		subMenu.add(menuItem);
 
 		menu.add(subMenu);
