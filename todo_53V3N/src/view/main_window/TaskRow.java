@@ -156,7 +156,6 @@ public final class TaskRow extends JPanel {
 
 		// Add this special value for adding a task, will register listener
 		categoryBox.addItem("New Category...");
-
 		
 		categoryBox.addActionListener(new ActionListener() {
 
@@ -176,7 +175,9 @@ public final class TaskRow extends JPanel {
 					// view will be updated by observer call
 					// System.out.println("ultimo!");
 
-					new AddCategoryDialog(controller);
+					
+					
+//					new AddCategoryDialog(controller);
 				}
 			}
 		});
@@ -266,7 +267,7 @@ public final class TaskRow extends JPanel {
 					// TODO change priorty to drop down list
 					String priority = priorityField.getText();
 
-					// TODO: non è meglio che categoryBox contenga direttamente
+					// TODO: non  meglio che categoryBox contenga direttamente
 					// Category???
 					// non stringhe!
 					String categoryName = (String) categoryBox

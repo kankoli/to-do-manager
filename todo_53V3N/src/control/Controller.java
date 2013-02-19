@@ -40,6 +40,12 @@ public final class Controller {
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 
+	
+	
+	// TODO the controller ill stores the actions, and have method to retrieve them!
+	
+	
+	
 	public Controller(DataModel dataModel) {
 
 		this.dataModel = dataModel;
