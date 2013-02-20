@@ -28,9 +28,12 @@ public class GlobalValues {
 
 	// Supported locale
 	public static final Locale[] supportedLocales = { new Locale("swe"),
-			Locale.US, Locale.ITALIAN };
+			Locale.ENGLISH, Locale.ITALIAN };
 
 	
+	public static enum Languages{SWE, EN, IT};
+	
+
 	/* Resource bundle key values */
 	// TODO needed? to have short names
 	public static final String NEWTASK = "mainFrame.topPanel.button.newTask.name";
@@ -41,7 +44,7 @@ public class GlobalValues {
 																// config??
 
 	public static final String LANGUAGEKEY = "CurrentLanguage";
-	public static final String LANGUAGEVAL = "0"; // we put index of supported
+	public static final String LANGUAGEVAL = "EN"; // we put index of supported
 													// locale array
 
 	public static final String WINXPOSKEY = "WindowsXPos";

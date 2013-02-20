@@ -1,3 +1,28 @@
+
+
+QUESTION:
+*need new task dialog: why static?
+
+
+BEFORE FRIDAY:
+
+- ME: fix control (splitting it: propscontrol, actioncontrol, obscontrol, datacontrol) + interface class
+-  actioncontrol: stores actions, a method to retrievethem AND a method to change language!
+
+add methods: create getaction and createnewaction(private)
+
+- MAGNUS: you will do the bar!!!!!!!!
+- Kadir + Madelen: Menu should be finished and actions as well with icons!
+
+FRIDAY:
+
+- fix language support (with bundle), finishe the language files (with needed names: actions, ...)
+- discuss observers and update functions
+
+
+NEXT:
+
+
 - to decide WHO are observer, how we implement it. Any repaint function (eg: when we add a new caterogy, repaint
 whe JComboBox)
 
@@ -5,10 +30,8 @@ whe JComboBox)
 
 - set action metodo in controller, cniamato quando cambia lingua: ricrea azioni usando locale settato
 
-- taskrow: fixa la priority.. vorrei pulsanti con immagini
+
+- taskrow: fixa la priority.. vorrei pulsanti con immagini, fix layout
+
 
 - icone per resources, menu con lingua..
-
-- set new task
-*need new task dialog: why static?
-* we need actions

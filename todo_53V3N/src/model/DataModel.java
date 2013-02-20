@@ -30,8 +30,11 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import control.TaskDateComparator;
+
 import utility.GeneralFunctions;
 import utility.GlobalValues;
+import utility.GlobalValues.Languages;
 
 /**
  * This class represent the dataModel of our application. It contains all data
@@ -53,7 +56,7 @@ import utility.GlobalValues;
 public final class DataModel extends Observable {
 
 	public static enum ChangeMessage {
-		INIT, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+		INIT, SORTED_TASK, CHANGED_LANG, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
 	};
 
 	// datetime formate used in xs:datetime format
@@ -66,14 +69,18 @@ public final class DataModel extends Observable {
 	// Internal data structures
 	private List<Task> taskList;
 	private Map<String, Category> categories;
-	private Map<String, Integer> options;
 
-	// Preference files
+	// TODO: we r thinking about removing options, we have properties!
+	// why we need to have this?? is just key value, can be handled 
+	// TODO: should change XSD file
+	private Map<String, Integer> options;		
+
+	// Properties files: will store options and preferences from last execution
 	private Properties props;
 
 	// For language support
 	private ResourceBundle languageBundle;
-	
+
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
 	 * into local state, in a more conveniente representation using our classes.
@@ -117,11 +124,12 @@ public final class DataModel extends Observable {
 		// https://blogs.oracle.com/chengfang/entry/p_java_util_missingresourceexception_can
 
 		// Now load language using the properties: retrieve index
-		int i = Integer.parseInt(props.getProperty(GlobalValues.LANGUAGEKEY));
+		int i = GlobalValues.Languages.valueOf(
+				props.getProperty(GlobalValues.LANGUAGEKEY)).ordinal();
 
 		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
 				GlobalValues.supportedLocales[i]);
-		
+
 		// debug
 		// String value = languageBundle
 		// .getString("mainFrame.topPanel.button.urgentTasks.name");
@@ -323,6 +331,16 @@ public final class DataModel extends Observable {
 	}
 
 	/**
+	 * This method sorts the list in the dataModel
+	 * 
+	 * @param comparator
+	 */
+	public final void sortTasks(Comparator<Task> comparator) {
+		Collections.sort(taskList, comparator);
+		hasChanged(ChangeMessage.SORTED_TASK);
+	}
+
+	/**
 	 * Retrieves the list of stored tasks.
 	 * 
 	 * @return list of tasks
@@ -359,6 +377,21 @@ public final class DataModel extends Observable {
 	 */
 	public final ResourceBundle getLanguageBundle() {
 		return languageBundle;
+	}
+
+	/**
+	 * This method set the new languageBundle
+	 * 
+	 * @param index
+	 */
+	public final void setLanguage(Languages language) {
+
+		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
+				GlobalValues.supportedLocales[language.ordinal()]);
+
+		setProperty(GlobalValues.LANGUAGEKEY, language.toString());
+
+		hasChanged(ChangeMessage.CHANGED_LANG);
 	}
 
 	/**

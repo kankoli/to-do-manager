@@ -5,12 +5,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 @SuppressWarnings("serial")
-public class ChangeLanguageAction extends AbstractAction {
+public class SortTaskAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
+		// TODO
+		
 	}
 
 }

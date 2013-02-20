@@ -83,6 +83,17 @@ public class ToDoMainFrame extends JFrame {
 		exit = new ExitAction("Quit", null, "This will close the application",
 				KeyEvent.VK_Q, controller);
 
+
+	
+		// TODO this will be changed into action control class
+		
+//		exit.putValue(Action.NAME, "new name");
+		
+//		exit.putValue("text", "asdsad");
+//		exit = new 
+		
+//		controller.getLanguageBundle().getKeys()""
+		
 		setPreferredSize(new Dimension(width, height));
 		setMinimumSize(new Dimension(width, height));
 

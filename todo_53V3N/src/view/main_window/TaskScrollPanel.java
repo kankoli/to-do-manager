@@ -28,6 +28,12 @@ import model.Task;
 // 1.30h in the evening to fix resourcebundle, properties
 
 
+// 2.30h mercoledi 20 con magnus: deciso come splittareil control, dove mettere le azioni
+//...
+// so far 14 hours
+
+//----------------
+
 /// 3 teacher
 
 // 1-10 = 6 +6 +6 = 18 30 L 30 + 30 e lode = laude = distinction

@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Observer;
 import java.util.ResourceBundle;
+
+import utility.GlobalValues;
+import utility.GlobalValues.Languages;
 
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
@@ -51,35 +53,6 @@ public final class Controller {
 		this.dataModel = dataModel;
 	}
 
-	// XXX: se sorto la lista viene modificata nel datamodel...
-	/**
-	 * This method retrieves Task List, after ordering it
-	 * 
-	 * @param ordering
-	 *            type of ordering
-	 * @return
-	 */
-	public final List<Task> getSortedTasks(SortType ordering) {
-
-		List<Task> taskList = dataModel.getTaskList();
-		switch (ordering) {
-		case DATE:
-			Collections.sort(taskList, new TaskDateComparator());
-			break;
-		case CATEGORY:
-			Collections.sort(taskList, new TaskCategoryComparator());
-			break;
-		case PRIORITY:
-			Collections.sort(taskList, new TaskPriorityComparator());
-			break;
-		default: // NONE or others, no ordering
-			break;
-		}
-		// TODO Change return type to void and tell the model to signal task
-		// changes for the 'observers'
-		return taskList;
-	}
-
 	/**
 	 * This method will be called to add a new Category to data model
 	 * 
@@ -99,11 +72,36 @@ public final class Controller {
 	}
 
 	/**
+	 * This method sort Task List
+	 * 
+	 * @param ordering
+	 *            type of ordering
+	 * @return
+	 */
+	public final void sortTasks(SortType ordering) {
+
+		switch (ordering) {
+		case DATE:
+			dataModel.sortTasks(new TaskDateComparator());
+			break;
+		case CATEGORY:
+			dataModel.sortTasks(new TaskCategoryComparator());
+
+			break;
+		case PRIORITY:
+			dataModel.sortTasks(new TaskPriorityComparator());
+			break;
+		default: // NONE or others, no ordering
+			break;
+		}
+	}
+
+	/**
 	 * This methods retrieves task list form datamodel
 	 * 
 	 * @return
 	 */
-	public List<Task> getTaskList() {
+	public final List<Task> getTaskList() {
 		return dataModel.getTaskList();
 	}
 
@@ -135,6 +133,19 @@ public final class Controller {
 	 */
 	public final ResourceBundle getLanguageBundle() {
 		return dataModel.getLanguageBundle();
+	}
+
+	/**
+	 * This method is called when new language is selected
+	 * 
+	 * @param index
+	 */
+	public final void setLanguage(Languages language) {
+		Languages oldLanguage = Languages.valueOf(dataModel
+				.getProperty(GlobalValues.LANGUAGEVAL));
+
+		if (oldLanguage != language)
+			dataModel.setLanguage(language);
 	}
 
 	/**
