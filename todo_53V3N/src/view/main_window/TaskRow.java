@@ -179,11 +179,12 @@ public final class TaskRow extends JPanel {
 					
 //					new AddCategoryDialog(controller);
 				}
+				
 			}
 		});
 
 		// Select actual category
-		categoryBox.setSelectedItem(t.getCategory());
+		categoryBox.setSelectedItem(t.getCategory().getName());
 		categoryBox.setEnabled(false);
 
 		// categoryBox.setEditable(true);
@@ -298,6 +299,10 @@ public final class TaskRow extends JPanel {
 					categoryBox.setBackground(Color.WHITE);
 					priorityField.setBackground(Color.WHITE);
 					descriptionArea.setBackground(Color.WHITE);
+
+					setBackground(t.getCategory().getColor());
+
+					
 					editBut.setText("Edit");
 				}
 

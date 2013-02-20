@@ -25,6 +25,8 @@ import model.Task;
 // worked with magnus on resourcebundle, properties, planning
 // 4h
 
+// 1.30h in the evening to fix resourcebundle, properties
+
 
 /// 3 teacher
 

@@ -6,7 +6,7 @@
       <date>2013-01-24T22:30:00.000+01:00</date>
       <priority>LOW</priority>
       <completed>false</completed>
-      <category>fun</category>
+      <category>meeting</category>
       <description />
     </task>
     <task>
@@ -14,7 +14,7 @@
       <date>2013-01-26T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
       <completed>false</completed>
-      <category>meeting</category>
+      <category>fun</category>
       <description />
     </task>
     <task>
@@ -22,9 +22,9 @@
       <date>2013-01-27T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
       <completed>false</completed>
-      <category>fun</category>
-      <description>ajkdajksdj aksj daklsj dalskjd lajd klasjd lajd ksd
-				jalsd jkldj aldj alsdjalk jdalsd jaldj aklj dladj</description>
+      <category>meeting</category>
+      <description>ajkdajksdj aksj klasjd lajd ks
+hello!			jalsd jkldj aldj alsdjalk jdalsd jaldj aklj dladj</description>
     </task>
     <task>
       <name>Task0</name>
@@ -39,7 +39,7 @@
       <date>2013-01-31T17:45:00.000+01:00</date>
       <priority>HIGH</priority>
       <completed>false</completed>
-      <category>fun</category>
+      <category>meeting</category>
       <description>some brief text.</description>
     </task>
     <task>

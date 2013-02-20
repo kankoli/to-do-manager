@@ -32,7 +32,7 @@ public class GlobalValues {
 
 	
 	/* Resource bundle key values */
-	// TODO
+	// TODO needed? to have short names
 	public static final String NEWTASK = "mainFrame.topPanel.button.newTask.name";
 	
 	

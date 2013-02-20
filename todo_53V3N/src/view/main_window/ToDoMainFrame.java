@@ -8,9 +8,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -23,6 +28,7 @@ import model.DataModel;
 import org.jdom2.JDOMException;
 
 import utility.GlobalValues;
+import view.shared_actions.ExitAction;
 import view.shared_actions.OpenNewCategoryAction;
 
 import control.Controller;
@@ -41,6 +47,13 @@ public class ToDoMainFrame extends JFrame {
 	private ToDoMainMiddlePanel middlePanel;
 	private ToDoMainBottomPanel bottomPanel;
 
+	// TODO test.. action should not created here
+	private Action exit;
+
+	
+	// TODO Marco: also a timer wich saves DB periodically.. see here
+	// http://www.cab.u-szeged.hu/WWW/java/tutorial/ui/swing/timer.html
+	
 	private Controller controller;
 
 	/**
@@ -66,6 +79,10 @@ public class ToDoMainFrame extends JFrame {
 		}
 
 		controller = new Controller(db);
+		// TODO test.. action should not created here, just fired
+		exit = new ExitAction("Quit", null, "This will close the application",
+				KeyEvent.VK_Q, controller);
+
 		setPreferredSize(new Dimension(width, height));
 		setMinimumSize(new Dimension(width, height));
 
@@ -83,8 +100,15 @@ public class ToDoMainFrame extends JFrame {
 
 		pack();
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO OVERRIDE WTIH CUSTOM
-													// CODE TO SAVE ETC.
+
+		// Override default behaviour
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+
+			public void windowClosing(WindowEvent e) {
+				exit.actionPerformed(null);
+			}
+		});
 	}
 
 	public static void main(String[] args) {
@@ -94,6 +118,15 @@ public class ToDoMainFrame extends JFrame {
 	}
 
 	private void addMenu() {
+
+		// TODO
+		ResourceBundle languageBundle = controller.getLanguageBundle();
+
+		// TODO: action will be created and stored in controller, need a method
+		// to reinstantiate them
+		// with current locale!
+		// another method to retrieve them from controller (for example here to
+		// link to menu items)
 
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
@@ -111,20 +144,10 @@ public class ToDoMainFrame extends JFrame {
 		menu.add(menuItem);
 
 		menu.addSeparator();
-		menuItem = new JMenuItem("Quit");
-		menuItem.setMnemonic(KeyEvent.VK_Q);
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				System.out.println("System exiting...");
-				// TODO Save data before exiting. Possibly modify to call the
-				// shared action.
+		// menuItem = new JMenuItem("Quit");
 
-				controller.saveDB();
-				System.exit(0);
-			}
-
-		});
+		menuItem = new JMenuItem();
+		menuItem.setAction(exit);
 		menu.add(menuItem);
 
 		menu = new JMenu("Edit");
@@ -134,8 +157,12 @@ public class ToDoMainFrame extends JFrame {
 		JMenu subMenu = new JMenu("Add...");
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
-		menuItem = new JMenuItem(controller.getLanguageBundle().getString(
-				GlobalValues.NEWTASK)); // TODO this is first language test!
+		menuItem = new JMenuItem(languageBundle.getString(GlobalValues.NEWTASK)); // TODO
+																					// this
+																					// is
+																					// first
+																					// language
+																					// test!
 		menuItem.setMnemonic(KeyEvent.VK_T);
 		subMenu.add(menuItem);
 

@@ -73,7 +73,7 @@ public final class DataModel extends Observable {
 
 	// For language support
 	private ResourceBundle languageBundle;
-
+	
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
 	 * into local state, in a more conveniente representation using our classes.
@@ -116,12 +116,12 @@ public final class DataModel extends Observable {
 		// XXX: Marco: attention to this!!! where put properties files???
 		// https://blogs.oracle.com/chengfang/entry/p_java_util_missingresourceexception_can
 
-		// Now load language using the properties
+		// Now load language using the properties: retrieve index
 		int i = Integer.parseInt(props.getProperty(GlobalValues.LANGUAGEKEY));
 
 		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
 				GlobalValues.supportedLocales[i]);
-
+		
 		// debug
 		// String value = languageBundle
 		// .getString("mainFrame.topPanel.button.urgentTasks.name");

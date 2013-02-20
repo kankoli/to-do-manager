@@ -1,5 +1,14 @@
-This file could be useful to write down some ideas!
+- to decide WHO are observer, how we implement it. Any repaint function (eg: when we add a new caterogy, repaint
+whe JComboBox)
 
+- set action on close (timr? kadir??)
 
+- set action metodo in controller, cniamato quando cambia lingua: ricrea azioni usando locale settato
 
-madelen test
+- taskrow: fixa la priority.. vorrei pulsanti con immagini
+
+- icone per resources, menu con lingua..
+
+- set new task
+*need new task dialog: why static?
+* we need actions
