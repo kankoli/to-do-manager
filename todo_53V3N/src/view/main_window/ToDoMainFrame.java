@@ -21,6 +21,8 @@ import model.DataModel;
 
 import org.jdom2.JDOMException;
 
+import view.new_task_dialog.NewTaskDialog;
+
 import control.ControllerInterface;
 
 /**
@@ -112,7 +114,14 @@ public class ToDoMainFrame extends JFrame {
 	private void addMenu() {
 
 		// TODO
+		
+//		Math.random();
 
+	//	NewTaskDialog.addComponentsToPane(pane)
+
+		//new Add();
+		
+		
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
 

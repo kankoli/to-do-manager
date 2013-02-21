@@ -52,6 +52,10 @@
   </tasks>
   <categories>
     <category>
+      <name />
+      <color>-1</color>
+    </category>
+    <category>
       <name>meeting</name>
       <color>-7283286</color>
     </category>
