@@ -4,8 +4,11 @@ import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 import javax.swing.Action;
 import control.ControllerInterface.ActionName;
+import shared_actions.ChangeLanguageAction;
 import shared_actions.ExitAction;
 import shared_actions.NewCategoryAction;
+import shared_actions.NewTaskAction;
+import shared_actions.SortTaskAction;
 import model.DataModel;
 
 /**
@@ -21,7 +24,7 @@ public final class ActionsController {
 
 	// Here all actions we need
 	private Action changeLanguage;
-	private Action exitAction;;
+	private Action exitAction;
 	private Action newTask;
 	private Action newCategory;
 	private Action sortTasks;
@@ -35,19 +38,33 @@ public final class ActionsController {
 		ResourceBundle lang = dataModel.getLanguageBundle();
 
 		// TODO: define actions
-		// changeLanguage = new ChangeLanguageAction();
+
+		changeLanguage = new ChangeLanguageAction(
+				lang.getString("shared_actions.changelanguageaction.text"), null,
+				lang.getString("shared_actions.changelanguageaction.desc"),
+				KeyEvent.VK_L, ci);
+
+		
 		exitAction = new ExitAction(
 				lang.getString("shared_actions.exitaction.text"), null,
 				lang.getString("shared_actions.exitaction.desc"),
 				KeyEvent.VK_Q, ci);
 
-		// newTask = ... ;
+		 newTask = new NewTaskAction(
+				 lang.getString("shared_actions.newtaskaction.text"), null,
+				 lang.getString("shared_actions.newtaskaction.desc"),
+				 KeyEvent.VK_T, ci);
+		 
+		 
 		newCategory = new NewCategoryAction(
 				lang.getString("shared_actions.newcategoryaction.text"), null,
 				lang.getString("shared_actions.newcategoryaction.desc"),
 				KeyEvent.VK_C, ci);
 
-		// sortTasks = ...;
+		sortTasks = new SortTaskAction(
+				lang.getString("shared_actions.sorttaskaction.text"), null,
+				lang.getString("shared_actions.sorttaskaction.desc"),
+				KeyEvent.VK_O, ci);
 		// timerAction = ...; // XXX unused now
 
 		// TODO initialize actions

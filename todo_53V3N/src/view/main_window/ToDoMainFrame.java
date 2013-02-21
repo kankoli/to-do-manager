@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -21,7 +22,7 @@ import model.DataModel;
 
 import org.jdom2.JDOMException;
 
-import view.new_task_dialog.NewTaskDialog;
+import utility.GlobalValues;
 
 import control.ControllerInterface;
 
@@ -114,14 +115,8 @@ public class ToDoMainFrame extends JFrame {
 	private void addMenu() {
 
 		// TODO
-		
-//		Math.random();
 
-	//	NewTaskDialog.addComponentsToPane(pane)
-
-		//new Add();
-		
-		
+		ResourceBundle lang = controller.getLanguageBundle();
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
 
@@ -129,11 +124,11 @@ public class ToDoMainFrame extends JFrame {
 		menu.setMnemonic(KeyEvent.VK_F);
 		getJMenuBar().add(menu);
 
-		JMenuItem menuItem = new JMenuItem("Import...");
+		JMenuItem menuItem = new JMenuItem(lang.getString("mainFrame.menubar.import"));
 		menuItem.setMnemonic(KeyEvent.VK_M);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Export...");
+		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.export"));
 		menuItem.setMnemonic(KeyEvent.VK_X);
 		menu.add(menuItem);
 
@@ -145,16 +140,16 @@ public class ToDoMainFrame extends JFrame {
 				.getAction(ControllerInterface.ActionName.EXIT));
 		menu.add(menuItem);
 
-		menu = new JMenu("Edit");
+		menu = new JMenu(lang.getString("mainFrame.menubar.edit"));
 		menu.setMnemonic(KeyEvent.VK_E);
 		getJMenuBar().add(menu);
 
-		JMenu subMenu = new JMenu("Add...");
+		JMenu subMenu = new JMenu(lang.getString("mainFrame.menubar.add"));
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
-		menuItem = new JMenuItem("New Task..");
-
-		menuItem.setMnemonic(KeyEvent.VK_T);
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.NEWTASK));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
@@ -164,10 +159,63 @@ public class ToDoMainFrame extends JFrame {
 		subMenu.add(menuItem);
 
 		menu.add(subMenu);
+		
+		subMenu = new JMenu(lang.getString("mainFrame.menubar.language"));
+		subMenu.setMnemonic(KeyEvent.VK_L);
+		menu.add(subMenu);
+		
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.CHANGELANG));
+		menuItem.setText(GlobalValues.Languages.EN.toString());
+		subMenu.add(menuItem);
 
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.CHANGELANG));
+		menuItem.setText(GlobalValues.Languages.SWE.toString());
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.CHANGELANG));
+		menuItem.setText(GlobalValues.Languages.IT.toString());
+		subMenu.add(menuItem);
+
+		
+		subMenu = new JMenu(lang.getString("mainFrame.menubar.sort"));
+		
+		subMenu.setMnemonic(KeyEvent.VK_L);
+		menu.add(subMenu);
+
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setText(ControllerInterface.SortType.NAME.toString());
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setText(ControllerInterface.SortType.DATE.toString());
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setText(ControllerInterface.SortType.CATEGORY.toString());
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem();
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setText(ControllerInterface.SortType.PRIORITY.toString());
+		subMenu.add(menuItem);
+
+		
 		// ********************************
 
-		menu = new JMenu("Help");
+		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
 		menu.setMnemonic(KeyEvent.VK_H);
 		getJMenuBar().add(menu);
 
@@ -175,7 +223,7 @@ public class ToDoMainFrame extends JFrame {
 
 	private void addTopPanel() {
 		GridBagConstraints topCons = new GridBagConstraints();
-		topPanel = new ToDoMainTopPanel();
+		topPanel = new ToDoMainTopPanel(controller);
 		topCons.gridx = 0;
 		topCons.gridy = 0;
 		topCons.weightx = 1;

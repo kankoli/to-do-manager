@@ -64,12 +64,14 @@ public final class DataController {
 	public final void sortTasks(SortType ordering) {
 
 		switch (ordering) {
+		case NAME:
+			dataModel.sortTasks(new TaskDateComparator());
+			break;
 		case DATE:
 			dataModel.sortTasks(new TaskDateComparator());
 			break;
 		case CATEGORY:
 			dataModel.sortTasks(new TaskCategoryComparator());
-
 			break;
 		case PRIORITY:
 			dataModel.sortTasks(new TaskPriorityComparator());

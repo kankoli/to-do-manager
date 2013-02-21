@@ -60,7 +60,7 @@ public final class PropertiesController {
 	 */
 	public final void setLanguage(Languages language) {
 		Languages oldLanguage = Languages.valueOf(dataModel
-				.getProperty(GlobalValues.LANGUAGEVAL));
+				.getProperty(GlobalValues.LANGUAGEKEY));
 
 		if (oldLanguage != language)
 			dataModel.setLanguage(language);

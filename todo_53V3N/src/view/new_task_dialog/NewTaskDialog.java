@@ -38,18 +38,27 @@ package view.new_task_dialog;
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import view.custom_components.ImageButton;
 import view.custom_components.PriorityBar;
 
+import control.ControllerInterface;
 import control.Helpers;
 
-public class NewTaskDialog {
+public class NewTaskDialog extends JFrame {
 
-	public static void addComponentsToPane(Container pane) {
-
+	private ControllerInterface controller;
+	
+	public NewTaskDialog(final ControllerInterface controller) {
+		super();
+		this.controller = controller;
+		
+		JPanel pane = (JPanel) getContentPane();
+		
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -128,5 +137,9 @@ public class NewTaskDialog {
 		c.gridx = 1; // aligned with button 2
 		c.gridy = 5; // third row
 		pane.add(button, c);
+		
+		
+		pack();
+		setVisible(true);
 	}
 }
