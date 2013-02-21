@@ -30,7 +30,8 @@ import model.Task;
 
 // 2.30h mercoledi 20 con magnus: deciso come splittareil control, dove mettere le azioni
 //...
-// so far 14 hours
+
+// evening: 2hours changing control structure, adding actions, methods
 
 //----------------
 
