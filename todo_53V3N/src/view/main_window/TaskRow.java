@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
-import control.Controller;
+import control.ControllerInterface;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
@@ -51,7 +51,7 @@ public final class TaskRow extends JPanel {
 			"dd-MM-yyyy HH:mm");
 
 	private TaskScrollPanel taskScrollPanel; // reference to panel
-	private Controller controller;
+	private ControllerInterface controller;
 
 	private Task t; // reference to task in datamodel
 
@@ -68,7 +68,7 @@ public final class TaskRow extends JPanel {
 
 	boolean isSelected = false;
 
-	public TaskRow(final Controller controller,
+	public TaskRow(final ControllerInterface controller,
 			final TaskScrollPanel taskScrollPanel, Task ta) {
 		super();
 		t = ta;

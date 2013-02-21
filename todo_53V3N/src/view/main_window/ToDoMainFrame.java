@@ -5,18 +5,12 @@ import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ResourceBundle;
 
-import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,11 +21,7 @@ import model.DataModel;
 
 import org.jdom2.JDOMException;
 
-import utility.GlobalValues;
-import view.shared_actions.ExitAction;
-import view.shared_actions.OpenNewCategoryAction;
-
-import control.Controller;
+import control.ControllerInterface;
 
 /**
  * This class represents the main frame and base panel of the ToDo application
@@ -47,14 +37,9 @@ public class ToDoMainFrame extends JFrame {
 	private ToDoMainMiddlePanel middlePanel;
 	private ToDoMainBottomPanel bottomPanel;
 
-	// TODO test.. action should not created here
-	private Action exit;
-
-	
 	// TODO Marco: also a timer wich saves DB periodically.. see here
 	// http://www.cab.u-szeged.hu/WWW/java/tutorial/ui/swing/timer.html
-	
-	private Controller controller;
+	private ControllerInterface controller;
 
 	/**
 	 * 
@@ -78,22 +63,17 @@ public class ToDoMainFrame extends JFrame {
 			e.printStackTrace();
 		}
 
-		controller = new Controller(db);
-		// TODO test.. action should not created here, just fired
-		exit = new ExitAction("Quit", null, "This will close the application",
-				KeyEvent.VK_Q, controller);
+		controller = new ControllerInterface(db);
 
-
-	
 		// TODO this will be changed into action control class
-		
-//		exit.putValue(Action.NAME, "new name");
-		
-//		exit.putValue("text", "asdsad");
-//		exit = new 
-		
-//		controller.getLanguageBundle().getKeys()""
-		
+
+		// exit.putValue(Action.NAME, "new name");
+
+		// exit.putValue("text", "asdsad");
+		// exit = new
+
+		// controller.getLanguageBundle().getKeys()""
+
 		setPreferredSize(new Dimension(width, height));
 		setMinimumSize(new Dimension(width, height));
 
@@ -117,7 +97,8 @@ public class ToDoMainFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 
 			public void windowClosing(WindowEvent e) {
-				exit.actionPerformed(null);
+				controller.getAction(ControllerInterface.ActionName.EXIT)
+						.actionPerformed(null);
 			}
 		});
 	}
@@ -131,13 +112,6 @@ public class ToDoMainFrame extends JFrame {
 	private void addMenu() {
 
 		// TODO
-		ResourceBundle languageBundle = controller.getLanguageBundle();
-
-		// TODO: action will be created and stored in controller, need a method
-		// to reinstantiate them
-		// with current locale!
-		// another method to retrieve them from controller (for example here to
-		// link to menu items)
 
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
@@ -158,7 +132,8 @@ public class ToDoMainFrame extends JFrame {
 		// menuItem = new JMenuItem("Quit");
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(exit);
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.EXIT));
 		menu.add(menuItem);
 
 		menu = new JMenu("Edit");
@@ -168,19 +143,15 @@ public class ToDoMainFrame extends JFrame {
 		JMenu subMenu = new JMenu("Add...");
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
-		menuItem = new JMenuItem(languageBundle.getString(GlobalValues.NEWTASK)); // TODO
-																					// this
-																					// is
-																					// first
-																					// language
-																					// test!
+		menuItem = new JMenuItem("New Task..");
+
 		menuItem.setMnemonic(KeyEvent.VK_T);
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		// menuItem = new JMenuItem("New Category");
-		menuItem.setAction(new OpenNewCategoryAction("New Category", null,
-				"This will open new category dialog", KeyEvent.VK_C, controller));
+		menuItem.setAction(controller
+				.getAction(ControllerInterface.ActionName.NEWCAT));
 		subMenu.add(menuItem);
 
 		menu.add(subMenu);

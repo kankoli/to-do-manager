@@ -20,7 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
-import control.Controller;
+import control.ControllerInterface;
 import exceptions.InvalidCategoryException;
 
 /**
@@ -35,7 +35,7 @@ import exceptions.InvalidCategoryException;
 // TODO JDialog o Jframe????
 public final class AddCategoryDialog extends JFrame {
 
-	private Controller controller;
+	private ControllerInterface controller;
 	private JPanel basePanel;
 	private JTextField categoryField;
 	private JColorChooser jcc;
@@ -50,7 +50,7 @@ public final class AddCategoryDialog extends JFrame {
 	 * @param height
 	 *            height of frame in pixels
 	 */
-	public AddCategoryDialog(final Controller controller) {
+	public AddCategoryDialog(final ControllerInterface controller) {
 		super();
 		this.controller = controller;
 

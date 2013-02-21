@@ -1,4 +1,4 @@
-package view.shared_actions;
+package shared_actions;
 
 import java.awt.event.ActionEvent;
 

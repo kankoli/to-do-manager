@@ -1,18 +1,14 @@
 package control;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Observer;
-import java.util.ResourceBundle;
 
-import utility.GlobalValues;
-import utility.GlobalValues.Languages;
+import control.ControllerInterface.SortType;
+
 
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
@@ -23,32 +19,19 @@ import model.DataModel;
 import model.Task.Priority;
 
 /**
- * This class will implement the controller part of our application. It will
- * receive call from view part through GUI usage. This class is responsible to
- * check values and look for problems, will raise exceptions if needed. After
- * this, it will operate on dataModel by editing/ retrieving data.
+ * This class will implement the data controller part.
  * 
  * @author Marco Dondio
  * 
  */
 
-// TODO
-// this class makes all controls and exception raising, when no exception occurs
-// it will operate on datamodel
-// through interface calls
-public final class Controller {
-
-	public static enum SortType {
-		DATE, CATEGORY, PRIORITY, NONE
-	};
+public final class DataController {
 
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 
-	// TODO the controller ill stores the actions, and have method to retrieve
-	// them!
 
-	public Controller(DataModel dataModel) {
+	public DataController(DataModel dataModel) {
 
 		this.dataModel = dataModel;
 	}
@@ -105,48 +88,6 @@ public final class Controller {
 		return dataModel.getTaskList();
 	}
 
-	/**
-	 * * This method retrieves the property from the dataModel
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public final String getProperty(String key) {
-		return dataModel.getProperty(key);
-	}
-
-	/**
-	 * * This method sets a property on the dataModel
-	 * 
-	 * @param key
-	 * @param value
-	 * @return
-	 */
-	public final void setProperty(String key, String value) {
-		dataModel.setProperty(key, value);
-	}
-
-	/**
-	 * This method retrieves the current setted languageBundle from dataModel
-	 * 
-	 * @return
-	 */
-	public final ResourceBundle getLanguageBundle() {
-		return dataModel.getLanguageBundle();
-	}
-
-	/**
-	 * This method is called when new language is selected
-	 * 
-	 * @param index
-	 */
-	public final void setLanguage(Languages language) {
-		Languages oldLanguage = Languages.valueOf(dataModel
-				.getProperty(GlobalValues.LANGUAGEVAL));
-
-		if (oldLanguage != language)
-			dataModel.setLanguage(language);
-	}
 
 	/**
 	 * This method will be called to add a new Task to data model
@@ -248,50 +189,4 @@ public final class Controller {
 	public final Map<String, Category> getCategories() {
 		return dataModel.getCategories();
 	}
-
-	// TODO other methods: not implemented, just ideas
-	// getOptions
-	// setoption
-
-	// maybe: method to edit task?? will receive a reference to a task and new
-	// values, will do some checks
-	// and throw exceptions with needed.. instead of doing this in view i move
-	// this here
-
-	// TODO add method in datamodel to receive a signal to signal update
-
-	/**
-	 * This method is called to register as an observer on the datamodel
-	 * 
-	 * @param o
-	 */
-	public final void registerAsObserver(Observer o) {
-		dataModel.addObserver(o);
-	}
-
-	/**
-	 * This method is called to delete an observer from the datamodel
-	 * 
-	 * @param o
-	 */
-	public final void deleteObserver(Observer o) {
-		dataModel.deleteObserver(o);
-	}
-
-	// TODO fix exceptions
-	/**
-	 * This method is called to save into files the application state.
-	 */
-	public final void saveDB() {
-		try {
-			dataModel.saveDB();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }

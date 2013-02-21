@@ -1,4 +1,4 @@
-package view.shared_actions;
+package shared_actions;
 
 import java.awt.event.ActionEvent;
 
@@ -6,16 +6,16 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
-import control.Controller;
+import control.ControllerInterface;
 
 import view.new_category_dialog.AddCategoryDialog;
 
-public class OpenNewCategoryAction extends AbstractAction {
+public class NewCategoryAction extends AbstractAction {
 
-	private Controller controller;
+	private ControllerInterface controller;
 
-	public OpenNewCategoryAction(String text, ImageIcon icon, String desc,
-			Integer mnemonic, Controller controller) {
+	public NewCategoryAction(String text, ImageIcon icon, String desc,
+			Integer mnemonic, ControllerInterface controller) {
 		super(text, icon);
 
 		this.controller = controller;

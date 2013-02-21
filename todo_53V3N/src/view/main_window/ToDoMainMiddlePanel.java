@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
-import control.Controller;
+import control.ControllerInterface;
 /**
  * This class represents the middle part of the ToDo application
  * 
@@ -26,9 +26,9 @@ public class ToDoMainMiddlePanel extends JPanel {
 	private JScrollPane taskPanel;
 	private ToDoSortingBar sortingBar;
 	
-	private Controller controller;
+	private ControllerInterface controller;
 	
-	public ToDoMainMiddlePanel(Controller controller) {
+	public ToDoMainMiddlePanel(ControllerInterface controller) {
 		super();
 
 		this.controller = controller;

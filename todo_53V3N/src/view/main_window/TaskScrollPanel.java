@@ -9,7 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import control.Controller;
+import control.ControllerInterface;
 
 import model.DataModel;
 import model.Task;
@@ -67,7 +67,7 @@ import model.Task;
 @SuppressWarnings("serial")
 public final class TaskScrollPanel extends JScrollPane implements Observer {
 
-	private Controller controller;
+	private ControllerInterface controller;
 	private JPanel viewPort;
 	private List<TaskRow> taskList; // we store our child here, useful to access
 									// them
@@ -83,7 +83,7 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 	 * @param controller
 	 *            the controller object
 	 */
-	public TaskScrollPanel(int[] offsets, Controller controller) {
+	public TaskScrollPanel(int[] offsets, ControllerInterface controller) {
 		super();
 		this.controller = controller;
 
