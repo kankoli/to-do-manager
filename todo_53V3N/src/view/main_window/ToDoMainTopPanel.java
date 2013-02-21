@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import control.ControllerInterface;
+
 import view.new_task_dialog.NewTaskDialog;
 
 /**
@@ -32,10 +34,13 @@ public class ToDoMainTopPanel extends JPanel {
 	private JLabel timeLabel; // placeholder for a clock
 	private JButton newTaskButton;
 
-	private JFrame newTaskFrame; // XXX Marco: i dont like this here, read below
+	private ControllerInterface controller;
+	
+	//private JFrame newTaskFrame; // XXX Marco: i dont like this here, read below
 
-	public ToDoMainTopPanel() {
+	public ToDoMainTopPanel(ControllerInterface controller) {
 		super();
+		this.controller = controller;
 
 		setLayout(new GridBagLayout());
 
@@ -48,7 +53,7 @@ public class ToDoMainTopPanel extends JPanel {
 		setPreferredSize(new Dimension(800, 100));
 		setMinimumSize(new Dimension(800, 100));
 
-		newTaskFrame = new JFrame();
+		//newTaskFrame = new JFrame();
 
 		setVisible(true);
 	}
@@ -101,26 +106,10 @@ public class ToDoMainTopPanel extends JPanel {
 	private void addNewTaskButton() {
 		GridBagConstraints newTaskButtonCons = new GridBagConstraints();
 		newTaskButton = new JButton("New Task");
-		newTaskButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// XXX Marco: Kadir&Madelen, isn't better to have this object
-				// allocated dynamically instead of accessing it in a static
-				// way?
-				// to be discussed maybe?
-				// i think it's better, i dont like the way im opening right
-				// now...
-				// i had to create a frame inside
-				
-				// Also we should discuss how to pass data to/from this panel!
-				
-				NewTaskDialog.addComponentsToPane(newTaskFrame.getContentPane());
+		newTaskButton.setAction(controller.getAction(ControllerInterface.ActionName.NEWTASK));
 
-				newTaskFrame.setSize(400, 250);
-				newTaskFrame.setVisible(true);
-			}
-		});
+		
 		newTaskButton.setMinimumSize(new Dimension(100, 100));
 		newTaskButton.setPreferredSize(new Dimension(100, 100));
 		newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,

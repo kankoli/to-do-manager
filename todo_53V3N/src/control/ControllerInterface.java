@@ -34,7 +34,7 @@ import model.DataModel;
 public final class ControllerInterface {
 
 	public static enum SortType {
-		DATE, CATEGORY, PRIORITY, NONE
+		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
 
 	public static enum ActionName {
@@ -195,6 +195,8 @@ public final class ControllerInterface {
 	 * @param index
 	 */
 	public final void setLanguage(Languages language) {
+		
+//		System.out.println(language);
 		pc.setLanguage(language);
 
 		// XXX should i call the setlanguage on the actioncontroller as well?
