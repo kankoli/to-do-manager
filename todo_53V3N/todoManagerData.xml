@@ -6,7 +6,7 @@
       <date>2013-01-24T22:30:00.000+01:00</date>
       <priority>LOW</priority>
       <completed>false</completed>
-      <category>newcat</category>
+      <category>Sport</category>
       <description />
     </task>
     <task>
@@ -49,31 +49,11 @@
       <category>kfjsdkfs</category>
       <description>bla bla bla a description</description>
     </task>
-    <task>
-      <name>neeeeew</name>
-      <date>2013-02-22T12:57:03.173+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>kfjsdkfs</category>
-      <description>bla bla bla a description</description>
-    </task>
-    <task>
-      <name>provaa</name>
-      <date>2013-02-22T13:06:52.747+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>kfjsdkfs</category>
-      <description>bla bla bla a description</description>
-    </task>
   </tasks>
   <categories>
     <category>
       <name>kfjsdkfs</name>
       <color>-11867345</color>
-    </category>
-    <category>
-      <name>newcat</name>
-      <color>-1538320</color>
     </category>
     <category>
       <name>meeting</name>
@@ -96,14 +76,4 @@
       <color>-1104603</color>
     </category>
   </categories>
-  <options>
-    <option>
-      <key>one_option_name</key>
-      <value>1</value>
-    </option>
-    <option>
-      <key>some_other_option</key>
-      <value>0</value>
-    </option>
-  </options>
 </todoManagerData>

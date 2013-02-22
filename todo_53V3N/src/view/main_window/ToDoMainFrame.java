@@ -79,6 +79,15 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		// controller.getLanguageBundle().getKeys()""
 
+		// TODO unsed now
+		// int sizeX = Integer.parseInt(controller
+		// .getProperty(GlobalValues.WINXSIZEKEY));
+		// int sizeY = Integer.parseInt(controller
+		// .getProperty(GlobalValues.WINYSIZEKEY));
+
+		// setPreferredSize(new Dimension(sizeX, sizeY));
+		// setMinimumSize(new Dimension(sizeX, sizeY));
+
 		setPreferredSize(new Dimension(width, height));
 		setMinimumSize(new Dimension(width, height));
 
@@ -113,7 +122,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	public static void main(String[] args) {
 		// ToDoMainFrame toDoFrame = // XXX Marco: i commented it, do we need a
 		// reference to Frame?
-		new ToDoMainFrame(800, 600);
+		new ToDoMainFrame(900, 600);
 	}
 
 	private void addMenu() {

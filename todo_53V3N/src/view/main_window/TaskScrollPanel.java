@@ -175,25 +175,10 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		controller.deleteTask(t);
 	}
 
-	/**
-	 * This method is called by a TaskRow when user has finished editing it. It
-	 * just forces the viewport of this ScrollPanel to be revalidated and
-	 * repainted. Modifications on Task are reflected automatically in
-	 * dataModel, because we are accessing same objects.
-	 */
-	// protected final void editedTask() {
-	//
-	// // Redraw panel
-	// viewPort.revalidate();
-	// viewPort.repaint();
-	// }
-
 	// TODO add come observer
 	public final void update(Observable o, Object arg) {
 
 		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
-
-		System.out.println("asdasdsa");
 
 		// TODO
 		// Redraw panel, redraw row! riorganizzare! da discutere con team

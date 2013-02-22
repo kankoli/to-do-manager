@@ -156,7 +156,7 @@ public final class TaskRow extends JPanel {
 
 		// Add this special value for adding a task, will register listener
 		categoryBox.addItem("New Category...");
-		
+
 		categoryBox.addActionListener(new ActionListener() {
 
 			// If last "special item" is selected, open add category dialog
@@ -175,12 +175,12 @@ public final class TaskRow extends JPanel {
 					// view will be updated by observer call
 					// System.out.println("ultimo!");
 
-					
 					// TODO
-					controller.getAction(ControllerInterface.ActionName.NEWCAT).actionPerformed(null);
-//					new AddCategoryDialog(controller);
+					controller.getAction(ControllerInterface.ActionName.NEWCAT)
+							.actionPerformed(null);
+					// new AddCategoryDialog(controller);
 				}
-				
+
 			}
 		});
 
@@ -201,6 +201,9 @@ public final class TaskRow extends JPanel {
 		// And set my background color!
 		setBackground(t.getCategory().getColor());
 
+		// ------------------------------------------------------
+		// TODO change this
+
 		priorityField = new JTextField(t.getPrio().toString());
 		// priorityArea.addMouseListener(my);
 		priorityField.setEnabled(false);
@@ -213,6 +216,8 @@ public final class TaskRow extends JPanel {
 		// con.insets = new Insets(0, 0, 0, 300);
 		// con.anchor = GridBagConstraints.LINE_START;
 		add(priorityField, con);
+
+		// ------------------------------------------------------
 
 		descriptionArea = new JTextArea(t.getDescription(),
 				GlobalValues.TASKROW_DESC_ROWS, GlobalValues.TASKROW_DESC_COLS);
@@ -269,7 +274,7 @@ public final class TaskRow extends JPanel {
 					// TODO change priorty to drop down list
 					String priority = priorityField.getText();
 
-					// TODO: non  meglio che categoryBox contenga direttamente
+					// TODO: non meglio che categoryBox contenga direttamente
 					// Category???
 					// non stringhe!
 					String categoryName = (String) categoryBox
@@ -303,7 +308,6 @@ public final class TaskRow extends JPanel {
 
 					setBackground(t.getCategory().getColor());
 
-					
 					editBut.setText("Edit");
 				}
 

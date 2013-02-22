@@ -75,7 +75,6 @@ public class ToDoMainMiddlePanel extends JPanel {
 		try {
 			sortingBar = new SortingBar();
 //			sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date", "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
-
 		
 		} catch (Exception e) {
 			e.printStackTrace();
