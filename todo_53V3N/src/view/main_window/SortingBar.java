@@ -17,6 +17,13 @@ import javax.swing.JPanel;
 
 import control.ControllerInterface;
 
+/**
+ * This class (UNDER DEVELOPMENT!!!) will represent the custom made sorting bar for the task. 
+ * It is resizable (dragging), you will be able to sort task by clicking on tab sections.
+ * @author Magnus Larsson
+ *
+ */
+@SuppressWarnings("serial")
 public class SortingBar extends JPanel implements Observer{
 	
 	private SortingTab activeTab;
@@ -24,16 +31,14 @@ public class SortingBar extends JPanel implements Observer{
 	private SortingBarMouseListener mouseListener;
 	private ControllerInterface controller;
 	
-	//private TaskPane taskPane;
-	
-	//TEST
-	
+
+	// XXX this is just for testing, will be an array
 	SortingTab tab1;
 	SortingTab tab2;
 	SortingTab tab3;
 	SortingTab tab4;
 	
-	
+
 	private class SortingBarMouseListener implements MouseListener, MouseMotionListener {
 		
 		private int tabInFocusIndex;
@@ -42,6 +47,7 @@ public class SortingBar extends JPanel implements Observer{
 		private int mouseDraggedPosX;
 		
 		@Override
+		// This listener will set the current selected tab as active
 		public void mouseClicked(MouseEvent me) {
 			
 			for (SortingTab tab: sortingTabs) { 
@@ -63,7 +69,7 @@ public class SortingBar extends JPanel implements Observer{
 		public void mouseExited(MouseEvent me) {
 		}
 
-		@Override
+		// This checks which tab is being pressed (and which edge)
 		public void mousePressed(MouseEvent me) {
 			mouseDraggedPosX = me.getX();
 			
@@ -84,60 +90,45 @@ public class SortingBar extends JPanel implements Observer{
 		}
 
 		@Override
+		// When mouse is released we unset the current focused edges
 		public void mouseReleased(MouseEvent me) {
 			rightEdgeInFocus = false;
 			leftEdgeInFocus = false;
 		}
 
 		@Override
+		// This checks if any edge is focused before calling the drag function
 		public void mouseDragged(MouseEvent me) {
 			if (leftEdgeInFocus || rightEdgeInFocus) {
 				dragTabs(me);
 			}
 		}
 		
-		/*private void dragTabs(MouseEvent me) {
-			int xDiff = me.getX() - mouseDraggedPosX;
-			SortingTab currentTab = sortingTabs.get(tabInFocusIndex);
-			
-			if (xDiff > 0 && ableToMoveRight(tabInFocusIndex, xDiff)) {
-				if (leftEdgeInFocus) {
-					currentTab.resizeAnchoredRight(-xDiff);
-					sortingTabs.get(tabInFocusIndex - 1).resizeWidth(xDiff);
-				} else if (rightEdgeInFocus) {
-					currentTab.resizeWidth(xDiff);
-					sortingTabs.get(tabInFocusIndex + 1).resizeAnchoredRight(-xDiff);
-				}
-			} else if (xDiff < 0 && ableToMoveLeft(tabInFocusIndex, xDiff)) {
-				if (leftEdgeInFocus) {
-					currentTab.resizeAnchoredRight(-xDiff);
-					sortingTabs.get(tabInFocusIndex - 1).resizeWidth(xDiff);
-				} else if (rightEdgeInFocus) {
-					currentTab.resizeWidth(xDiff);
-					sortingTabs.get(tabInFocusIndex + 1).resizeAnchoredRight(-xDiff);
-				}
-			}
-			mouseDraggedPosX = me.getX();
-			repaint();
-			
-		}*/
-		
+
+		// this method is used to manage the dragging behaviour
 		private void dragTabs(MouseEvent me) {
 			int xDiff = me.getX() - mouseDraggedPosX;
 			SortingTab currentTab = sortingTabs.get(tabInFocusIndex);
 			
-			if (xDiff > 0) {
-				int movingDistance = distanceAbleToMoveRight(tabInFocusIndex, xDiff);
+			if (xDiff > 0) {	// mouse moved to right
+				int movingDistance = distanceAbleToMoveRight(tabInFocusIndex, xDiff); // calculate how much we can move
+
+				// TODO talk with marco
+//				if(movingDIstance <= 0)
+//					break;
+				
 				if (movingDistance > 0) {
-					if (leftEdgeInFocus) {
+					if (leftEdgeInFocus) {	// if left edge is grabbed and we can move to the right
+											// we should resize this tab and the previous (on the left) tab
 						currentTab.resizeAnchoredRight(-movingDistance);
 						sortingTabs.get(tabInFocusIndex - 1).resizeWidth(movingDistance);
-					} else if (rightEdgeInFocus) {
+					} else if (rightEdgeInFocus) {	// if right edge is grabbed and we can move to the right
+						// we should resize this tab and the next (on the right) tab
 						currentTab.resizeWidth(movingDistance);
 						sortingTabs.get(tabInFocusIndex + 1).resizeAnchoredRight(-movingDistance);
 					}
 				}
-			} else if (xDiff < 0) {
+			} else  {	// mouse moved to the left
 				int movingDistance = distanceAbleToMoveLeft(tabInFocusIndex, -xDiff);
 				if (movingDistance > 0) {
 				if (leftEdgeInFocus) {
@@ -154,70 +145,31 @@ public class SortingBar extends JPanel implements Observer{
 			
 		}
 		
-		/*private boolean ableToMoveLeft(int currentTabIndex, int xDiff) {
-			SortingTab currentTab = sortingTabs.get(currentTabIndex);
-			if (leftEdgeInFocus) {
-				if (currentTabIndex != 0) {
-					if (!currentTab.hasFixedLeftEdge() 
-							&& !sortingTabs.get(currentTabIndex - 1).hasFixedRightEdge()
-							&& sortingTabs.get(currentTabIndex - 1).getXPos() + sortingTabs.get(currentTabIndex - 1).getMinimumWidth() <= currentTab.getXPos() + xDiff) {
-						return true;
-					}
-				}
-			} else if (rightEdgeInFocus) {
-				if (currentTabIndex != sortingTabs.size() - 1) {
-					if (!currentTab.hasFixedRightEdge() 
-							&& !sortingTabs.get(currentTabIndex + 1).hasFixedLeftEdge()
-							&& currentTab.getWidth() + xDiff >= currentTab.getMinimumWidth()) {
-						return true;
-					}
-				}
-			} 
-			return false;
-		}*/
-		
-		/*private boolean ableToMoveRight(int currentTabIndex, int xDiff) {
-			SortingTab currentTab = sortingTabs.get(currentTabIndex);
-			if (leftEdgeInFocus) {
-				if (currentTabIndex != 0) {
-					if (!currentTab.hasFixedLeftEdge() 
-							&& !sortingTabs.get(currentTabIndex - 1).hasFixedRightEdge()
-							&& currentTab.getWidth() - xDiff >= currentTab.getMinimumWidth()) {
-						return true;
-					}
-				}
-			} else if (rightEdgeInFocus) {
-				if (currentTabIndex != sortingTabs.size() - 1) {
-					if (!currentTab.hasFixedRightEdge() 
-							&& !sortingTabs.get(currentTabIndex + 1).hasFixedLeftEdge()
-							&& sortingTabs.get(currentTabIndex + 1).getWidth() - xDiff >= sortingTabs.get(currentTabIndex + 1).getMinimumWidth()) {
-						return true;
-					}
-				}
-			} 
-			return false;
-		}*/
-		
+
+		// Calculate how much we can move this tab to the left
 		private int distanceAbleToMoveLeft(int currentTabIndex, int desiredDistance) {
 			SortingTab currentTab = sortingTabs.get(currentTabIndex);
 			if (leftEdgeInFocus) {
-				if (currentTabIndex != 0) {
+				if (currentTabIndex != 0) {	// if we are not the first (first cannot resize)
 					if (!currentTab.hasFixedLeftEdge() 
-							&& !sortingTabs.get(currentTabIndex - 1).hasFixedRightEdge()) {
+							&& !sortingTabs.get(currentTabIndex - 1).hasFixedRightEdge()) {	// if the previous tab has no fixed right position
 						return Math.min(sortingTabs.get(currentTabIndex - 1).getWidth() - sortingTabs.get(currentTabIndex - 1).getMinimumWidth(), desiredDistance);
 					}
 				}
 			} else if (rightEdgeInFocus) {
-				if (currentTabIndex != sortingTabs.size() - 1) {
+				if (currentTabIndex != sortingTabs.size() - 1) {		// if we are not the last one (we cannot resize)
 					if (!currentTab.hasFixedRightEdge() 
-							&& !sortingTabs.get(currentTabIndex + 1).hasFixedLeftEdge()) {
+							&& !sortingTabs.get(currentTabIndex + 1).hasFixedLeftEdge()) {// if the next tab has no fixed left position
+
+						// we calculate if the desired resizing will make the previous too small, if yes we move the maximum as we can
 						return Math.min(currentTab.getWidth() - currentTab.getMinimumWidth(), desiredDistance);
 					}
 				}
 			} 
-			return 0;
+			return 0;		// you cannot move
 		}
 		
+		// Calculate how much we can move this tab to the right
 		private int distanceAbleToMoveRight(int currentTabIndex, int desiredDistance) {
 			SortingTab currentTab = sortingTabs.get(currentTabIndex);
 			if (leftEdgeInFocus) {
@@ -282,17 +234,6 @@ public class SortingBar extends JPanel implements Observer{
 		controller.registerAsObserver(this);
 	}
 	
-	/*public SortingBar (int width, int height) {
-	 
-	 }*/
-	
-	
-	
-	/*public SortingBar (TaskPane taskPane) {
-		
-	}*/
-	
-	
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -301,7 +242,7 @@ public class SortingBar extends JPanel implements Observer{
 		}
 	}
 
-	@Override
+	// This is needed to observe the language changings, to change the labels on the tabs
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
