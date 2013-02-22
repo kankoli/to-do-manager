@@ -4,15 +4,15 @@
     <task>
       <name>Task1</name>
       <date>2013-01-24T22:30:00.000+01:00</date>
-      <priority>LOW</priority>
+      <priority>HIGH</priority>
       <completed>false</completed>
-      <category>newcat</category>
+      <category>Sport</category>
       <description />
     </task>
     <task>
       <name>Task2</name>
       <date>2013-01-26T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
+      <priority>LOW</priority>
       <completed>true</completed>
       <category>jshkshkf</category>
       <description />
@@ -49,14 +49,6 @@
       <category>kfjsdkfs</category>
       <description>bla bla bla a description</description>
     </task>
-    <task>
-      <name>neeeeew</name>
-      <date>2013-02-22T12:57:03.173+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>true</completed>
-      <category>kfjsdkfs</category>
-      <description>bla bla bla a description</description>
-    </task>
   </tasks>
   <categories>
     <category>
@@ -64,38 +56,24 @@
       <color>-11867345</color>
     </category>
     <category>
-      <name>newcat</name>
-      <color>-1538320</color>
-    </category>
-    <category>
       <name>meeting</name>
       <color>-7283286</color>
-    </category>
-    <category>
-      <name>Sport</name>
-      <color>-14752099</color>
     </category>
     <category>
       <name>jshkshkf</name>
       <color>-4000695</color>
     </category>
     <category>
-      <name>Prova</name>
-      <color>-1104603</color>
+      <name>Sport</name>
+      <color>-14752099</color>
     </category>
     <category>
       <name>fun</name>
       <color>-9916485</color>
     </category>
+    <category>
+      <name>Prova</name>
+      <color>-1104603</color>
+    </category>
   </categories>
-  <options>
-    <option>
-      <key>one_option_name</key>
-      <value>1</value>
-    </option>
-    <option>
-      <key>some_other_option</key>
-      <value>0</value>
-    </option>
-  </options>
 </todoManagerData>

@@ -28,6 +28,7 @@ import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
 import utility.GlobalValues;
+import view.custom_components.PriorityBar;
 import view.new_category_dialog.AddCategoryDialog;
 
 import model.Category;
@@ -64,7 +65,8 @@ public final class TaskRow extends JPanel implements Observer {
 	private JTextField dateField;
 	private JComboBox<String> categoryBox;
 
-	private JTextField priorityField;
+//	private JTextField priorityField;
+	PriorityBar bar;
 	private JScrollPane descriptionPane;
 	private JTextArea descriptionArea;
 	private JButton editBut;
@@ -155,13 +157,21 @@ public final class TaskRow extends JPanel implements Observer {
 		add(dateField, con);
 
 		// now build category ComboBox
-		// TODO come fare ad aggiungere categorie???
+
+		// TODO: Kadir suggests special combobox, our component wich extends combobox
+		// TODO: Kadir suggests special combobox, our component wich extends combobox
+		// TODO: Kadir suggests special combobox, our component wich extends combobox
+		// TODO: Kadir suggests special combobox, our component wich extends combobox
+		// TODO: Kadir suggests special combobox, our component wich extends combobox
+		// TODO: Kadir suggests special combobox, our component wich extends combobox
 		// maybe is better a button? Then simple dialog with colorpicker???
 		categoryBox = new JComboBox<String>();
 		for (Category c : controller.getCategories().values()) {
 			categoryBox.addItem(c.getName());
 		}
 
+		
+		
 		// Add this special value for adding a task, will register listener
 
 		categoryBox.addItem(lang.getString("shared_actions.newcategoryaction.text"));
@@ -184,12 +194,12 @@ public final class TaskRow extends JPanel implements Observer {
 					// view will be updated by observer call
 					// System.out.println("ultimo!");
 
-					
 					// TODO
-					controller.getAction(ControllerInterface.ActionName.NEWCAT).actionPerformed(null);
-//					new AddCategoryDialog(controller);
+					controller.getAction(ControllerInterface.ActionName.NEWCAT)
+							.actionPerformed(null);
+					// new AddCategoryDialog(controller);
 				}
-				
+
 			}
 		});
 
@@ -210,18 +220,39 @@ public final class TaskRow extends JPanel implements Observer {
 		// And set my background color!
 		setBackground(t.getCategory().getColor());
 
-		priorityField = new JTextField(t.getPrio().toString());
+		// ------------------------------------------------------
+		// TODO change this
+
+//		priorityField = new JTextField(t.getPrio().toString());
 		// priorityArea.addMouseListener(my);
-		priorityField.setEnabled(false);
+//		priorityField.setEnabled(false);
 		// priorityField.setBackground(Color.GREEN);
 		// priorityField.setDisabledTextColor(Color.BLACK);
 		// priorityField.setBorder(null);
+		// con.insets = new Insets(0, 0, 0, 300);
+		// con.anchor = GridBagConstraints.LINE_START;
+
+		//		add(priorityField, con);
+
+		
+		
+//		PriorityBar pb = new PriorityBar(name, name, name, name, name, name, name, name, name, name);
+		bar = new PriorityBar("assets/def.png",
+				"assets/hover1.png", "assets/pressed1.png",
+				"assets/pressed1.png", "assets/hover2.png",
+				"assets/pressed2.png", "assets/pressed2.png",
+				"assets/hover3.png", "assets/pressed3.png",
+				"assets/pressed3.png", 		t.getPrio());
+		bar.setEnabled(false);
+		
 		con = new GridBagConstraints();
 		con.gridx = 4;
 		con.gridy = 0;
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
-		add(priorityField, con);
+
+
+	add(bar, con);	
+		
+		// ------------------------------------------------------
 
 		descriptionArea = new JTextArea(t.getDescription(),
 				GlobalValues.TASKROW_DESC_ROWS, GlobalValues.TASKROW_DESC_COLS);
@@ -276,9 +307,11 @@ public final class TaskRow extends JPanel implements Observer {
 
 					String date = dateField.getText();
 					// TODO change priorty to drop down list
-					String priority = priorityField.getText();
 
-					// TODO: non  meglio che categoryBox contenga direttamente
+					//String priority = priorityField.getText();
+
+					Task.Priority priority = bar.getPriority();
+					// TODO: non meglio che categoryBox contenga direttamente
 					// Category???
 					// non stringhe!
 					String categoryName = (String) categoryBox
@@ -297,29 +330,23 @@ public final class TaskRow extends JPanel implements Observer {
 								"Date problem", JOptionPane.WARNING_MESSAGE);
 
 						dateField.setText(sdf.format(t.getDate()));
-					} catch (IllegalArgumentException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
-								"Priority problem", JOptionPane.WARNING_MESSAGE);
-
-						priorityField.setText(t.getPrio().toString());
-					}
-
+					} 
 					nameField.setBackground(Color.WHITE);
 					dateField.setBackground(Color.WHITE);
 					categoryBox.setBackground(Color.WHITE);
-					priorityField.setBackground(Color.WHITE);
+//					bar.setBackground(Color.WHITE);
 					descriptionArea.setBackground(Color.WHITE);
 
 					setBackground(t.getCategory().getColor());
-
-					
 					editBut.setText( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 				}
 
 				nameField.setEnabled(!nameField.isEnabled());
 				dateField.setEnabled(!dateField.isEnabled());
 				categoryBox.setEnabled(!categoryBox.isEnabled());
-				priorityField.setEnabled(!priorityField.isEnabled());
+//				priorityField.setEnabled(!priorityField.isEnabled());
+				bar.setEnabled(!bar.isEnabled());
+
 				descriptionArea.setEnabled(!descriptionArea.isEnabled());
 			}
 		});

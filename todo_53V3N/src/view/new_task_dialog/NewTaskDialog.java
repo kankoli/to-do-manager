@@ -38,6 +38,7 @@ package view.new_task_dialog;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -50,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Category;
+import model.Task;
 
 import view.custom_components.ImageButton;
 import view.custom_components.PriorityBar;
@@ -59,7 +61,12 @@ import control.Helpers;
 
 public class NewTaskDialog extends JDialog {
 
-	private JTextField textfield;
+	private JTextField nameField;
+	private JTextField descriptionField;
+	private JTextField dateField;
+	private JComboBox<String> cmbCategory;
+	private PriorityBar bar; 
+	
 	private ControllerInterface controller;
 
 	public NewTaskDialog(final ControllerInterface controller) {
@@ -77,39 +84,53 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 0;
 		pane.add(label, c);
 
-		textfield = new JTextField();
+		nameField = new JTextField();
 		c.gridx = 1;
 		c.gridy = 0;
-		pane.add(textfield, c);
+		pane.add(nameField, c);
 
 		label = new JLabel("Description");
 		c.gridx = 0;
 		c.gridy = 1;
 		pane.add(label, c);
 
-		ImageButton imageButton = new ImageButton("assets/def.png",
-				"assets/hover1.png", "assets/pressed1.png",
-				"assets/pressed1.png");
+//		ImageButton imageButton = new ImageButton("assets/def.png",
+//				"assets/hover1.png", "assets/pressed1.png",
+//				"assets/pressed1.png");
+//		c.gridx = 1;
+//		c.gridy = 1;
+//		pane.add(imageButton, c);
+
+		descriptionField = new JTextField();
 		c.gridx = 1;
 		c.gridy = 1;
-		pane.add(imageButton, c);
-
+		pane.add(descriptionField, c);
+		
 		label = new JLabel("Date");
 		c.gridx = 0;
 		c.gridy = 2;
 		pane.add(label, c);
 
+		dateField = new JTextField();
+		c.gridx = 1;
+		c.gridy = 2;
+		pane.add(dateField, c);
+		
 		label = new JLabel("Category");
 		c.gridx = 0;
 		c.gridy = 3;
 		pane.add(label, c);
 
-		JComboBox<String> cmbCategory = new JComboBox<String>();
+		cmbCategory = new JComboBox<String>();
 
 		// XXX Marco: here we will use the category provided by datamodel
 		String[] items = Helpers.categoryItems();
-		for (int i = 0; i < items.length; i++)
-			cmbCategory.addItem(items[i]);
+//		for (int i = 0; i < items.length; i++)
+//			cmbCategory.addItem(items[i]);
+		
+		for (Category ca : controller.getCategories().values()) 
+			cmbCategory.addItem(ca.getName());
+
 
 		c.gridx = 1;
 		c.gridy = 3;
@@ -120,12 +141,12 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 4;
 		pane.add(label, c);
 
-		PriorityBar bar = new PriorityBar("assets/def.png",
+		bar = new PriorityBar("assets/def.png",
 				"assets/hover1.png", "assets/pressed1.png",
 				"assets/pressed1.png", "assets/hover2.png",
 				"assets/pressed2.png", "assets/pressed2.png",
 				"assets/hover3.png", "assets/pressed3.png",
-				"assets/pressed3.png");
+				"assets/pressed3.png", Task.Priority.NOT_SET);
 		c.gridx = 1;
 		c.gridy = 4;
 		pane.add(bar, c);
@@ -155,22 +176,28 @@ public class NewTaskDialog extends JDialog {
 				// finish this dialog... at the moment im using dummy values
 				// only
 
-				String name = textfield.getText();
+				String name = nameField.getText();
 
+				String description = descriptionField.getText();
+				
 				// TODO ricorda che ci serve il dateformat!
+				 SimpleDateFormat sdf = new SimpleDateFormat(
+						"dd-MM-yyyy HH:mm");
 
-				Date date = new Date();
-
-				String priority = "NORMAL";
+				Date date = null;
+				try {
+					date = sdf.parse(dateField.getText());
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				Task.Priority priority = bar.getPriority();
+				
 				boolean completed = false;
 
-				String categoryName = "";
-				for (Category c : controller.getCategories().values()) {
-					categoryName = c.getName();
-					break;
-				}
-
-				String description = "bla bla bla a description";
+				String categoryName = ((String) cmbCategory.getSelectedItem());
+				
 
 				// public final void addTask(String name, Date date, String
 				// priority,

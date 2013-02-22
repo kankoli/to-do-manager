@@ -27,7 +27,6 @@ import model.Task;
 
 // 1.30h in the evening to fix resourcebundle, properties
 
-
 // 2.30h mercoledi 20 con magnus: deciso come splittareil control, dove mettere le azioni
 //...
 
@@ -44,8 +43,6 @@ import model.Task;
 // 18 -> 65 / 70
 
 // > 27  -> 110 OR 110L
-
-
 
 //--------------------
 
@@ -175,35 +172,20 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		controller.deleteTask(t);
 	}
 
-	/**
-	 * This method is called by a TaskRow when user has finished editing it. It
-	 * just forces the viewport of this ScrollPanel to be revalidated and
-	 * repainted. Modifications on Task are reflected automatically in
-	 * dataModel, because we are accessing same objects.
-	 */
-	// protected final void editedTask() {
-	//
-	// // Redraw panel
-	// viewPort.revalidate();
-	// viewPort.repaint();
-	// }
-
 	// TODO add come observer
 	public final void update(Observable o, Object arg) {
 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
-		System.out.println("asdasdsa");
-
 		// TODO
 		// Redraw panel, redraw row! riorganizzare! da discutere con team
 
 		refreshView();
-//		viewPort.revalidate();
-//		viewPort.repaint();
-//
-//	revalidate();
-//	repaint();
-	
+		// viewPort.revalidate();
+		// viewPort.repaint();
+		//
+		// revalidate();
+		// repaint();
+
 	}
 }

@@ -68,11 +68,6 @@ public final class DataModel extends Observable {
 	private List<Task> taskList;
 	private Map<String, Category> categories;
 
-	// TODO: we r thinking about removing options, we have properties!
-	// why we need to have this?? is just key value, can be handled 
-	// TODO: should change XSD file
-	private Map<String, Integer> options;		
-
 	// Properties files: will store options and preferences from last execution
 	private Properties props;
 
@@ -108,9 +103,9 @@ public final class DataModel extends Observable {
 			props.setProperty(GlobalValues.LANGUAGEKEY,
 					GlobalValues.LANGUAGEVAL);
 			props.setProperty(GlobalValues.WINXSIZEKEY,
-					GlobalValues.WINXSIZEKEY);
+					GlobalValues.WINXSIZEVAL);
 			props.setProperty(GlobalValues.WINYSIZEKEY,
-					GlobalValues.WINYSIZEKEY);
+					GlobalValues.WINYSIZEVAL);
 			props.setProperty(GlobalValues.WINXPOSKEY, GlobalValues.WINXPOSVAL);
 			props.setProperty(GlobalValues.WINYPOSKEY, GlobalValues.WINYPOSVAL);
 		}
@@ -154,13 +149,11 @@ public final class DataModel extends Observable {
 		Document doc = builder.build(new File(GlobalValues.DBFILE));
 		Element root = doc.getRootElement();
 
-		// Import categories and options
+		// Import categories
 		categories = retrieveCategories(root.getChild("categories"));
-		options = retrieveOptions(root.getChild("options"));
 
 		// Now import tasks
 		taskList = retrieveTaskList(root.getChild("tasks"));
-
 	}
 
 	private final List<Task> retrieveTaskList(Element tasksNode)
@@ -220,19 +213,6 @@ public final class DataModel extends Observable {
 			cs.put(name, new Category(name, color));
 		}
 		return cs;
-	}
-
-	private final Map<String, Integer> retrieveOptions(Element optionsNode) {
-
-		Map<String, Integer> os = new HashMap<String, Integer>();
-
-		for (Element optionNode : optionsNode.getChildren()) {
-			String key = optionNode.getChildText("key");
-			int value = Integer.parseInt(optionNode.getChildText("value"));
-
-			os.put(key, value);
-		}
-		return os;
 	}
 
 	/**
@@ -304,21 +284,6 @@ public final class DataModel extends Observable {
 		}
 
 		doc.getRootElement().addContent(categoriesNode);
-
-		// Finally write all options
-		Element optionsNode = new Element("options");
-
-		for (String key : options.keySet()) {
-			Element option = new Element("option");
-
-			option.addContent(new Element("key").setText(key));
-			option.addContent(new Element("value").setText(Integer
-					.toString(options.get(key))));
-
-			optionsNode.addContent(option);
-		}
-
-		doc.getRootElement().addContent(optionsNode);
 
 		// Write the JDOM to file
 		XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());

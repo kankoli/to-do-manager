@@ -103,7 +103,7 @@ public final class DataController {
 	 * @param categoryName
 	 * @param description
 	 */
-	public final void addTask(String name, Date date, String priority,
+	public final void addTask(String name, Date date, Task.Priority priority,
 			Boolean completed, String categoryName, String description) {
 
 		// TODO maybe it's better to pass a task object to this method???
@@ -113,7 +113,7 @@ public final class DataController {
 
 		t.setName(name);
 		t.setDate(date);
-		t.setPrio(Task.Priority.valueOf(priority)); // TODO to fix
+		t.setPrio(priority);
 		t.setCompleted(completed);
 		t.setCategory(dataModel.getCategories().get(categoryName)); // TODO fix:
 																	// reference
@@ -142,10 +142,9 @@ public final class DataController {
 	 * @throws InvalidDateException
 	 */
 	public final void editTask(Task task, String name, SimpleDateFormat sdf,
-			String date, String priority, Boolean completed,
+			String date, Priority priority, Boolean completed,
 			String categoryName, String description)
-			throws InvalidCategoryException, InvalidDateException,
-			IllegalArgumentException {
+			throws InvalidCategoryException, InvalidDateException {
 
 		// TODO
 		// may do some checkings?? throw exceptions???
@@ -162,8 +161,6 @@ public final class DataController {
 			throw new InvalidDateException("Invalid date!");
 		}
 
-		// TODO will be a radiobutton?
-		Priority prio = Task.Priority.valueOf(priority);
 
 		Category c = dataModel.getCategories().get(categoryName);
 
@@ -173,7 +170,7 @@ public final class DataController {
 		// TODO maybe before calling datamodel method it can verify
 		// if ANY data has changed with respect to old values
 		// this will avoid useless notifications
-		dataModel.editTask(task, name, d, prio, completed, c, description);
+		dataModel.editTask(task, name, d, priority, completed, c, description);
 	}
 
 	/**

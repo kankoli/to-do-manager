@@ -12,9 +12,6 @@
 <xs:element name="category" type="xs:string"/>
 <xs:element name="description" type="xs:string"/>
 <xs:element name="color" type="xs:string"/>
-<xs:element name="key" type="xs:string"/>
-<xs:element name="value" type="xs:integer"/>
-
 
 <!-- definition of complex elements -->
 <xs:element name="todoManagerData">
@@ -48,21 +45,6 @@
     		    <xs:sequence>
                   <xs:element ref="name"/>
                   <xs:element ref="color"/>
-			    </xs:sequence>
-  			  </xs:complexType>
-      		</xs:element>    
-          </xs:sequence>
-        </xs:complexType>      
-      </xs:element>
-
-      <xs:element name="options">
-        <xs:complexType>
-          <xs:sequence>          
-            <xs:element name="option" minOccurs = "0" maxOccurs="unbounded">  
-              <xs:complexType>
-    		    <xs:sequence>
-                  <xs:element ref="key"/>
-                  <xs:element ref="value"/>
 			    </xs:sequence>
   			  </xs:complexType>
       		</xs:element>    

@@ -9,6 +9,9 @@ public class GlobalValues {
 	public static final String DBXSDFILE = "todoManagerData.xsd";
 
 	/* Graphical preferences */
+	public static final int MINXSIZE = 900;
+	public static final int MINYSIZE = 600;
+	
 	public static final int NEW_TASK_WINDOW_WIDTH = 400;
 	public static final int NEW_TASK_WINDOW_HEIGHT = 500;
 	public static final int FIELD_WIDTH = 150;

@@ -86,7 +86,6 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 			sortingBar = new SortingBar(controller);
 			// sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date",
 			// "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
-
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -14,7 +14,7 @@ import java.util.Date;
 public final class Task {
 
 	public enum Priority {
-		HIGH, NORMAL, LOW
+		HIGH, NORMAL, LOW, NOT_SET
 	}; 
 	private String name;
 	private Date date;
