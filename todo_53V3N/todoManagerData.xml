@@ -60,20 +60,20 @@
       <color>-7283286</color>
     </category>
     <category>
-      <name>Sport</name>
-      <color>-14752099</color>
-    </category>
-    <category>
       <name>jshkshkf</name>
       <color>-4000695</color>
     </category>
     <category>
-      <name>Prova</name>
-      <color>-1104603</color>
+      <name>Sport</name>
+      <color>-14752099</color>
     </category>
     <category>
       <name>fun</name>
       <color>-9916485</color>
+    </category>
+    <category>
+      <name>Prova</name>
+      <color>-1104603</color>
     </category>
   </categories>
 </todoManagerData>
