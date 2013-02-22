@@ -132,7 +132,6 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				// This is only called when the user releases the mouse button.
-				System.out.println("componentResized");
 
 				JFrame f = (JFrame) e.getSource();
 				Dimension d = f.getSize();
@@ -204,6 +203,8 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.NEWTASK));
+		menuItem.setIcon(null);
+
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
