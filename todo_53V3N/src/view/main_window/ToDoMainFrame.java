@@ -5,6 +5,9 @@ import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -79,17 +82,26 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		// controller.getLanguageBundle().getKeys()""
 
-		// TODO unsed now
-		// int sizeX = Integer.parseInt(controller
-		// .getProperty(GlobalValues.WINXSIZEKEY));
-		// int sizeY = Integer.parseInt(controller
-		// .getProperty(GlobalValues.WINYSIZEKEY));
+		// Retrieve last size from state
+		double sizeX = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINYSIZEKEY));
 
-		// setPreferredSize(new Dimension(sizeX, sizeY));
-		// setMinimumSize(new Dimension(sizeX, sizeY));
+		setPreferredSize(new Dimension((int) sizeX, (int) sizeY));
+		setMinimumSize(new Dimension(GlobalValues.MINXSIZE,
+				GlobalValues.MINYSIZE));
 
-		setPreferredSize(new Dimension(width, height));
-		setMinimumSize(new Dimension(width, height));
+		// TODO
+		// retrieve last location from state
+		double posX = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINXPOSKEY));
+		double posY = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINYPOSKEY));
+		setLocation((int) posX, (int) posY);
+
+		// setPreferredSize(new Dimension(width, height));
+		// setMinimumSize(new Dimension(width, height));
 
 		basePanel = new JPanel();
 		basePanel.setBackground(Color.white);
@@ -114,6 +126,34 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				controller.getAction(ControllerInterface.ActionName.EXIT)
 						.actionPerformed(null);
 			}
+		});
+
+		// TODO quick way... will figure a better one
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				// This is only called when the user releases the mouse button.
+				System.out.println("componentResized");
+
+				JFrame f = (JFrame) e.getSource();
+				Dimension d = f.getSize();
+
+				controller.setProperty(GlobalValues.WINXSIZEKEY,
+						Double.toString(d.getWidth()));
+				controller.setProperty(GlobalValues.WINYSIZEKEY,
+						Double.toString(d.getHeight()));
+			}
+
+			public void componentMoved(ComponentEvent e) {
+				JFrame f = (JFrame) e.getSource();
+
+				Point p = f.getLocation();
+
+				controller.setProperty(GlobalValues.WINXPOSKEY,
+						Double.toString(p.getX()));
+				controller.setProperty(GlobalValues.WINYPOSKEY,
+						Double.toString(p.getY()));
+			}
+
 		});
 
 		controller.registerAsObserver(this);

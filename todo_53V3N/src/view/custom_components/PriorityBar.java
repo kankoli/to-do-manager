@@ -5,13 +5,20 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import model.Task;
+import model.Task.Priority;
+
 
 @SuppressWarnings("serial")
 public class PriorityBar extends JPanel {
 
 	
+	protected Task.Priority prio;
+	
+	
+	//-------------------
 
-	protected static int value;
+//	protected static int value;
 	
 
 	// XXX Marco note to Kadir and Madelen: Why using static variables? Im just being curious because i see few warnings from compiler
@@ -33,15 +40,16 @@ public class PriorityBar extends JPanel {
 	protected static ImageIcon pressed3;
 	protected static ImageIcon clicked3;
 	
-	private static PriorityButton btn1;
-	private static PriorityButton btn2;
-	private static PriorityButton btn3;
+	private PriorityButton btn1;
+	private PriorityButton btn2;
+	private PriorityButton btn3;
 	
 	public PriorityBar(String def,
 			String hover1, String pressed1, String clicked1, 
 			String hover2, String pressed2, String clicked2,
-			String hover3, String pressed3, String clicked3) {
-		value = 0;
+			String hover3, String pressed3, String clicked3, Task.Priority prio) {
+		
+		this.prio = prio;
 		
 		this.def = new ImageIcon(def);
 		this.hover1 = new ImageIcon(hover1);
@@ -54,9 +62,9 @@ public class PriorityBar extends JPanel {
 		this.pressed3 = new ImageIcon(pressed3);
 		this.clicked3 = new ImageIcon(clicked3);
 		
-		btn1 = new PriorityButton(1, def, hover1, pressed1, clicked1);
-		btn2 = new PriorityButton(2, def, hover2, pressed2, clicked2);
-		btn3 = new PriorityButton(3, def, hover3, pressed3, clicked3);
+		btn1 = new PriorityButton(this, Task.Priority.LOW, def, hover1, pressed1, clicked1);
+		btn2 = new PriorityButton(this, Task.Priority.NORMAL, def, hover2, pressed2, clicked2);
+		btn3 = new PriorityButton(this, Task.Priority.HIGH, def, hover3, pressed3, clicked3);
 		
 		FlowLayout flowLayout = new FlowLayout();
 		setLayout(flowLayout);
@@ -64,70 +72,87 @@ public class PriorityBar extends JPanel {
 		add(btn1);
 		add(btn2);
 		add(btn3);
+			
+		setButtons();
 	}
 	
 	
-	protected static void setButtons() {
-		if (value == 0) {
-			btn1.setIcon(def);
-			btn2.setIcon(def);
-			btn3.setIcon(def);
-			btn1.setClicked(false);
-			btn2.setClicked(false);
-			btn3.setClicked(false);
-		}
-		else if (value == 1) {
-			btn1.setIcon(clicked1);
-			btn2.setIcon(def);
-			btn3.setIcon(def);
-			btn1.setClicked(true);
-			btn2.setClicked(false);
-			btn3.setClicked(false);
-		}
-		else if (value == 2) {
-			btn1.setIcon(clicked2);
-			btn2.setIcon(clicked2);
-			btn3.setIcon(def);
-			btn1.setClicked(false);
-			btn2.setClicked(true);
-			btn3.setClicked(false);
-		}
-		else if (value == 3) {
-			btn1.setIcon(clicked3);
-			btn2.setIcon(clicked3);
-			btn3.setIcon(clicked3);
-			btn1.setClicked(false);
-			btn2.setClicked(false);
-			btn3.setClicked(true);
-		}
-		else {
-			System.out.println("Whaaa");
+	public void setButtons() {
+		if (!isEnabled())
+			return;
+		switch (prio)
+		{
+			case NOT_SET:
+				btn1.setIcon(def);
+				btn2.setIcon(def);
+				btn3.setIcon(def);
+				btn1.setClicked(false);
+				btn2.setClicked(false);
+				btn3.setClicked(false);
+				break;
+			case LOW:
+				btn1.setIcon(clicked1);
+				btn2.setIcon(def);
+				btn3.setIcon(def);
+				btn1.setClicked(true);
+				btn2.setClicked(false);
+				btn3.setClicked(false);
+				break;
+			case NORMAL:
+				btn1.setIcon(clicked2);
+				btn2.setIcon(clicked2);
+				btn3.setIcon(def);
+				btn1.setClicked(false);
+				btn2.setClicked(true);
+				btn3.setClicked(false);
+				break;
+			case HIGH:
+				btn1.setIcon(clicked3);
+				btn2.setIcon(clicked3);
+				btn3.setIcon(clicked3);
+				btn1.setClicked(false);
+				btn2.setClicked(false);
+				btn3.setClicked(true);
+				break;
+			default:
+				System.out.println("Whaaa");
+				break;
 		}
 	}
 
-	protected static void setButtons(int hoverValue) {
-		if (hoverValue == 0) {
-			btn1.setIcon(def);
-			btn2.setIcon(def);
-			btn3.setIcon(def);
+	protected void setButtons(Task.Priority tp) {
+		if (!isEnabled())
+			return;
+		switch (tp)
+		{
+			case NOT_SET:
+				btn1.setIcon(def);
+				btn2.setIcon(def);
+				btn3.setIcon(def);
+				break;
+			case LOW:
+				btn1.setIcon(hover1);
+				btn2.setIcon(def);
+				btn3.setIcon(def);
+				break;
+			case NORMAL:
+				btn1.setIcon(hover2);
+				btn2.setIcon(hover2);
+				btn3.setIcon(def);
+				break;
+			case HIGH:
+				btn1.setIcon(hover3);
+				btn2.setIcon(hover3);
+				btn3.setIcon(hover3);
+				break;
+			default:
+				System.out.println("Whaaa");
+				break;
 		}
-		else if (hoverValue == 1) {
-			btn1.setIcon(hover1);
-			btn2.setIcon(def);
-			btn3.setIcon(def);
-		}
-		else if (hoverValue == 2) {
-			btn1.setIcon(hover2);
-			btn2.setIcon(hover2);
-			btn3.setIcon(def);
-		}
-		else if (hoverValue == 3) {
-			btn1.setIcon(hover3);
-			btn2.setIcon(hover3);
-			btn3.setIcon(hover3);
-		}
-		else {
-			System.out.println("Whaaa");
-		}
+	}
+	
+	public Task.Priority getPriority()
+	{
+		return this.prio;
 	}
 }

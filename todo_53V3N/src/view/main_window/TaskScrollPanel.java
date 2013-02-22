@@ -27,7 +27,6 @@ import model.Task;
 
 // 1.30h in the evening to fix resourcebundle, properties
 
-
 // 2.30h mercoledi 20 con magnus: deciso come splittareil control, dove mettere le azioni
 //...
 
@@ -44,8 +43,6 @@ import model.Task;
 // 18 -> 65 / 70
 
 // > 27  -> 110 OR 110L
-
-
 
 //--------------------
 
@@ -184,11 +181,11 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		// Redraw panel, redraw row! riorganizzare! da discutere con team
 
 		refreshView();
-//		viewPort.revalidate();
-//		viewPort.repaint();
-//
-//	revalidate();
-//	repaint();
-	
+		// viewPort.revalidate();
+		// viewPort.repaint();
+		//
+		// revalidate();
+		// repaint();
+
 	}
 }

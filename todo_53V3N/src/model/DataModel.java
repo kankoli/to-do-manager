@@ -105,9 +105,9 @@ public final class DataModel extends Observable {
 			props.setProperty(GlobalValues.LANGUAGEKEY,
 					GlobalValues.LANGUAGEVAL);
 			props.setProperty(GlobalValues.WINXSIZEKEY,
-					GlobalValues.WINXSIZEKEY);
+					GlobalValues.WINXSIZEVAL);
 			props.setProperty(GlobalValues.WINYSIZEKEY,
-					GlobalValues.WINYSIZEKEY);
+					GlobalValues.WINYSIZEVAL);
 			props.setProperty(GlobalValues.WINXPOSKEY, GlobalValues.WINXPOSVAL);
 			props.setProperty(GlobalValues.WINYPOSKEY, GlobalValues.WINYPOSVAL);
 		}

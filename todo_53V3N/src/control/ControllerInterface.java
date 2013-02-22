@@ -20,6 +20,7 @@ import exceptions.InvalidDateException;
 import model.Category;
 import model.Task;
 import model.DataModel;
+import model.Task.Priority;
 
 /**
  * This class will implement the controller part of our application. It will
@@ -103,7 +104,7 @@ public final class ControllerInterface {
 	 * @param categoryName
 	 * @param description
 	 */
-	public final void addTask(String name, Date date, String priority,
+	public final void addTask(String name, Date date, Task.Priority priority,
 			Boolean completed, String categoryName, String description) {
 		dc.addTask(name, date, priority, completed, categoryName, description);
 	}
@@ -123,10 +124,9 @@ public final class ControllerInterface {
 	 * @throws InvalidDateException
 	 */
 	public final void editTask(Task task, String name, SimpleDateFormat sdf,
-			String date, String priority, Boolean completed,
+			String date, Priority priority, Boolean completed,
 			String categoryName, String description)
-			throws InvalidCategoryException, InvalidDateException,
-			IllegalArgumentException {
+			throws InvalidCategoryException, InvalidDateException {
 		dc.editTask(task, name, sdf, date, priority, completed, categoryName,
 				description);
 	}

@@ -5,21 +5,25 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 
+import model.Task;
+
 
 @SuppressWarnings("serial")
 public class PriorityButton extends ImageButton {
 
-	private int value;
+	private Task.Priority prio;
+	private PriorityBar parent;
 
-	PriorityButton(int p_value, String p_def, String p_hover, String p_pressed, String p_clicked) {
+	PriorityButton(PriorityBar p, Task.Priority tp, String p_def, String p_hover, String p_pressed, String p_clicked) {
 		this.def = new ImageIcon(p_def);
 		this.hover = new ImageIcon(p_hover);
 		this.pressed = new ImageIcon(p_pressed);
 		this.clicked = new ImageIcon(p_clicked);
 		this.isClicked = false;
 
-		this.value = p_value;
-
+		this.prio = tp;
+		this.parent = p;
+		
 		setIcon(this.def);
 		addMouseListener(new MouseListener() {
 			@Override
@@ -28,29 +32,29 @@ public class PriorityButton extends ImageButton {
 				if (isClicked) {
 					isClicked = false;
 
-					PriorityBar.value = 0;
-					PriorityBar.setButtons();
+					parent.prio = Task.Priority.NOT_SET;
+					parent.setButtons();
 					
 					
 					
 				}
 				else {
 					isClicked = true;
-					PriorityBar.value = value;
-					PriorityBar.setButtons();
+					parent.prio = prio;
+					parent.setButtons();
 				}
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				PriorityBar.setButtons(value);
+				parent.setButtons(prio);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				PriorityBar.setButtons();
+				parent.setButtons();
 			}
 
 			@Override
