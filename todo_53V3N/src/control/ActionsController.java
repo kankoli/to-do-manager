@@ -3,6 +3,8 @@ package control;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
+
 import control.ControllerInterface.ActionName;
 import shared_actions.ChangeLanguageAction;
 import shared_actions.ExitAction;
@@ -37,25 +39,36 @@ public final class ActionsController {
 		// Instantiate actions using current dataModel language
 		ResourceBundle lang = dataModel.getLanguageBundle();
 
+		ClassLoader cl = ClassLoader.getSystemClassLoader();
+
 		// TODO: define actions
 
 		changeLanguage = new ChangeLanguageAction(
-				lang.getString("shared_actions.changelanguageaction.text"), null,
+				lang.getString("shared_actions.changelanguageaction.text"),
+				null,
 				lang.getString("shared_actions.changelanguageaction.desc"),
 				KeyEvent.VK_L, ci);
 
-		
 		exitAction = new ExitAction(
 				lang.getString("shared_actions.exitaction.text"), null,
 				lang.getString("shared_actions.exitaction.desc"),
 				KeyEvent.VK_Q, ci);
 
-		 newTask = new NewTaskAction(
-				 lang.getString("shared_actions.newtaskaction.text"), null,
-				 lang.getString("shared_actions.newtaskaction.desc"),
-				 KeyEvent.VK_T, ci);
-		 
-		 
+		ImageIcon addtask = new ImageIcon(
+				cl.getResource("assets/Icons/addtask.png"));
+		// addtask.
+
+		// addtask.
+		newTask = new NewTaskAction(
+				lang.getString("shared_actions.newtaskaction.text"), addtask,
+				lang.getString("shared_actions.newtaskaction.desc"),
+				KeyEvent.VK_T, ci);
+
+		// newTask = new NewTaskAction(
+		// lang.getString("shared_actions.newtaskaction.text"), null,
+		// lang.getString("shared_actions.newtaskaction.desc"),
+		// KeyEvent.VK_T, ci);
+
 		newCategory = new NewCategoryAction(
 				lang.getString("shared_actions.newcategoryaction.text"), null,
 				lang.getString("shared_actions.newcategoryaction.desc"),

@@ -8,11 +8,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,8 @@ import javax.swing.JPanel;
 
 import control.ControllerInterface;
 
+import shared_actions.ChangeLanguageAction;
+import shared_actions.ExitAction;
 import view.new_task_dialog.NewTaskDialog;
 
 /**
@@ -69,8 +73,10 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 
 		GridBagConstraints urgentButtonCons = new GridBagConstraints();
 		urgentButton = new JButton(lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
+				
+		urgentButton.setIcon(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("assets/Icons/urgenttask.png")));
 		urgentButton.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) { // This will in
 															// future launch a
@@ -82,8 +88,10 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 		});
 		urgentButton.setMinimumSize(new Dimension(100, 100));
 		urgentButton.setPreferredSize(new Dimension(100, 100));
-		urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.darkGray));
+		urgentButton.setText("");
+		urgentButton.setBorder(null);
+//		urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+//				Color.darkGray));
 		urgentButton.setBackground(Color.WHITE);
 		urgentButton.setOpaque(true);
 		urgentButtonCons.gridx = 0;
@@ -117,12 +125,13 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 		newTaskButton = new JButton(lang.getString("mainFrame.topPanel.button.newTask.name"));
 
 		newTaskButton.setAction(controller.getAction(ControllerInterface.ActionName.NEWTASK));
-
-		
 		newTaskButton.setMinimumSize(new Dimension(100, 100));
 		newTaskButton.setPreferredSize(new Dimension(100, 100));
-		newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.darkGray));
+		newTaskButton.setText("");
+//		newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+//				Color.darkGray));
+		newTaskButton.setBorder(null);
+//		newTaskButton.set
 		newTaskButton.setBackground(Color.WHITE);
 		newTaskButton.setOpaque(true);
 		newTaskButtonCons.gridx = 2;
@@ -137,18 +146,19 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
-
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
-			ResourceBundle lang = controller.getLanguageBundle();
-			urgentButton.setText(lang
-					.getString("mainFrame.topPanel.button.urgentTasks.name"));
-			newTaskButton.setText(lang
-					.getString("mainFrame.topPanel.button.newTask.name"));
-			repaint();
+		// TODO delete obs
 		
-	}
-		// TODO Auto-generated method stub
+//		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+//
+//		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+//			ResourceBundle lang = controller.getLanguageBundle();
+//			urgentButton.setText(lang
+//					.getString("mainFrame.topPanel.button.urgentTasks.name"));
+//			newTaskButton.setText(lang
+//					.getString("mainFrame.topPanel.button.newTask.name"));
+//			repaint();
+		
+//	}
 		
 	}
 }

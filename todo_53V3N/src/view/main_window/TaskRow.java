@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -27,6 +29,8 @@ import control.ControllerInterface;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
+import shared_actions.ChangeLanguageAction;
+import shared_actions.ExitAction;
 import utility.GlobalValues;
 import view.custom_components.PriorityBar;
 import view.new_category_dialog.AddCategoryDialog;
@@ -74,6 +78,10 @@ public final class TaskRow extends JPanel implements Observer {
 
 	boolean isSelected = false;
 
+	
+	private ClassLoader cl;
+
+	
 	public TaskRow(final ControllerInterface controller,
 			final TaskScrollPanel taskScrollPanel, Task ta) {
 		super();
@@ -81,6 +89,9 @@ public final class TaskRow extends JPanel implements Observer {
 		this.controller = controller;
 		this.taskScrollPanel = taskScrollPanel;
 
+		cl = ClassLoader.getSystemClassLoader();
+
+		
 		sdf.setLenient(false); // This makes a date like "31-13-2013 17:45" not
 								// valid!
 
@@ -98,7 +109,11 @@ public final class TaskRow extends JPanel implements Observer {
 		 lang = controller.getLanguageBundle();
 		
 		doneBut = new JButton();
-		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
+//		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
+		doneBut.setText("");
+		
+		doneBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/donetask.png")));
+		
 		
 		doneBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -282,21 +297,31 @@ public final class TaskRow extends JPanel implements Observer {
 		add(descriptionPane, con);
 
 		// Now the edit button
-		editBut = new JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+		editBut = new JButton();
+//		editBut = new JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+
+		editBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/edittask.png")));
+
+		
 		editBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 
-				// TODO in future, graphical icons instead of text button.
-				if (editBut.getActionCommand().equals( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"))) {
+				
+//				if (editBut.getActionCommand().equals( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"))) {
+if(!editBut.getIcon().toString().contains("stop")){
 
-					// nameField.setBackground(Color.GREEN);
+	// nameField.setBackground(Color.GREEN);
 					// dateField.setBackground(Color.GREEN);
 					// categoryField.setBackground(Color.GREEN);
 					// priorityField.setBackground(Color.GREEN);
 					// descriptionArea.setBackground(Color.GREEN);
 
-					editBut.setText("Stop editing");
+					//editBut.setText("Stop editing");
+	
+//	editBut.setIcon(defaultIcon)
+	editBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/stopedittask.png")));
 
+	
 				} else { // call edit task method
 
 					// TODO
@@ -338,7 +363,10 @@ public final class TaskRow extends JPanel implements Observer {
 					descriptionArea.setBackground(Color.WHITE);
 
 					setBackground(t.getCategory().getColor());
-					editBut.setText( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+					
+					editBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/edittask.png")));
+//
+//					editBut.setText( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 				}
 
 				nameField.setEnabled(!nameField.isEnabled());
@@ -360,7 +388,11 @@ public final class TaskRow extends JPanel implements Observer {
 		add(editBut, con);
 
 		// Delete button apre un popup di conferma
-		deleteBut = new JButton( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
+		deleteBut = new JButton();
+//		deleteBut = new JButton( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
+		deleteBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/deletetask.png")));
+		
+		
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 
@@ -452,12 +484,13 @@ public final class TaskRow extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		ResourceBundle lang = controller.getLanguageBundle();
 		
-		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
-				editBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
-				deleteBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
+		// TODO Auto-generated method stub
+//		ResourceBundle lang = controller.getLanguageBundle();
+		
+//		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
+//				editBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+//				deleteBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
 		
 	}
 
