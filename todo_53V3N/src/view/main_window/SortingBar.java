@@ -9,14 +9,20 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
-public class SortingBar extends JPanel{
+import control.ControllerInterface;
+
+public class SortingBar extends JPanel implements Observer{
 	
 	private SortingTab activeTab;
 	private List<SortingTab> sortingTabs;	
 	private SortingBarMouseListener mouseListener;
+	private ControllerInterface controller;
 	
 	//private TaskPane taskPane;
 	
@@ -239,15 +245,21 @@ public class SortingBar extends JPanel{
 		
 	}
 	
-	public SortingBar() {
+	public SortingBar(ControllerInterface controller) {
 		
 		mouseListener = new SortingBarMouseListener();
 		
+		ResourceBundle lang = controller.getLanguageBundle();
+		
 		//TEST
-		tab1 = new SortingTab("NAME", 100, 30, 0, 0, true, 20, true, false);
-		tab2 = new SortingTab("DATE", 100, 30, 100, 0, false);
-		tab3 = new SortingTab("CATEGORY", 100, 30, 200, 0, false);
-		tab4 = new SortingTab("PRIORITY", 100, 30, 300, 0, false, 20, false, true);
+		tab1 = new SortingTab(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"), 100, 30, 0, 0, true, 20, true, false);
+		tab2 = new SortingTab(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"), 100, 30, 100, 0, false);
+		tab3 = new SortingTab(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.category.name"), 100, 30, 200, 0, false);
+		tab4 = new SortingTab(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"), 100, 30, 300, 0, false, 20, false, true);
 		
 		sortingTabs = new ArrayList<SortingTab>();
 		
@@ -257,6 +269,7 @@ public class SortingBar extends JPanel{
 		sortingTabs.add(tab4);
 		
 		activeTab = tab1;
+		this.controller = controller;
 		
 		this.setPreferredSize(new Dimension(401, 32));
 		this.setMinimumSize(new Dimension(401, 32));
@@ -265,6 +278,8 @@ public class SortingBar extends JPanel{
 		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		controller.registerAsObserver(this);
 	}
 	
 	/*public SortingBar (int width, int height) {
@@ -283,6 +298,25 @@ public class SortingBar extends JPanel{
 		super.paintComponent(g);
 		for (SortingTab tab: sortingTabs) { 
 			tab.paintTab(this, g, tab.getXPos(), tab.getYPos());
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+			ResourceBundle lang = controller.getLanguageBundle();
+			tab1.setName(lang
+					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
+			tab2.setName(lang
+					.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
+			tab3.setName(lang
+					.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
+			tab4.setName(lang
+					.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
+			repaint();
 		}
 	}
 }

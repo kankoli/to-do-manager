@@ -36,11 +36,15 @@ public final class ControllerInterface {
 	public static enum SortType {
 		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
-
 	public static enum ActionName {
 		CHANGELANG, EXIT, NEWTASK, NEWCAT, SORT, TIMER
 	};
 
+	public static enum ChangeMessage {
+		INIT, SORTED_TASK, CHANGED_LANG, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+	};
+
+	
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 

@@ -191,7 +191,7 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 	// TODO add come observer
 	public final void update(Observable o, Object arg) {
 
-		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
+		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		System.out.println("asdasdsa");
 

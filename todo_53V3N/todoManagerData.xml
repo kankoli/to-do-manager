@@ -53,15 +53,7 @@
       <name>neeeeew</name>
       <date>2013-02-22T12:57:03.173+01:00</date>
       <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>kfjsdkfs</category>
-      <description>bla bla bla a description</description>
-    </task>
-    <task>
-      <name>provaa</name>
-      <date>2013-02-22T13:06:52.747+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
+      <completed>true</completed>
       <category>kfjsdkfs</category>
       <description>bla bla bla a description</description>
     </task>
@@ -80,20 +72,20 @@
       <color>-7283286</color>
     </category>
     <category>
-      <name>jshkshkf</name>
-      <color>-4000695</color>
-    </category>
-    <category>
       <name>Sport</name>
       <color>-14752099</color>
     </category>
     <category>
-      <name>fun</name>
-      <color>-9916485</color>
+      <name>jshkshkf</name>
+      <color>-4000695</color>
     </category>
     <category>
       <name>Prova</name>
       <color>-1104603</color>
+    </category>
+    <category>
+      <name>fun</name>
+      <color>-9916485</color>
     </category>
   </categories>
   <options>

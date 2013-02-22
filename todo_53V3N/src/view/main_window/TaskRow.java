@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -40,7 +43,7 @@ import model.Task;
 
 // TODO fix layout
 
-public final class TaskRow extends JPanel {
+public final class TaskRow extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +55,8 @@ public final class TaskRow extends JPanel {
 
 	private TaskScrollPanel taskScrollPanel; // reference to panel
 	private ControllerInterface controller;
-
+	ResourceBundle lang;
+	
 	private Task t; // reference to task in datamodel
 
 	private JButton doneBut;
@@ -89,7 +93,11 @@ public final class TaskRow extends JPanel {
 		// this.setBorder(BorderFactory.createLineBorder(Color.BLACK, ));
 
 		// Now add my components: done Button
-		doneBut = new JButton("Done");
+		 lang = controller.getLanguageBundle();
+		
+		doneBut = new JButton();
+		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
+		
 		doneBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				t.setCompleted(!t.getCompleted());
@@ -155,7 +163,8 @@ public final class TaskRow extends JPanel {
 		}
 
 		// Add this special value for adding a task, will register listener
-		categoryBox.addItem("New Category...");
+
+		categoryBox.addItem(lang.getString("shared_actions.newcategoryaction.text"));
 		
 		categoryBox.addActionListener(new ActionListener() {
 
@@ -242,12 +251,12 @@ public final class TaskRow extends JPanel {
 		add(descriptionPane, con);
 
 		// Now the edit button
-		editBut = new JButton("Edit");
+		editBut = new JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 		editBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 
 				// TODO in future, graphical icons instead of text button.
-				if (editBut.getActionCommand().equals("Edit")) {
+				if (editBut.getActionCommand().equals( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"))) {
 
 					// nameField.setBackground(Color.GREEN);
 					// dateField.setBackground(Color.GREEN);
@@ -304,7 +313,7 @@ public final class TaskRow extends JPanel {
 					setBackground(t.getCategory().getColor());
 
 					
-					editBut.setText("Edit");
+					editBut.setText( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 				}
 
 				nameField.setEnabled(!nameField.isEnabled());
@@ -324,7 +333,7 @@ public final class TaskRow extends JPanel {
 		add(editBut, con);
 
 		// Delete button apre un popup di conferma
-		deleteBut = new JButton("Delete");
+		deleteBut = new JButton( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 
@@ -383,6 +392,7 @@ public final class TaskRow extends JPanel {
 		// setBorder(BorderFactory.createLineBorder(Color.black, 50));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
+		controller.registerAsObserver(this);
 	}
 
 	public final void setSelected(boolean visible) {
@@ -411,6 +421,17 @@ public final class TaskRow extends JPanel {
 	 */
 	public final Task getTask() {
 		return t;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		ResourceBundle lang = controller.getLanguageBundle();
+		
+		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
+				editBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+				deleteBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
+		
 	}
 
 }

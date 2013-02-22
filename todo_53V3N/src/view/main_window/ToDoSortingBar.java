@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -159,4 +161,7 @@ public class ToDoSortingBar extends JPanel {
 		activeTab = tabList.get(0); //currently setting the first tab as active (for demonstration)
 		activeTab.setBackground(Color.WHITE);
 	}
+
+	
+
 }

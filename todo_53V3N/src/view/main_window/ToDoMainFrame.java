@@ -123,8 +123,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		ResourceBundle lang = controller.getLanguageBundle();
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
+		
 
-		JMenu menu = new JMenu("File");
+		JMenu menu = new JMenu(lang.getString("mainFrame.menubar.file"));
 		menu.setMnemonic(KeyEvent.VK_F);
 		getJMenuBar().add(menu);
 
@@ -244,6 +245,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	}
 
 	private void addBottomPanel() {
+	
 		GridBagConstraints bottomCons = new GridBagConstraints();
 		bottomPanel = new ToDoMainBottomPanel();
 		bottomCons.gridx = 0;

@@ -30,6 +30,7 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import control.ControllerInterface.ChangeMessage;
 import control.TaskDateComparator;
 
 import utility.GeneralFunctions;
@@ -55,9 +56,6 @@ import utility.GlobalValues.Languages;
 
 public final class DataModel extends Observable {
 
-	public static enum ChangeMessage {
-		INIT, SORTED_TASK, CHANGED_LANG, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
-	};
 
 	// datetime formate used in xs:datetime format
 

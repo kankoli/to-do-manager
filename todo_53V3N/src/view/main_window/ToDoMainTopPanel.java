@@ -8,6 +8,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,7 +30,7 @@ import view.new_task_dialog.NewTaskDialog;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class ToDoMainTopPanel extends JPanel {
+public class ToDoMainTopPanel extends JPanel implements Observer {
 
 	private JButton urgentButton; // to launch a new frame which shows urgent
 									// tasks
@@ -56,11 +59,16 @@ public class ToDoMainTopPanel extends JPanel {
 		//newTaskFrame = new JFrame();
 
 		setVisible(true);
-	}
+		
+		controller.registerAsObserver(this);
+		}
+	
 
 	private void addUrgentButton() {
+		ResourceBundle lang = controller.getLanguageBundle();
+
 		GridBagConstraints urgentButtonCons = new GridBagConstraints();
-		urgentButton = new JButton("Urgent");
+		urgentButton = new JButton(lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
 		urgentButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -104,8 +112,9 @@ public class ToDoMainTopPanel extends JPanel {
 	}
 
 	private void addNewTaskButton() {
+		ResourceBundle lang = controller.getLanguageBundle();
 		GridBagConstraints newTaskButtonCons = new GridBagConstraints();
-		newTaskButton = new JButton("New Task");
+		newTaskButton = new JButton(lang.getString("mainFrame.topPanel.button.newTask.name"));
 
 		newTaskButton.setAction(controller.getAction(ControllerInterface.ActionName.NEWTASK));
 
@@ -123,5 +132,23 @@ public class ToDoMainTopPanel extends JPanel {
 		newTaskButtonCons.insets = new Insets(0, 0, 0, 10);
 		newTaskButtonCons.anchor = GridBagConstraints.FIRST_LINE_END;
 		add(newTaskButton, newTaskButtonCons);
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+			ResourceBundle lang = controller.getLanguageBundle();
+			urgentButton.setText(lang
+					.getString("mainFrame.topPanel.button.urgentTasks.name"));
+			newTaskButton.setText(lang
+					.getString("mainFrame.topPanel.button.newTask.name"));
+			repaint();
+		
+	}
+		// TODO Auto-generated method stub
+		
 	}
 }
