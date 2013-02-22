@@ -188,6 +188,12 @@ public class SortingTab {
 		return fixedRightEdge;
 	}
 	
+	/**
+	 * This is used to check if one point is within the tab or not
+	 * @param xPos
+	 * @param yPos
+	 * @return
+	 */
 	public boolean contains(int xPos, int yPos) {
 		if ((xPos >= this.xPos && xPos <= this.xPos + width) && (yPos >= this.yPos && yPos <= this.yPos + height)) {
 			return true;
@@ -195,7 +201,14 @@ public class SortingTab {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * This is used to check if the mouse cursor is within a small range from the tab right edge
+	 * @param xPos
+	 * @param yPos
+	 * @return
+	 */
+	// TODO: maybe one method??
 	public boolean isAtRightEdge(int xPos, int yPos) {
 		if (contains(xPos, yPos) && (this.xPos + width) - xPos <= 5) {
 			return true;
@@ -203,7 +216,14 @@ public class SortingTab {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * This is used to check if the mouse cursor is within a small range from the tab left edge
+	 * @param xPos
+	 * @param yPos
+	 * @return
+	 */
+
 	public boolean isAtLeftEdge(int xPos, int yPos) {
 		if (contains(xPos, yPos) && xPos - this.xPos <= 5) {
 			return true;
@@ -227,6 +247,14 @@ public class SortingTab {
 		moveXPos(getXPos() - increasedWidth);
 	}
 	
+	
+	/**
+	 * This will handle all custom painting behaviour for this component
+	 * @param comp
+	 * @param g
+	 * @param xPos
+	 * @param yPos
+	 */
 	public void paintTab (Component comp, Graphics g, int xPos, int yPos) {
 		g.setClip(getXPos(), getYPos(), getWidth() + 1, getHeight() + 1);
 		
