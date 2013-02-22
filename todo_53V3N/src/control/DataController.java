@@ -9,7 +9,6 @@ import java.util.Map;
 
 import control.ControllerInterface.SortType;
 
-
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
@@ -30,7 +29,6 @@ public final class DataController {
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 
-
 	public DataController(DataModel dataModel) {
 
 		this.dataModel = dataModel;
@@ -45,6 +43,11 @@ public final class DataController {
 	 */
 	public final void addCategory(String categoryName, Color categoryColor)
 			throws InvalidCategoryException {
+
+		if (categoryName == null || categoryName.isEmpty())
+			throw new InvalidCategoryException(
+					"Category name must not be empty!");
+
 		Map<String, Category> categories = dataModel.getCategories();
 		if (categories.containsKey(categoryName))
 			throw new InvalidCategoryException("Category already exists!");
@@ -89,7 +92,6 @@ public final class DataController {
 	public final List<Task> getTaskList() {
 		return dataModel.getTaskList();
 	}
-
 
 	/**
 	 * This method will be called to add a new Task to data model

@@ -176,7 +176,8 @@ public final class TaskRow extends JPanel {
 					// System.out.println("ultimo!");
 
 					
-					
+					// TODO
+					controller.getAction(ControllerInterface.ActionName.NEWCAT).actionPerformed(null);
 //					new AddCategoryDialog(controller);
 				}
 				

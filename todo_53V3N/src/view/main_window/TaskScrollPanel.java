@@ -94,7 +94,6 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
 		refreshView();
-
 	}
 
 	/**
@@ -194,14 +193,17 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 
 		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		System.out.println(msg);
+		System.out.println("asdasdsa");
 
 		// TODO
 		// Redraw panel, redraw row! riorganizzare! da discutere con team
 
-		// this.refreshView();
-		viewPort.revalidate();
-		viewPort.repaint();
+		refreshView();
+//		viewPort.revalidate();
+//		viewPort.repaint();
+//
+//	revalidate();
+//	repaint();
+	
 	}
-
 }

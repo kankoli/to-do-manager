@@ -6,15 +6,15 @@
       <date>2013-01-24T22:30:00.000+01:00</date>
       <priority>LOW</priority>
       <completed>false</completed>
-      <category>meeting</category>
+      <category>newcat</category>
       <description />
     </task>
     <task>
       <name>Task2</name>
       <date>2013-01-26T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>fun</category>
+      <completed>true</completed>
+      <category>jshkshkf</category>
       <description />
     </task>
     <task>
@@ -22,7 +22,7 @@
       <date>2013-01-27T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
       <completed>false</completed>
-      <category>fun</category>
+      <category>Sport</category>
       <description>this is new!</description>
     </task>
     <task>
@@ -42,26 +42,58 @@
       <description>some brief text.</description>
     </task>
     <task>
-      <name>Another task!</name>
-      <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>HIGH</priority>
+      <name>aaaaa</name>
+      <date>2013-02-22T12:43:06.797+01:00</date>
+      <priority>NORMAL</priority>
       <completed>false</completed>
-      <category>fun</category>
-      <description>a description...</description>
+      <category>kfjsdkfs</category>
+      <description>bla bla bla a description</description>
+    </task>
+    <task>
+      <name>neeeeew</name>
+      <date>2013-02-22T12:57:03.173+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>kfjsdkfs</category>
+      <description>bla bla bla a description</description>
+    </task>
+    <task>
+      <name>provaa</name>
+      <date>2013-02-22T13:06:52.747+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>kfjsdkfs</category>
+      <description>bla bla bla a description</description>
     </task>
   </tasks>
   <categories>
     <category>
-      <name />
-      <color>-1</color>
+      <name>kfjsdkfs</name>
+      <color>-11867345</color>
+    </category>
+    <category>
+      <name>newcat</name>
+      <color>-1538320</color>
     </category>
     <category>
       <name>meeting</name>
       <color>-7283286</color>
     </category>
     <category>
+      <name>jshkshkf</name>
+      <color>-4000695</color>
+    </category>
+    <category>
+      <name>Sport</name>
+      <color>-14752099</color>
+    </category>
+    <category>
       <name>fun</name>
       <color>-9916485</color>
+    </category>
+    <category>
+      <name>Prova</name>
+      <color>-1104603</color>
     </category>
   </categories>
   <options>

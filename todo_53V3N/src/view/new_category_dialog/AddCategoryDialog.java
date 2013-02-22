@@ -11,6 +11,7 @@ import java.awt.event.FocusListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 
 import control.ControllerInterface;
 import exceptions.InvalidCategoryException;
@@ -33,7 +33,8 @@ import exceptions.InvalidCategoryException;
  */
 @SuppressWarnings("serial")
 // TODO JDialog o Jframe????
-public final class AddCategoryDialog extends JFrame {
+// public final class AddCategoryDialog extends JFrame {
+public final class AddCategoryDialog extends JDialog {
 
 	private ControllerInterface controller;
 	private JPanel basePanel;
@@ -64,20 +65,17 @@ public final class AddCategoryDialog extends JFrame {
 		// Category name input
 		categoryField = new JTextField("", 20);
 
-		// TODO needed?
-		categoryField.addFocusListener(new FocusListener() {
-
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				categoryField.selectAll();
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		/*
+		 * // TODO needed? categoryField.addFocusListener(new FocusListener() {
+		 * 
+		 * public void focusGained(FocusEvent e) { // TODO Auto-generated method
+		 * stub categoryField.selectAll(); }
+		 * 
+		 * @Override public void focusLost(FocusEvent e) { // TODO
+		 * Auto-generated method stub
+		 * 
+		 * } });
+		 */
 
 		categoryField.setEnabled(true);
 
@@ -132,15 +130,12 @@ public final class AddCategoryDialog extends JFrame {
 		jcc.setBorder(BorderFactory.createTitledBorder("Choose a Color"));
 		basePanel.add(jcc, gbc);
 
-		// TODO fix layout!
-
 		cancelBut = new JButton("Cancel");
 
 		cancelBut.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
-				// TODO chiudi easy
+				dispose(); // close dialog
 			}
 		});
 		gbc = new GridBagConstraints();
@@ -154,28 +149,18 @@ public final class AddCategoryDialog extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				// TODO qui agisci sul datamodel: verifica se esiste
-				// se si warning con dialog, altrimenti salva in categoria!
-				// poi revalida e repainta frame
-
-				// System.out.println("asd");
-				//
-				// for(Category c: dataModel.getCategories().values())
-				// System.out.println(c.getName());
-
-				// try(con)
-
-				String name = categoryField.getName();
+				String name = categoryField.getText();
 				Color co = jcc.getSelectionModel().getSelectedColor();
 
 				try {
 					controller.addCategory(name, co);
+					dispose(); // close dialog
 				} catch (InvalidCategoryException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(),
 							"Invalid Category", JOptionPane.WARNING_MESSAGE);
 
 					// TODO vorrei selezionare il testo
-					categoryField.setFocusable(true);
+					// categoryField.setFocusable(true);
 				}
 
 			}

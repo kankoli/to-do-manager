@@ -36,12 +36,20 @@ package view.new_task_dialog;
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import model.Category;
 
 import view.custom_components.ImageButton;
 import view.custom_components.PriorityBar;
@@ -49,16 +57,17 @@ import view.custom_components.PriorityBar;
 import control.ControllerInterface;
 import control.Helpers;
 
-public class NewTaskDialog extends JFrame {
+public class NewTaskDialog extends JDialog {
 
+	private JTextField textfield;
 	private ControllerInterface controller;
-	
+
 	public NewTaskDialog(final ControllerInterface controller) {
 		super();
 		this.controller = controller;
-		
+
 		JPanel pane = (JPanel) getContentPane();
-		
+
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -68,10 +77,10 @@ public class NewTaskDialog extends JFrame {
 		c.gridy = 0;
 		pane.add(label, c);
 
-		JTextField textField = new JTextField();
+		textfield = new JTextField();
 		c.gridx = 1;
 		c.gridy = 0;
-		pane.add(textField, c);
+		pane.add(textfield, c);
 
 		label = new JLabel("Description");
 		c.gridx = 0;
@@ -102,7 +111,6 @@ public class NewTaskDialog extends JFrame {
 		for (int i = 0; i < items.length; i++)
 			cmbCategory.addItem(items[i]);
 
-		
 		c.gridx = 1;
 		c.gridy = 3;
 		pane.add(cmbCategory, c);
@@ -123,6 +131,13 @@ public class NewTaskDialog extends JFrame {
 		pane.add(bar, c);
 
 		JButton button = new JButton("Cancel");
+		button.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+
 		c.weighty = 1.0; // request any extra vertical space
 		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
 		c.insets = new Insets(10, 0, 0, 0); // top padding
@@ -131,14 +146,49 @@ public class NewTaskDialog extends JFrame {
 		pane.add(button, c);
 
 		button = new JButton("Ok");
+
+		button.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				// TODO DUMMY VALUES
+				// finish this dialog... at the moment im using dummy values
+				// only
+
+				String name = textfield.getText();
+
+				// TODO ricorda che ci serve il dateformat!
+
+				Date date = new Date();
+
+				String priority = "NORMAL";
+				boolean completed = false;
+
+				String categoryName = "";
+				for (Category c : controller.getCategories().values()) {
+					categoryName = c.getName();
+					break;
+				}
+
+				String description = "bla bla bla a description";
+
+				// public final void addTask(String name, Date date, String
+				// priority,
+				// Boolean completed, String categoryName, String description) {
+				controller.addTask(name, date, priority, completed,
+						categoryName, description);
+
+				dispose();
+			}
+		});
+
 		c.weighty = 1.0; // request any extra vertical space
 		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
 		c.insets = new Insets(10, 0, 0, 0); // top padding
 		c.gridx = 1; // aligned with button 2
 		c.gridy = 5; // third row
 		pane.add(button, c);
-		
-		
+
 		pack();
 		setVisible(true);
 	}

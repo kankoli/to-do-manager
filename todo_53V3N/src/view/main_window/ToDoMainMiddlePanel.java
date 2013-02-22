@@ -24,7 +24,8 @@ public class ToDoMainMiddlePanel extends JPanel {
 	private JButton pendingButton;
 	private JButton completedButton;
 	private JScrollPane taskPanel;
-	private ToDoSortingBar sortingBar;
+	private SortingBar sortingBar;
+//	private ToDoSortingBar sortingBar;
 	
 	private ControllerInterface controller;
 	
@@ -72,7 +73,10 @@ public class ToDoMainMiddlePanel extends JPanel {
 		GridBagConstraints sortingBarCons = new GridBagConstraints();
 		
 		try {
-			sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date", "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
+			sortingBar = new SortingBar();
+//			sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date", "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
+
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,5 +104,6 @@ public class ToDoMainMiddlePanel extends JPanel {
 		taskPanelCons.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(taskPanel, taskPanelCons);
 	}
+	
 
 }

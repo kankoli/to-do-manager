@@ -10,6 +10,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -33,7 +35,7 @@ import control.ControllerInterface;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class ToDoMainFrame extends JFrame {
+public class ToDoMainFrame extends JFrame implements Observer {
 
 	private JPanel basePanel;
 	private ToDoMainTopPanel topPanel;
@@ -104,6 +106,8 @@ public class ToDoMainFrame extends JFrame {
 						.actionPerformed(null);
 			}
 		});
+
+		controller.registerAsObserver(this);
 	}
 
 	public static void main(String[] args) {
@@ -124,7 +128,8 @@ public class ToDoMainFrame extends JFrame {
 		menu.setMnemonic(KeyEvent.VK_F);
 		getJMenuBar().add(menu);
 
-		JMenuItem menuItem = new JMenuItem(lang.getString("mainFrame.menubar.import"));
+		JMenuItem menuItem = new JMenuItem(
+				lang.getString("mainFrame.menubar.import"));
 		menuItem.setMnemonic(KeyEvent.VK_M);
 		menu.add(menuItem);
 
@@ -133,7 +138,6 @@ public class ToDoMainFrame extends JFrame {
 		menu.add(menuItem);
 
 		menu.addSeparator();
-		// menuItem = new JMenuItem("Quit");
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
@@ -153,17 +157,15 @@ public class ToDoMainFrame extends JFrame {
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		// menuItem = new JMenuItem("New Category");
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.NEWCAT));
 		subMenu.add(menuItem);
-
 		menu.add(subMenu);
-		
+
 		subMenu = new JMenu(lang.getString("mainFrame.menubar.language"));
 		subMenu.setMnemonic(KeyEvent.VK_L);
 		menu.add(subMenu);
-		
+
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
@@ -182,9 +184,7 @@ public class ToDoMainFrame extends JFrame {
 		menuItem.setText(GlobalValues.Languages.IT.toString());
 		subMenu.add(menuItem);
 
-		
 		subMenu = new JMenu(lang.getString("mainFrame.menubar.sort"));
-		
 		subMenu.setMnemonic(KeyEvent.VK_L);
 		menu.add(subMenu);
 
@@ -212,7 +212,6 @@ public class ToDoMainFrame extends JFrame {
 		menuItem.setText(ControllerInterface.SortType.PRIORITY.toString());
 		subMenu.add(menuItem);
 
-		
 		// ********************************
 
 		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
@@ -253,5 +252,13 @@ public class ToDoMainFrame extends JFrame {
 		bottomCons.weighty = 0;
 		bottomCons.fill = GridBagConstraints.BOTH;
 		basePanel.add(bottomPanel, bottomCons);
+	}
+
+	// TODO
+	public void update(Observable o, Object arg) {
+
+		addMenu();
+		revalidate();
+		repaint();
 	}
 }
