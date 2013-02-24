@@ -45,7 +45,6 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -53,11 +52,9 @@ import javax.swing.JTextField;
 import model.Category;
 import model.Task;
 
-import view.custom_components.ImageButton;
 import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
-import control.Helpers;
 
 public class NewTaskDialog extends JDialog {
 
@@ -122,15 +119,9 @@ public class NewTaskDialog extends JDialog {
 		pane.add(label, c);
 
 		cmbCategory = new JComboBox<String>();
-
-		// XXX Marco: here we will use the category provided by datamodel
-		String[] items = Helpers.categoryItems();
-//		for (int i = 0; i < items.length; i++)
-//			cmbCategory.addItem(items[i]);
 		
 		for (Category ca : controller.getCategories().values()) 
 			cmbCategory.addItem(ca.getName());
-
 
 		c.gridx = 1;
 		c.gridy = 3;
