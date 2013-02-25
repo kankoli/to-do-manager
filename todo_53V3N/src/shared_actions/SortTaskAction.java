@@ -23,9 +23,6 @@ public final class SortTaskAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent arg0) {
 
-		
-		System.out.println(arg0.getActionCommand());
-		
 		ResourceBundle lang = controller.getLanguageBundle();
 
 		SortType ordering = SortType.NONE;

@@ -29,7 +29,7 @@ asdasd</description>
     <task>
       <name>Task0</name>
       <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>LOW</priority>
+      <priority>HIGH</priority>
       <completed>false</completed>
       <category>fun</category>
       <description />
@@ -37,7 +37,7 @@ asdasd</description>
     <task>
       <name>New T</name>
       <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>HIGH</priority>
+      <priority>LOW</priority>
       <completed>false</completed>
       <category>Prova</category>
       <description>some brief text.</description>
@@ -53,20 +53,20 @@ asdasd</description>
       <color>-7283286</color>
     </category>
     <category>
-      <name>jshkshkf</name>
-      <color>-4000695</color>
-    </category>
-    <category>
       <name>Sport</name>
       <color>-14752099</color>
     </category>
     <category>
-      <name>fun</name>
-      <color>-9916485</color>
+      <name>jshkshkf</name>
+      <color>-4000695</color>
     </category>
     <category>
       <name>Prova</name>
       <color>-1104603</color>
+    </category>
+    <category>
+      <name>fun</name>
+      <color>-9916485</color>
     </category>
   </categories>
 </todoManagerData>
