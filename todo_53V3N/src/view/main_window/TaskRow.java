@@ -48,7 +48,7 @@ import model.Task;
 
 // TODO fix layout
 
-public final class TaskRow extends JPanel implements Observer {
+public final class TaskRow extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -79,17 +79,12 @@ public final class TaskRow extends JPanel implements Observer {
 	boolean isSelected = false;
 
 	
-	private ClassLoader cl;
-
-	
 	public TaskRow(final ControllerInterface controller,
 			final TaskScrollPanel taskScrollPanel, Task ta) {
 		super();
 		t = ta;
 		this.controller = controller;
 		this.taskScrollPanel = taskScrollPanel;
-
-		cl = ClassLoader.getSystemClassLoader();
 
 		
 		sdf.setLenient(false); // This makes a date like "31-13-2013 17:45" not
@@ -112,7 +107,7 @@ public final class TaskRow extends JPanel implements Observer {
 //		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
 		doneBut.setText("");
 		
-		doneBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/donetask.png")));
+		doneBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/donetask.png")));
 		
 		
 		doneBut.addMouseListener(new MouseAdapter() {
@@ -300,7 +295,7 @@ public final class TaskRow extends JPanel implements Observer {
 		editBut = new JButton();
 //		editBut = new JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 
-		editBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/edittask.png")));
+		editBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/edittask.png")));
 
 		
 		editBut.addMouseListener(new MouseAdapter() {
@@ -319,7 +314,7 @@ if(!editBut.getIcon().toString().contains("stop")){
 					//editBut.setText("Stop editing");
 	
 //	editBut.setIcon(defaultIcon)
-	editBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/stopedittask.png")));
+	editBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/stopedittask.png")));
 
 	
 				} else { // call edit task method
@@ -364,7 +359,7 @@ if(!editBut.getIcon().toString().contains("stop")){
 
 					setBackground(t.getCategory().getColor());
 					
-					editBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/edittask.png")));
+					editBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/edittask.png")));
 //
 //					editBut.setText( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 				}
@@ -390,7 +385,7 @@ if(!editBut.getIcon().toString().contains("stop")){
 		// Delete button apre un popup di conferma
 		deleteBut = new JButton();
 //		deleteBut = new JButton( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
-		deleteBut.setIcon(new ImageIcon(cl.getResource("assets/Icons/deletetask.png")));
+		deleteBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/deletetask.png")));
 		
 		
 		deleteBut.addMouseListener(new MouseAdapter() {
@@ -450,8 +445,6 @@ if(!editBut.getIcon().toString().contains("stop")){
 		// setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		// setBorder(BorderFactory.createLineBorder(Color.black, 50));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-
-		controller.registerAsObserver(this);
 	}
 
 	public final void setSelected(boolean visible) {
@@ -481,17 +474,4 @@ if(!editBut.getIcon().toString().contains("stop")){
 	public final Task getTask() {
 		return t;
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		
-		// TODO Auto-generated method stub
-//		ResourceBundle lang = controller.getLanguageBundle();
-		
-//		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
-//				editBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
-//				deleteBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
-		
-	}
-
 }

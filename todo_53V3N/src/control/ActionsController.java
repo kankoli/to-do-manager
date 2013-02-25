@@ -39,10 +39,6 @@ public final class ActionsController {
 		// Instantiate actions using current dataModel language
 		ResourceBundle lang = dataModel.getLanguageBundle();
 
-		ClassLoader cl = ClassLoader.getSystemClassLoader();
-
-		// TODO: define actions
-
 		changeLanguage = new ChangeLanguageAction(
 				lang.getString("shared_actions.changelanguageaction.text"),
 				null,
@@ -55,8 +51,7 @@ public final class ActionsController {
 				KeyEvent.VK_Q, ci);
 
 		ImageIcon addtask = new ImageIcon(
-				cl.getResource("assets/Icons/addtask.png"));
-		// addtask.
+				ci.getResource("assets/Icons/addtask.png"));
 
 		// addtask.
 		newTask = new NewTaskAction(
@@ -80,7 +75,6 @@ public final class ActionsController {
 				KeyEvent.VK_O, ci);
 		// timerAction = ...; // XXX unused now
 
-		// TODO initialize actions
 	}
 
 	/**
@@ -118,22 +112,30 @@ public final class ActionsController {
 
 		ResourceBundle lang = dataModel.getLanguageBundle();
 
-		// TODO other actions... not ready yet, prepare also files
-		// changeLanguage.putValue(Action.NAME,
-		// lang.getString("shared_actions.changelanguageaction.text"));
-		// changeLanguage.putValue(Action.SHORT_DESCRIPTION,
-		// lang.getString("shared_actions.changelanguagection.desc"));
+//		changeLanguage.putValue(Action.NAME,
+//				lang.getString("shared_actions.changelanguageaction.text"));
+//		changeLanguage.putValue(Action.SHORT_DESCRIPTION,
+//				lang.getString("shared_actions.changelanguageaction.desc"));
 
 		exitAction.putValue(Action.NAME,
 				lang.getString("shared_actions.exitaction.text"));
 		exitAction.putValue(Action.SHORT_DESCRIPTION,
 				lang.getString("shared_actions.exitaction.desc"));
 
-		// ... other actions... TODO
+		newTask.putValue(Action.NAME,
+				lang.getString("shared_actions.newtaskaction.text"));
+		newTask.putValue(Action.SHORT_DESCRIPTION,
+				lang.getString("shared_actions.newtaskaction.desc"));
+
 		newCategory.putValue(Action.NAME,
 				lang.getString("shared_actions.newcategoryaction.text"));
 		newCategory.putValue(Action.SHORT_DESCRIPTION,
 				lang.getString("shared_actions.newcategoryaction.desc"));
+
+//		sortTasks.putValue(Action.NAME,
+//				lang.getString("shared_actions.sorttaskaction.text"));
+//		sortTasks.putValue(Action.SHORT_DESCRIPTION,
+//				lang.getString("shared_actions.sorttaskaction.desc"));
 
 	}
 }

@@ -11,15 +11,7 @@ public class GlobalValues {
 	/* Graphical preferences */
 	public static final int MINXSIZE = 900;
 	public static final int MINYSIZE = 600;
-	
-	public static final int NEW_TASK_WINDOW_WIDTH = 400;
-	public static final int NEW_TASK_WINDOW_HEIGHT = 500;
-	public static final int FIELD_WIDTH = 150;
-	public static final int FIELD_HEIGHT = 20;
 
-	public static final int TASKROW_SPACING_Y = 50;
-	public static final int TASKROW_ELEMENT_SPACING_X = 10;
-	public static final int TASKROW_ELEMENT_SPACING_Y = 30;
 	public static final int TASKROW_DESC_ROWS = 3;
 	public static final int TASKROW_DESC_COLS = 10;
 
@@ -29,22 +21,17 @@ public class GlobalValues {
 	/* Default locale file */
 	public static final String LANGUAGEFILE = "lang";
 
+	// TODO better way?
 	// Supported locale
 	public static final Locale[] supportedLocales = { new Locale("swe"),
 			Locale.ENGLISH, Locale.ITALIAN };
 
-	
-	public static enum Languages{SWE, EN, IT};
-	
+	public static enum Languages {
+		SWE, EN, IT
+	};
 
-	/* Resource bundle key values */
-	// TODO needed? to have short names
-	public static final String NEWTASK = "mainFrame.topPanel.button.newTask.name";
-	
-	
-	/* Default properties value */
-	public static final String PROPSFILE = "config.properties"; // TODO or just
-																// config??
+	/* Default properties values */
+	public static final String PROPSFILE = "config.properties";
 
 	public static final String LANGUAGEKEY = "CurrentLanguage";
 	public static final String LANGUAGEVAL = "EN"; // we put index of supported
@@ -56,11 +43,9 @@ public class GlobalValues {
 	public static final String WINYPOSKEY = "WindowsYPos";
 	public static final String WINYPOSVAL = "0";
 
-	public static final String WINXSIZEKEY = "WindowsXSize"; // TODO ideal: if
-																// not value
-																// specified,
-																// read system
-																// resolution
+	// TODO in future, default resolution may be system screen dependent
+	public static final String WINXSIZEKEY = "WindowsXSize";
+
 	public static final String WINXSIZEVAL = "800";
 
 	public static final String WINYSIZEKEY = "WindowsYSize";

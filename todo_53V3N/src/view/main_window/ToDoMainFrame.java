@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -21,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.DataModel;
@@ -56,7 +59,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	 * @param height
 	 *            height of frame in pixels
 	 */
-	public ToDoMainFrame(int width, int height) {
+	public ToDoMainFrame() {
 		super();
 
 		DataModel db = null; // TODO exception handling, exception throwing..
@@ -73,15 +76,6 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		controller = new ControllerInterface(db);
 
-		// TODO this will be changed into action control class
-
-		// exit.putValue(Action.NAME, "new name");
-
-		// exit.putValue("text", "asdsad");
-		// exit = new
-
-		// controller.getLanguageBundle().getKeys()""
-
 		// Retrieve last size from state
 		double sizeX = Double.parseDouble(controller
 				.getProperty(GlobalValues.WINXSIZEKEY));
@@ -92,7 +86,6 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		setMinimumSize(new Dimension(GlobalValues.MINXSIZE,
 				GlobalValues.MINYSIZE));
 
-		// TODO
 		// retrieve last location from state
 		double posX = Double.parseDouble(controller
 				.getProperty(GlobalValues.WINXPOSKEY));
@@ -106,7 +99,8 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		basePanel = new JPanel();
 		basePanel.setBackground(Color.white);
 		basePanel.setLayout(new GridBagLayout());
-		basePanel.setPreferredSize(new Dimension(width, height));
+		// TODO
+		// basePanel.setPreferredSize(new Dimension(width, height));
 
 		addTopPanel();
 		addMiddlePanel();
@@ -161,7 +155,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	public static void main(String[] args) {
 		// ToDoMainFrame toDoFrame = // XXX Marco: i commented it, do we need a
 		// reference to Frame?
-		new ToDoMainFrame(900, 600);
+		// new ToDoMainFrame(900, 600);
+		new ToDoMainFrame();
+
 	}
 
 	private void addMenu() {
@@ -171,7 +167,6 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		ResourceBundle lang = controller.getLanguageBundle();
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
-		
 
 		JMenu menu = new JMenu(lang.getString("mainFrame.menubar.file"));
 		menu.setMnemonic(KeyEvent.VK_F);
@@ -217,22 +212,23 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		subMenu.setMnemonic(KeyEvent.VK_L);
 		menu.add(subMenu);
 
+		// TODO move constants from globalvalues to other place
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
-		menuItem.setText(GlobalValues.Languages.EN.toString());
+		menuItem.setText(lang.getString("mainFrame.menubar.language.english"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
-		menuItem.setText(GlobalValues.Languages.SWE.toString());
+		menuItem.setText(lang.getString("mainFrame.menubar.language.swedish"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
-		menuItem.setText(GlobalValues.Languages.IT.toString());
+		menuItem.setText(lang.getString("mainFrame.menubar.language.italian"));
 		subMenu.add(menuItem);
 
 		subMenu = new JMenu(lang.getString("mainFrame.menubar.sort"));
@@ -242,32 +238,46 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(ControllerInterface.SortType.NAME.toString());
+		menuItem.setText(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(ControllerInterface.SortType.DATE.toString());
+		menuItem.setText(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(ControllerInterface.SortType.CATEGORY.toString());
+		menuItem.setText(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(controller
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(ControllerInterface.SortType.PRIORITY.toString());
+		menuItem.setText(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
 		subMenu.add(menuItem);
-
-		// ********************************
 
 		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
 		menu.setMnemonic(KeyEvent.VK_H);
 		getJMenuBar().add(menu);
+
+		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.help.about"));
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JOptionPane.showMessageDialog(null, "Authors:\n"
+						+ "Kadir Yozgyur\n" + "Madelen Pettersson\n"
+						+ "Magnus Larsson\n" + "Marco Dondio");
+
+			}
+		});
+		menu.add(menuItem);
 
 	}
 
@@ -295,7 +305,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	}
 
 	private void addBottomPanel() {
-	
+
 		GridBagConstraints bottomCons = new GridBagConstraints();
 		bottomPanel = new ToDoMainBottomPanel();
 		bottomCons.gridx = 0;
@@ -306,11 +316,15 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		basePanel.add(bottomPanel, bottomCons);
 	}
 
-	// TODO
 	public void update(Observable o, Object arg) {
 
-		addMenu();
-		revalidate();
-		repaint();
+		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+			addMenu();
+			revalidate();
+			repaint();
+		}
+
 	}
 }

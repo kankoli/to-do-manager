@@ -8,24 +8,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import control.ControllerInterface;
-
-import shared_actions.ChangeLanguageAction;
-import shared_actions.ExitAction;
-import view.new_task_dialog.NewTaskDialog;
 
 /**
  * This class represents the top part of the ToDo application
@@ -34,7 +25,7 @@ import view.new_task_dialog.NewTaskDialog;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class ToDoMainTopPanel extends JPanel implements Observer {
+public class ToDoMainTopPanel extends JPanel {
 
 	private JButton urgentButton; // to launch a new frame which shows urgent
 									// tasks
@@ -42,8 +33,6 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 	private JButton newTaskButton;
 
 	private ControllerInterface controller;
-	
-	//private JFrame newTaskFrame; // XXX Marco: i dont like this here, read below
 
 	public ToDoMainTopPanel(ControllerInterface controller) {
 		super();
@@ -60,24 +49,22 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 		setPreferredSize(new Dimension(800, 100));
 		setMinimumSize(new Dimension(800, 100));
 
-		//newTaskFrame = new JFrame();
+		// newTaskFrame = new JFrame();
 
 		setVisible(true);
-		
-		controller.registerAsObserver(this);
-		}
-	
+	}
 
 	private void addUrgentButton() {
 		ResourceBundle lang = controller.getLanguageBundle();
 
 		GridBagConstraints urgentButtonCons = new GridBagConstraints();
-		urgentButton = new JButton(lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
-				
-		urgentButton.setIcon(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("assets/Icons/urgenttask.png")));
+		urgentButton = new JButton(
+				lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
+
+		urgentButton.setIcon(new ImageIcon(controller
+				.getResource("assets/Icons/urgenttask.png")));
 		urgentButton.addActionListener(new ActionListener() {
-			
-			@Override
+
 			public void actionPerformed(ActionEvent arg0) { // This will in
 															// future launch a
 															// new frame to show
@@ -90,8 +77,8 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 		urgentButton.setPreferredSize(new Dimension(100, 100));
 		urgentButton.setText("");
 		urgentButton.setBorder(null);
-//		urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-//				Color.darkGray));
+		// urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+		// Color.darkGray));
 		urgentButton.setBackground(Color.WHITE);
 		urgentButton.setOpaque(true);
 		urgentButtonCons.gridx = 0;
@@ -122,16 +109,18 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 	private void addNewTaskButton() {
 		ResourceBundle lang = controller.getLanguageBundle();
 		GridBagConstraints newTaskButtonCons = new GridBagConstraints();
-		newTaskButton = new JButton(lang.getString("mainFrame.topPanel.button.newTask.name"));
+		newTaskButton = new JButton(
+				lang.getString("mainFrame.topPanel.button.newTask.name"));
 
-		newTaskButton.setAction(controller.getAction(ControllerInterface.ActionName.NEWTASK));
+		newTaskButton.setAction(controller
+				.getAction(ControllerInterface.ActionName.NEWTASK));
 		newTaskButton.setMinimumSize(new Dimension(100, 100));
 		newTaskButton.setPreferredSize(new Dimension(100, 100));
 		newTaskButton.setText("");
-//		newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-//				Color.darkGray));
+		// newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+		// Color.darkGray));
 		newTaskButton.setBorder(null);
-//		newTaskButton.set
+		// newTaskButton.set
 		newTaskButton.setBackground(Color.WHITE);
 		newTaskButton.setOpaque(true);
 		newTaskButtonCons.gridx = 2;
@@ -141,24 +130,5 @@ public class ToDoMainTopPanel extends JPanel implements Observer {
 		newTaskButtonCons.insets = new Insets(0, 0, 0, 10);
 		newTaskButtonCons.anchor = GridBagConstraints.FIRST_LINE_END;
 		add(newTaskButton, newTaskButtonCons);
-	}
-
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO delete obs
-		
-//		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
-//
-//		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
-//			ResourceBundle lang = controller.getLanguageBundle();
-//			urgentButton.setText(lang
-//					.getString("mainFrame.topPanel.button.urgentTasks.name"));
-//			newTaskButton.setText(lang
-//					.getString("mainFrame.topPanel.button.newTask.name"));
-//			repaint();
-		
-//	}
-		
 	}
 }

@@ -42,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -106,9 +107,12 @@ public class NewTaskDialog extends JDialog {
 		label = new JLabel("Date");
 		c.gridx = 0;
 		c.gridy = 2;
-		pane.add(label, c);
+		// XXX Marco: i think is better to use the BorderFactory, see below
+//		pane.add(label, c);
 
 		dateField = new JTextField();
+		dateField.setBorder(BorderFactory.createTitledBorder("Date"));	// TODO 
+		
 		c.gridx = 1;
 		c.gridy = 2;
 		pane.add(dateField, c);
