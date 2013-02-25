@@ -21,7 +21,6 @@ public final class NewTaskAction extends AbstractAction {
 		this.controller = controller;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		new NewTaskDialog(controller);
 	}

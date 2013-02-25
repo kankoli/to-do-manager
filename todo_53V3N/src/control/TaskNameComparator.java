@@ -15,6 +15,6 @@ public final class TaskNameComparator implements Comparator<Task> {
 	public int compare(Task arg0, Task arg1) {		
 		// default alphabetical sorting
 		
-		return arg0.getName().compareTo(arg1.getName());
+		return arg1.getName().compareTo(arg0.getName());
 	}
 }

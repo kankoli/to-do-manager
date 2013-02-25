@@ -68,7 +68,7 @@ public final class DataController {
 
 		switch (ordering) {
 		case NAME:
-			dataModel.sortTasks(new TaskDateComparator());
+			dataModel.sortTasks(new TaskNameComparator());
 			break;
 		case DATE:
 			dataModel.sortTasks(new TaskDateComparator());

@@ -31,7 +31,6 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import control.ControllerInterface.ChangeMessage;
-import control.TaskDateComparator;
 
 import utility.GeneralFunctions;
 import utility.GlobalValues;
@@ -55,7 +54,6 @@ import utility.GlobalValues.Languages;
 // TODO: come gestici editing???
 
 public final class DataModel extends Observable {
-
 
 	// datetime formate used in xs:datetime format
 
@@ -436,6 +434,8 @@ public final class DataModel extends Observable {
 	 *            the cause
 	 */
 	public final void hasChanged(ChangeMessage msg) {
+
+		System.out.println("[DataModel]hasChanged -> " + msg);
 		setChanged();
 		notifyObservers(msg);
 	}

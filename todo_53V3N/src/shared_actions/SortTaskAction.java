@@ -1,6 +1,7 @@
 package shared_actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ResourceBundle;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -12,7 +13,7 @@ import control.ControllerInterface.SortType;
 public final class SortTaskAction extends AbstractAction {
 
 	private ControllerInterface controller;
-	
+
 	public SortTaskAction(String text, ImageIcon icon, String desc,
 			Integer mnemonic, ControllerInterface controller) {
 		super(text, icon);
@@ -20,15 +21,31 @@ public final class SortTaskAction extends AbstractAction {
 		this.controller = controller;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
-		SortType ordering = ControllerInterface.SortType.valueOf(arg0.getActionCommand());
+		
+		System.out.println(arg0.getActionCommand());
+		
+		ResourceBundle lang = controller.getLanguageBundle();
 
-		//System.out.println(ordering);
+		SortType ordering = SortType.NONE;
+
+		if ((lang.getString("mainFrame.middlePanel.sortingBar.tab.title.name"))
+				.equals(arg0.getActionCommand()))
+			ordering = SortType.NAME;
+		else if ((lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"))
+				.equals(arg0.getActionCommand()))
+			ordering = SortType.DATE;
+		else if ((lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.category.name"))
+				.equals(arg0.getActionCommand()))
+			ordering = SortType.CATEGORY;
+		else if ((lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"))
+				.equals(arg0.getActionCommand()))
+			ordering = SortType.PRIORITY;
 
 		controller.sortTasks(ordering);
-
-	
 	}
 }

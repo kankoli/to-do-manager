@@ -3,6 +3,7 @@ package control;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -49,15 +50,19 @@ public final class ControllerInterface {
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 
+	private ClassLoader cl;
+
 	// Subcontrollers
 	private DataController dc;
 	private ActionsController ac;
 	private PropertiesController pc;
 	private ObserverController oc;
 
+
 	public ControllerInterface(DataModel dataModel) {
 
 		this.dataModel = dataModel;
+		cl = ClassLoader.getSystemClassLoader();
 
 		dc = new DataController(dataModel);
 		ac = new ActionsController(dataModel, this); // need reference for
@@ -226,6 +231,16 @@ public final class ControllerInterface {
 		oc.registerAsObserver(o);
 	}
 
+	
+	/**
+	 * This function is called to retrieve a resource at runtime
+	 * @param name
+	 * @return
+	 */
+	public URL getResource(String name){
+		return cl.getResource(name);
+	}
+	
 	// TODO fix exceptions
 	/**
 	 * This method is called to save into files the application state.
