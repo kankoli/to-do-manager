@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.Action;
 
+import utility.GlobalValues;
 import utility.GlobalValues.Languages;
 
 import exceptions.InvalidCategoryException;
@@ -38,15 +39,25 @@ public final class ControllerInterface {
 	public static enum SortType {
 		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
+
 	public static enum ActionName {
 		CHANGELANG, EXIT, NEWTASK, NEWCAT, SORT, TIMER
 	};
 
 	public static enum ChangeMessage {
-		INIT, SORTED_TASK, CHANGED_LANG, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+		INIT, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
 	};
 
-	
+	// TODO move other enum here?
+
+	public static enum DateFormat {
+		ITALIAN, SWEDISH
+	};
+
+	private static SimpleDateFormat[] dateFormats = {
+			new SimpleDateFormat("dd-MM-yyyy HH:mm"),
+			new SimpleDateFormat("yyyy-MM-dd HH:mm") };
+
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
 
@@ -58,7 +69,6 @@ public final class ControllerInterface {
 	private PropertiesController pc;
 	private ObserverController oc;
 
-
 	public ControllerInterface(DataModel dataModel) {
 
 		this.dataModel = dataModel;
@@ -69,6 +79,11 @@ public final class ControllerInterface {
 														// creating actions
 		pc = new PropertiesController(dataModel);
 		oc = new ObserverController(dataModel);
+
+		// This makes a date like "31-13-2013 17:45"
+		// not valid!
+		for (SimpleDateFormat sdf : dateFormats)
+			sdf.setLenient(false);
 	}
 
 	/**
@@ -183,10 +198,31 @@ public final class ControllerInterface {
 	 * 
 	 * @param key
 	 * @param value
+	 * @param notifyObservers indicates wheter the property change should fire an event
 	 * @return
 	 */
-	public final void setProperty(String key, String value) {
-		pc.setProperty(key, value);
+	public final void setProperty(String key, String value, boolean notifyObservers) {
+		pc.setProperty(key, value, notifyObservers);
+	}
+
+	/**
+	 * Retrieves current dateFormat
+	 * 
+	 * @return
+	 */
+	public final SimpleDateFormat getDateFormat() {
+		return dateFormats[Integer
+				.parseInt(getProperty(GlobalValues.DATEFORMATKEY))];
+	}
+
+	/**
+	 * Set a new dateFormat for displaying date
+	 * 
+	 * @param df
+	 */
+	public final void setDateFormat(DateFormat df) {
+
+		setProperty(GlobalValues.DATEFORMATKEY, Integer.toString(df.ordinal()), true);
 	}
 
 	/**
@@ -204,12 +240,13 @@ public final class ControllerInterface {
 	 * @param index
 	 */
 	public final void setLanguage(Languages language) {
-		
-//		System.out.println(language);
+
+		// System.out.println(language);
 		pc.setLanguage(language);
 
 		// XXX should i call the setlanguage on the actioncontroller as well?
-		// Or better: we should have the view explicitly call this method? to discuss
+		// Or better: we should have the view explicitly call this method? to
+		// discuss
 		ac.refreshLanguage();
 	}
 
@@ -231,16 +268,16 @@ public final class ControllerInterface {
 		oc.registerAsObserver(o);
 	}
 
-	
 	/**
 	 * This function is called to retrieve a resource at runtime
+	 * 
 	 * @param name
 	 * @return
 	 */
-	public URL getResource(String name){
+	public URL getResource(String name) {
 		return cl.getResource(name);
 	}
-	
+
 	// TODO fix exceptions
 	/**
 	 * This method is called to save into files the application state.

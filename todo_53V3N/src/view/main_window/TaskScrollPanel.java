@@ -32,6 +32,12 @@ import model.Task;
 
 // evening: 2hours changing control structure, adding actions, methods
 
+
+// worked all friday afternoon untill 23.30 for deadline
+
+// assignment 3
+// another 2 hours for meeting and sorting stuff
+
 //----------------
 
 /// 3 teacher

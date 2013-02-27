@@ -51,4 +51,7 @@ public class GlobalValues {
 	public static final String WINYSIZEKEY = "WindowsYSize";
 	public static final String WINYSIZEVAL = "600";
 
+	public static final String DATEFORMATKEY = "DateFormat";
+	public static final String DATEFORMATVAL = "0";
+
 }

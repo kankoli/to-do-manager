@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 
+
 /**
  * This class represents a basic task, with name, date, type and priority. It
  * contains getter (to retrieve values) and setters (to store new values)
@@ -13,9 +14,10 @@ import java.util.Date;
  */
 public final class Task {
 
-	public enum Priority {
+	public static enum Priority {
 		HIGH, NORMAL, LOW, NOT_SET
 	}; 
+
 	private String name;
 	private Date date;
 	private Category category;		// XXX perchè non direttamente reference a category???

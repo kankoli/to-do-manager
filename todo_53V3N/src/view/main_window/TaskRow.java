@@ -6,12 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
@@ -29,11 +25,8 @@ import control.ControllerInterface;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
-import shared_actions.ChangeLanguageAction;
-import shared_actions.ExitAction;
 import utility.GlobalValues;
 import view.custom_components.PriorityBar;
-import view.new_category_dialog.AddCategoryDialog;
 
 import model.Category;
 import model.Task;
@@ -52,16 +45,10 @@ public final class TaskRow extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	// makes easier managing data
-	// see JavaDoc for other formats
-	// TODO this will read an option (defined into database) for desired format
-	private static SimpleDateFormat sdf = new SimpleDateFormat(
-			"dd-MM-yyyy HH:mm");
-
 	private TaskScrollPanel taskScrollPanel; // reference to panel
-	private ControllerInterface controller;
-	ResourceBundle lang;
-	
+	// private ControllerInterface controller;
+	private ResourceBundle lang;
+
 	private Task t; // reference to task in datamodel
 
 	private JButton doneBut;
@@ -69,7 +56,7 @@ public final class TaskRow extends JPanel {
 	private JTextField dateField;
 	private JComboBox<String> categoryBox;
 
-//	private JTextField priorityField;
+	// private JTextField priorityField;
 	PriorityBar bar;
 	private JScrollPane descriptionPane;
 	private JTextArea descriptionArea;
@@ -78,17 +65,14 @@ public final class TaskRow extends JPanel {
 
 	boolean isSelected = false;
 
-	
 	public TaskRow(final ControllerInterface controller,
 			final TaskScrollPanel taskScrollPanel, Task ta) {
 		super();
 		t = ta;
-		this.controller = controller;
+		// this.controller = controller;
 		this.taskScrollPanel = taskScrollPanel;
 
-		
-		sdf.setLenient(false); // This makes a date like "31-13-2013 17:45" not
-								// valid!
+		// TODO setlenient su sdf, rimosso
 
 		// TODO layout has to be fixed a lot! I didnt mind about it now
 		// this.setLayout(new FlowLayout(FlowLayout.LEFT,
@@ -101,15 +85,15 @@ public final class TaskRow extends JPanel {
 		// this.setBorder(BorderFactory.createLineBorder(Color.BLACK, ));
 
 		// Now add my components: done Button
-		 lang = controller.getLanguageBundle();
-		
+		lang = controller.getLanguageBundle();
+
 		doneBut = new JButton();
-//		doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
+		// doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
 		doneBut.setText("");
-		
-		doneBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/donetask.png")));
-		
-		
+
+		doneBut.setIcon(new ImageIcon(controller
+				.getResource("assets/Icons/donetask.png")));
+
 		doneBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				t.setCompleted(!t.getCompleted());
@@ -154,7 +138,11 @@ public final class TaskRow extends JPanel {
 		add(nameField, con);
 
 		// date format
-		dateField = new JTextField(sdf.format(t.getDate()));
+		// TODO anche controlli su data qui
+		// dateField = new JTextField(sdf.format(t.getDate()));
+		dateField = new JTextField(controller.getDateFormat().format(
+				t.getDate()));
+
 		dateField.setEnabled(false);
 		// dateField.setBackground(Color.GREEN);
 		// dateField.setDisabledTextColor(Color.BLACK);
@@ -168,24 +156,29 @@ public final class TaskRow extends JPanel {
 
 		// now build category ComboBox
 
-		// TODO: Kadir suggests special combobox, our component wich extends combobox
-		// TODO: Kadir suggests special combobox, our component wich extends combobox
-		// TODO: Kadir suggests special combobox, our component wich extends combobox
-		// TODO: Kadir suggests special combobox, our component wich extends combobox
-		// TODO: Kadir suggests special combobox, our component wich extends combobox
-		// TODO: Kadir suggests special combobox, our component wich extends combobox
+		// TODO: Kadir suggests special combobox, our component wich extends
+		// combobox
+		// TODO: Kadir suggests special combobox, our component wich extends
+		// combobox
+		// TODO: Kadir suggests special combobox, our component wich extends
+		// combobox
+		// TODO: Kadir suggests special combobox, our component wich extends
+		// combobox
+		// TODO: Kadir suggests special combobox, our component wich extends
+		// combobox
+		// TODO: Kadir suggests special combobox, our component wich extends
+		// combobox
 		// maybe is better a button? Then simple dialog with colorpicker???
 		categoryBox = new JComboBox<String>();
 		for (Category c : controller.getCategories().values()) {
 			categoryBox.addItem(c.getName());
 		}
 
-		
-		
 		// Add this special value for adding a task, will register listener
 
-		categoryBox.addItem(lang.getString("shared_actions.newcategoryaction.text"));
-		
+		categoryBox.addItem(lang
+				.getString("shared_actions.newcategoryaction.text"));
+
 		categoryBox.addActionListener(new ActionListener() {
 
 			// If last "special item" is selected, open add category dialog
@@ -233,35 +226,32 @@ public final class TaskRow extends JPanel {
 		// ------------------------------------------------------
 		// TODO change this
 
-//		priorityField = new JTextField(t.getPrio().toString());
+		// priorityField = new JTextField(t.getPrio().toString());
 		// priorityArea.addMouseListener(my);
-//		priorityField.setEnabled(false);
+		// priorityField.setEnabled(false);
 		// priorityField.setBackground(Color.GREEN);
 		// priorityField.setDisabledTextColor(Color.BLACK);
 		// priorityField.setBorder(null);
 		// con.insets = new Insets(0, 0, 0, 300);
 		// con.anchor = GridBagConstraints.LINE_START;
 
-		//		add(priorityField, con);
+		// add(priorityField, con);
 
-		
-		
-//		PriorityBar pb = new PriorityBar(name, name, name, name, name, name, name, name, name, name);
-		bar = new PriorityBar("assets/def.png",
-				"assets/hover1.png", "assets/pressed1.png",
-				"assets/pressed1.png", "assets/hover2.png",
-				"assets/pressed2.png", "assets/pressed2.png",
-				"assets/hover3.png", "assets/pressed3.png",
-				"assets/pressed3.png", 		t.getPrio());
+		// PriorityBar pb = new PriorityBar(name, name, name, name, name, name,
+		// name, name, name, name);
+		bar = new PriorityBar("assets/def.png", "assets/hover1.png",
+				"assets/pressed1.png", "assets/pressed1.png",
+				"assets/hover2.png", "assets/pressed2.png",
+				"assets/pressed2.png", "assets/hover3.png",
+				"assets/pressed3.png", "assets/pressed3.png", t.getPrio());
 		bar.setEnabled(false);
-		
+
 		con = new GridBagConstraints();
 		con.gridx = 4;
 		con.gridy = 0;
 
+		add(bar, con);
 
-	add(bar, con);	
-		
 		// ------------------------------------------------------
 
 		descriptionArea = new JTextArea(t.getDescription(),
@@ -293,30 +283,32 @@ public final class TaskRow extends JPanel {
 
 		// Now the edit button
 		editBut = new JButton();
-//		editBut = new JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+		// editBut = new
+		// JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 
-		editBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/edittask.png")));
+		editBut.setIcon(new ImageIcon(controller
+				.getResource("assets/Icons/edittask.png")));
 
-		
 		editBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 
-				
-//				if (editBut.getActionCommand().equals( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"))) {
-if(!editBut.getIcon().toString().contains("stop")){
+				// if (editBut.getActionCommand().equals(
+				// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name")))
+				// {
+				if (!editBut.getIcon().toString().contains("stop")) {
 
-	// nameField.setBackground(Color.GREEN);
+					// nameField.setBackground(Color.GREEN);
 					// dateField.setBackground(Color.GREEN);
 					// categoryField.setBackground(Color.GREEN);
 					// priorityField.setBackground(Color.GREEN);
 					// descriptionArea.setBackground(Color.GREEN);
 
-					//editBut.setText("Stop editing");
-	
-//	editBut.setIcon(defaultIcon)
-	editBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/stopedittask.png")));
+					// editBut.setText("Stop editing");
 
-	
+					// editBut.setIcon(defaultIcon)
+					editBut.setIcon(new ImageIcon(controller
+							.getResource("assets/Icons/stopedittask.png")));
+
 				} else { // call edit task method
 
 					// TODO
@@ -328,7 +320,7 @@ if(!editBut.getIcon().toString().contains("stop")){
 					String date = dateField.getText();
 					// TODO change priorty to drop down list
 
-					//String priority = priorityField.getText();
+					// String priority = priorityField.getText();
 
 					Task.Priority priority = bar.getPriority();
 					// TODO: non meglio che categoryBox contenga direttamente
@@ -339,7 +331,8 @@ if(!editBut.getIcon().toString().contains("stop")){
 					String description = descriptionArea.getText();
 
 					try {
-						controller.editTask(t, name, sdf, date, priority,
+						controller.editTask(t, name,
+								controller.getDateFormat(), date, priority,
 								t.getCompleted(), categoryName, description);
 					} catch (InvalidCategoryException e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),
@@ -349,25 +342,28 @@ if(!editBut.getIcon().toString().contains("stop")){
 						JOptionPane.showMessageDialog(null, e.getMessage(),
 								"Date problem", JOptionPane.WARNING_MESSAGE);
 
-						dateField.setText(sdf.format(t.getDate()));
-					} 
+						dateField.setText(controller.getDateFormat().format(
+								t.getDate()));
+					}
 					nameField.setBackground(Color.WHITE);
 					dateField.setBackground(Color.WHITE);
 					categoryBox.setBackground(Color.WHITE);
-//					bar.setBackground(Color.WHITE);
+					// bar.setBackground(Color.WHITE);
 					descriptionArea.setBackground(Color.WHITE);
 
 					setBackground(t.getCategory().getColor());
-					
-					editBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/edittask.png")));
-//
-//					editBut.setText( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
+
+					editBut.setIcon(new ImageIcon(controller
+							.getResource("assets/Icons/edittask.png")));
+					//
+					// editBut.setText(
+					// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 				}
 
 				nameField.setEnabled(!nameField.isEnabled());
 				dateField.setEnabled(!dateField.isEnabled());
 				categoryBox.setEnabled(!categoryBox.isEnabled());
-//				priorityField.setEnabled(!priorityField.isEnabled());
+				// priorityField.setEnabled(!priorityField.isEnabled());
 				bar.setEnabled(!bar.isEnabled());
 
 				descriptionArea.setEnabled(!descriptionArea.isEnabled());
@@ -384,10 +380,11 @@ if(!editBut.getIcon().toString().contains("stop")){
 
 		// Delete button apre un popup di conferma
 		deleteBut = new JButton();
-//		deleteBut = new JButton( lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
-		deleteBut.setIcon(new ImageIcon(controller.getResource("assets/Icons/deletetask.png")));
-		
-		
+		// deleteBut = new JButton(
+		// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
+		deleteBut.setIcon(new ImageIcon(controller
+				.getResource("assets/Icons/deletetask.png")));
+
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 

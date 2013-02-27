@@ -86,7 +86,7 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 			sortingBar = new SortingBar(controller);
 			// sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date",
 			// "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -121,7 +121,7 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 		// DataModel.ChangeMessage.
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = controller.getLanguageBundle();
 			completedButton.setText(lang
 					.getString("mainFrame.middlePanel.button.completed.name"));
@@ -129,7 +129,5 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 					.getString("mainFrame.middlePanel.button.pending.name"));
 
 		}
-
 	}
-
 }

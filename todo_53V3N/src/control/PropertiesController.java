@@ -38,10 +38,11 @@ public final class PropertiesController {
 	 * 
 	 * @param key
 	 * @param value
+	 * @param notifyObservers indicates wheter the property change should fire an event
 	 * @return
 	 */
-	public final void setProperty(String key, String value) {
-		dataModel.setProperty(key, value);
+	public final void setProperty(String key, String value, boolean notifyObservers) {
+		dataModel.setProperty(key, value, notifyObservers);
 	}
 
 	/**

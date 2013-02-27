@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import control.ControllerInterface;
 
+@SuppressWarnings("serial")
 public class ToDoSortingBar extends JPanel implements Observer{
 	
 	private SortingTab activeTab;
@@ -303,10 +304,9 @@ public class ToDoSortingBar extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = controller.getLanguageBundle();
 			tab1.setName(lang
 					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));

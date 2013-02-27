@@ -106,10 +106,10 @@ public final class DataModel extends Observable {
 					GlobalValues.WINYSIZEVAL);
 			props.setProperty(GlobalValues.WINXPOSKEY, GlobalValues.WINXPOSVAL);
 			props.setProperty(GlobalValues.WINYPOSKEY, GlobalValues.WINYPOSVAL);
-		}
 
-		// TODO load language bundle: use locale read from props, how???
-		// System.out.println(Locale.ENGLISH);
+			props.setProperty(GlobalValues.DATEFORMATKEY,
+					GlobalValues.DATEFORMATVAL);
+		}
 
 		// XXX: Marco: attention to this!!! where put properties files???
 		// https://blogs.oracle.com/chengfang/entry/p_java_util_missingresourceexception_can
@@ -325,10 +325,16 @@ public final class DataModel extends Observable {
 	 * 
 	 * @param key
 	 * @param value
+	 * @param notifyObservers
+	 *            indicates wheter the property change should fire an event
 	 * @return
 	 */
-	public final void setProperty(String key, String value) {
+	public final void setProperty(String key, String value,
+			boolean notifyObservers) {
 		props.setProperty(key, value);
+
+		if (notifyObservers)
+			hasChanged(ChangeMessage.CHANGED_PROPERTY);
 	}
 
 	/**
@@ -350,9 +356,7 @@ public final class DataModel extends Observable {
 		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
 				GlobalValues.supportedLocales[language.ordinal()]);
 
-		setProperty(GlobalValues.LANGUAGEKEY, language.toString());
-
-		hasChanged(ChangeMessage.CHANGED_LANG);
+		setProperty(GlobalValues.LANGUAGEKEY, language.toString(), true);
 	}
 
 	/**
@@ -435,7 +439,7 @@ public final class DataModel extends Observable {
 	 */
 	public final void hasChanged(ChangeMessage msg) {
 
-		System.out.println("[DataModel]hasChanged -> " + msg);
+		// System.out.println("[DataModel]hasChanged -> " + msg);
 		setChanged();
 		notifyObservers(msg);
 	}

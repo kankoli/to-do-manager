@@ -314,7 +314,7 @@ public class SortingBar extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = controller.getLanguageBundle();
 			tab1.setName(lang
 					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));

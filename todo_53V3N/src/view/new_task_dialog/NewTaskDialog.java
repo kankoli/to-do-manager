@@ -63,8 +63,8 @@ public class NewTaskDialog extends JDialog {
 	private JTextField descriptionField;
 	private JTextField dateField;
 	private JComboBox<String> cmbCategory;
-	private PriorityBar bar; 
-	
+	private PriorityBar bar;
+
 	private ControllerInterface controller;
 
 	public NewTaskDialog(final ControllerInterface controller) {
@@ -92,39 +92,41 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 1;
 		pane.add(label, c);
 
-//		ImageButton imageButton = new ImageButton("assets/def.png",
-//				"assets/hover1.png", "assets/pressed1.png",
-//				"assets/pressed1.png");
-//		c.gridx = 1;
-//		c.gridy = 1;
-//		pane.add(imageButton, c);
+		// ImageButton imageButton = new ImageButton("assets/def.png",
+		// "assets/hover1.png", "assets/pressed1.png",
+		// "assets/pressed1.png");
+		// c.gridx = 1;
+		// c.gridy = 1;
+		// pane.add(imageButton, c);
 
 		descriptionField = new JTextField();
 		c.gridx = 1;
 		c.gridy = 1;
 		pane.add(descriptionField, c);
-		
+
 		label = new JLabel("Date");
 		c.gridx = 0;
 		c.gridy = 2;
 		// XXX Marco: i think is better to use the BorderFactory, see below
-//		pane.add(label, c);
+		// pane.add(label, c);
 
 		dateField = new JTextField();
-		dateField.setBorder(BorderFactory.createTitledBorder("Date"));	// TODO 
-		
+		dateField.setBorder(BorderFactory.createTitledBorder("Date")); // TODO
+
+		dateField.setText(controller.getDateFormat().toPattern());
+
 		c.gridx = 1;
 		c.gridy = 2;
 		pane.add(dateField, c);
-		
+
 		label = new JLabel("Category");
 		c.gridx = 0;
 		c.gridy = 3;
 		pane.add(label, c);
 
 		cmbCategory = new JComboBox<String>();
-		
-		for (Category ca : controller.getCategories().values()) 
+
+		for (Category ca : controller.getCategories().values())
 			cmbCategory.addItem(ca.getName());
 
 		c.gridx = 1;
@@ -136,12 +138,12 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 4;
 		pane.add(label, c);
 
-		bar = new PriorityBar("assets/def.png",
-				"assets/hover1.png", "assets/pressed1.png",
-				"assets/pressed1.png", "assets/hover2.png",
-				"assets/pressed2.png", "assets/pressed2.png",
-				"assets/hover3.png", "assets/pressed3.png",
-				"assets/pressed3.png", Task.Priority.NOT_SET);
+		bar = new PriorityBar("assets/def.png", "assets/hover1.png",
+				"assets/pressed1.png", "assets/pressed1.png",
+				"assets/hover2.png", "assets/pressed2.png",
+				"assets/pressed2.png", "assets/hover3.png",
+				"assets/pressed3.png", "assets/pressed3.png",
+				Task.Priority.NOT_SET);
 		c.gridx = 1;
 		c.gridy = 4;
 		pane.add(bar, c);
@@ -174,25 +176,22 @@ public class NewTaskDialog extends JDialog {
 				String name = nameField.getText();
 
 				String description = descriptionField.getText();
-				
-				// TODO ricorda che ci serve il dateformat!
-				 SimpleDateFormat sdf = new SimpleDateFormat(
-						"dd-MM-yyyy HH:mm");
 
+				// TODO date picker
 				Date date = null;
 				try {
-					date = sdf.parse(dateField.getText());
+					date = controller.getDateFormat()
+							.parse(dateField.getText());
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 				Task.Priority priority = bar.getPriority();
-				
+
 				boolean completed = false;
 
 				String categoryName = ((String) cmbCategory.getSelectedItem());
-				
 
 				// public final void addTask(String name, Date date, String
 				// priority,

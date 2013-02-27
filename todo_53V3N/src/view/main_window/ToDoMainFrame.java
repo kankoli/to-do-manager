@@ -131,9 +131,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				Dimension d = f.getSize();
 
 				controller.setProperty(GlobalValues.WINXSIZEKEY,
-						Double.toString(d.getWidth()));
+						Double.toString(d.getWidth()), false);
 				controller.setProperty(GlobalValues.WINYSIZEKEY,
-						Double.toString(d.getHeight()));
+						Double.toString(d.getHeight()), false);
 			}
 
 			public void componentMoved(ComponentEvent e) {
@@ -142,9 +142,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				Point p = f.getLocation();
 
 				controller.setProperty(GlobalValues.WINXPOSKEY,
-						Double.toString(p.getX()));
+						Double.toString(p.getX()), false);
 				controller.setProperty(GlobalValues.WINYPOSKEY,
-						Double.toString(p.getY()));
+						Double.toString(p.getY()), false);
 			}
 
 		});
@@ -263,6 +263,31 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
 		subMenu.add(menuItem);
 
+		
+		
+
+		subMenu = new JMenu(lang.getString("mainFrame.menubar.dateformat"));
+		subMenu.setMnemonic(KeyEvent.VK_A);
+
+		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.dateformat.italian"));
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				controller.setDateFormat(ControllerInterface.DateFormat.ITALIAN);
+				
+			}});
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.dateformat.swedish"));
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				controller.setDateFormat(ControllerInterface.DateFormat.SWEDISH);
+				
+			}});
+		subMenu.add(menuItem);
+
+		menu.add(subMenu);
+		
+		
 		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
 		menu.setMnemonic(KeyEvent.VK_H);
 		getJMenuBar().add(menu);
@@ -320,7 +345,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_LANG) {
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			addMenu();
 			revalidate();
 			repaint();
