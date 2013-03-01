@@ -15,41 +15,32 @@ import model.DataModel;
 import model.Task;
 
 // TODO: log
-// LAVORATO CIRCA 1H 20
-// ho implementato la drop down, colori che cambiano...
 
-// Lavorato 2h: fatto il dialog con color chooser
-// altre 1.30 h per il primo design del controller mostrato al meeting, aggiunte eccezioni e small fixes
-// 1h per modifica interfaccia, implement of observer / observable behaviour
+//-----------------
 
-// worked with magnus on resourcebundle, properties, planning
-// 4h
+//TOTAL ASSIGNMENT 2 MARCO:
+// 29.30h
 
-// 1.30h in the evening to fix resourcebundle, properties
-
-// 2.30h mercoledi 20 con magnus: deciso come splittareil control, dove mettere le azioni
-//...
-
-// evening: 2hours changing control structure, adding actions, methods
-
-
-// worked all friday afternoon untill 23.30 for deadline
+//-------------------------------------
+//-------------------------------------
+//-------------------------------------
+//-------------------------------------
 
 // assignment 3
-// another 2 hours for meeting and sorting stuff
 
-//----------------
 
-/// 3 teacher
+// 3 hours TOT so far
 
-// 1-10 = 6 +6 +6 = 18 30 L 30 + 30 e lode = laude = distinction
 
-// final graduation ranking: 110 L
 
-// 18 -> 65 / 70
 
-// > 27  -> 110 OR 110L
 
+
+
+
+//--------------------
+//--------------------
+//--------------------
 //--------------------
 
 // 1) metti drop down list, con aggiunta categorie e controlli dinamici. Sistema layout...

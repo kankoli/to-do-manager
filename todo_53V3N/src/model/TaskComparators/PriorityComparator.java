@@ -1,4 +1,4 @@
-package control;
+package model.TaskComparators;
 
 import java.util.Comparator;
 
@@ -10,7 +10,7 @@ import model.Task;
  * @author Marco Dondio
  * 
  */
-public final class TaskPriorityComparator implements Comparator<Task> {
+public final class PriorityComparator implements Comparator<Task> {
 
 	public int compare(Task arg0, Task arg1) {		
 		int val0 = arg0.getPrio().ordinal();

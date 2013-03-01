@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 import control.ControllerInterface.SortType;
 
 import exceptions.InvalidCategoryException;
@@ -16,6 +17,10 @@ import model.Category;
 import model.Task;
 import model.DataModel;
 import model.Task.Priority;
+import model.TaskComparators.CategoryComparator;
+import model.TaskComparators.DateComparator;
+import model.TaskComparators.NameComparator;
+import model.TaskComparators.PriorityComparator;
 
 /**
  * This class will implement the data controller part.
@@ -68,16 +73,16 @@ public final class DataController {
 
 		switch (ordering) {
 		case NAME:
-			dataModel.sortTasks(new TaskNameComparator());
+			dataModel.sortTasks(new NameComparator());
 			break;
 		case DATE:
-			dataModel.sortTasks(new TaskDateComparator());
+			dataModel.sortTasks(new DateComparator());
 			break;
 		case CATEGORY:
-			dataModel.sortTasks(new TaskCategoryComparator());
+			dataModel.sortTasks(new CategoryComparator());
 			break;
 		case PRIORITY:
-			dataModel.sortTasks(new TaskPriorityComparator());
+			dataModel.sortTasks(new PriorityComparator());
 			break;
 		default: // NONE or others, no ordering
 			break;

@@ -263,31 +263,33 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
 		subMenu.add(menuItem);
 
-		
-		
-
 		subMenu = new JMenu(lang.getString("mainFrame.menubar.dateformat"));
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
-		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.dateformat.italian"));
-		menuItem.addActionListener(new ActionListener(){
+		menuItem = new JMenuItem(
+				lang.getString("mainFrame.menubar.dateformat.italian"));
+		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.setDateFormat(ControllerInterface.DateFormat.ITALIAN);
-				
-			}});
+				controller
+						.setDateFormat(ControllerInterface.DateFormat.ITALIAN);
+
+			}
+		});
 		subMenu.add(menuItem);
 
-		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.dateformat.swedish"));
-		menuItem.addActionListener(new ActionListener(){
+		menuItem = new JMenuItem(
+				lang.getString("mainFrame.menubar.dateformat.swedish"));
+		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.setDateFormat(ControllerInterface.DateFormat.SWEDISH);
-				
-			}});
+				controller
+						.setDateFormat(ControllerInterface.DateFormat.SWEDISH);
+
+			}
+		});
 		subMenu.add(menuItem);
 
 		menu.add(subMenu);
-		
-		
+
 		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
 		menu.setMnemonic(KeyEvent.VK_H);
 		getJMenuBar().add(menu);

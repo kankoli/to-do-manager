@@ -1,4 +1,4 @@
-package control;
+package model.TaskComparators;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -12,7 +12,7 @@ import model.Task;
  * @author Marco Dondio
  * 
  */
-public final class TaskDateComparator implements Comparator<Task> {
+public final class DateComparator implements Comparator<Task> {
 
 	public int compare(Task arg0, Task arg1) {
 
