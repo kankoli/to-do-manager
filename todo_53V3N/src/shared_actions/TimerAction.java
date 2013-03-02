@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import control.ControllerInterface;
+
 
 // TODO: NOT A PRIORITY!!!!
 
@@ -16,10 +18,17 @@ import javax.swing.AbstractAction;
 	
 @SuppressWarnings("serial")
 public class TimerAction extends AbstractAction {
+	
+	private ControllerInterface controller;
+	
+	public TimerAction(ControllerInterface controller) {
+		super("", null);
 
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		this.controller = controller;
 	}
 
+	
+	public void actionPerformed(ActionEvent e) {
+		controller.saveDB();
+	}
 }

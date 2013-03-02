@@ -5,8 +5,9 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import control.ControllerInterface;
+
 import model.Task;
-import model.Task.Priority;
 
 
 @SuppressWarnings("serial")
@@ -40,33 +41,27 @@ public class PriorityBar extends JPanel {
 	protected static ImageIcon pressed3;
 	protected static ImageIcon clicked3;
 	
+	protected static boolean imagesLoaded = false;
+	
 	private PriorityButton btn1;
 	private PriorityButton btn2;
 	private PriorityButton btn3;
 	
-	public PriorityBar(String def,
-			String hover1, String pressed1, String clicked1, 
-			String hover2, String pressed2, String clicked2,
-			String hover3, String pressed3, String clicked3, Task.Priority prio) {
+	public PriorityBar(Task.Priority prio, ControllerInterface ci) {
 		
 		this.prio = prio;
 		
-		this.def = new ImageIcon(def);
-		this.hover1 = new ImageIcon(hover1);
-		this.pressed1 = new ImageIcon(pressed1);
-		this.clicked1 = new ImageIcon(clicked1);
-		this.hover2 = new ImageIcon(hover2);
-		this.pressed2 = new ImageIcon(pressed2);
-		this.clicked2 = new ImageIcon(clicked2);
-		this.hover3 = new ImageIcon(hover3);
-		this.pressed3 = new ImageIcon(pressed3);
-		this.clicked3 = new ImageIcon(clicked3);
+		if(!imagesLoaded) {
+			loadImages(ci);
+			imagesLoaded = true;
+		}			
 		
 		btn1 = new PriorityButton(this, Task.Priority.LOW, def, hover1, pressed1, clicked1);
 		btn2 = new PriorityButton(this, Task.Priority.NORMAL, def, hover2, pressed2, clicked2);
 		btn3 = new PriorityButton(this, Task.Priority.HIGH, def, hover3, pressed3, clicked3);
 		
 		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setHgap(0);
 		setLayout(flowLayout);
 
 		add(btn1);
@@ -76,6 +71,18 @@ public class PriorityBar extends JPanel {
 		setButtons();
 	}
 	
+	public void loadImages(ControllerInterface ci) {
+		this.def = new ImageIcon(ci.getResource("assets/prio_def.png"));
+		this.hover1 = new ImageIcon(ci.getResource("assets/prio_1_hover.png"));
+		this.pressed1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
+		this.clicked1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
+		this.hover2 = new ImageIcon(ci.getResource("assets/prio_2_hover.png"));
+		this.pressed2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
+		this.clicked2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
+		this.hover3 = new ImageIcon(ci.getResource("assets/prio_3_hover.png"));
+		this.pressed3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
+		this.clicked3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
+	}
 	
 	public void setButtons() {
 		if (!isEnabled())

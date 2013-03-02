@@ -239,11 +239,7 @@ public final class TaskRow extends JPanel {
 
 		// PriorityBar pb = new PriorityBar(name, name, name, name, name, name,
 		// name, name, name, name);
-		bar = new PriorityBar("assets/def.png", "assets/hover1.png",
-				"assets/pressed1.png", "assets/pressed1.png",
-				"assets/hover2.png", "assets/pressed2.png",
-				"assets/pressed2.png", "assets/hover3.png",
-				"assets/pressed3.png", "assets/pressed3.png", t.getPrio());
+		bar = new PriorityBar(t.getPrio(), controller);
 		bar.setEnabled(false);
 
 		con = new GridBagConstraints();

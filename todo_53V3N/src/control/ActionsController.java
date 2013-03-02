@@ -11,6 +11,7 @@ import shared_actions.ExitAction;
 import shared_actions.NewCategoryAction;
 import shared_actions.NewTaskAction;
 import shared_actions.SortTaskAction;
+import shared_actions.TimerAction;
 import model.DataModel;
 
 /**
@@ -30,7 +31,7 @@ public final class ActionsController {
 	private Action newTask;
 	private Action newCategory;
 	private Action sortTasks;
-	private Action timerAction; // XXX unused now
+	private Action timerAction;
 
 	public ActionsController(DataModel dataModel, ControllerInterface ci) {
 
@@ -73,7 +74,8 @@ public final class ActionsController {
 				lang.getString("shared_actions.sorttaskaction.text"), null,
 				lang.getString("shared_actions.sorttaskaction.desc"),
 				KeyEvent.VK_O, ci);
-		// timerAction = ...; // XXX unused now
+		
+		timerAction = new TimerAction(ci); 
 
 	}
 

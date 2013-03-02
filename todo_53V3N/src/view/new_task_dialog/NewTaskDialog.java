@@ -48,6 +48,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.Category;
@@ -60,7 +61,7 @@ import control.ControllerInterface;
 public class NewTaskDialog extends JDialog {
 
 	private JTextField nameField;
-	private JTextField descriptionField;
+	private JTextArea descriptionField;
 	private JTextField dateField;
 	private JComboBox<String> cmbCategory;
 	private PriorityBar bar;
@@ -70,27 +71,25 @@ public class NewTaskDialog extends JDialog {
 	public NewTaskDialog(final ControllerInterface controller) {
 		super();
 		this.controller = controller;
-
+		setTitle("New Task");
+		setPreferredSize(new Dimension(160,275));
+		setMinimumSize(new Dimension(160,275));
+		
 		JPanel pane = (JPanel) getContentPane();
-
+		pane.setBackground(Color.WHITE);
+		
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		JLabel label = new JLabel("Name");
+		
+		nameField = new JTextField();
+		nameField.setBorder(BorderFactory.createTitledBorder("Name"));
 		c.gridx = 0;
 		c.gridy = 0;
-		pane.add(label, c);
-
-		nameField = new JTextField();
-		c.gridx = 1;
-		c.gridy = 0;
+		c.gridwidth = 2;
 		pane.add(nameField, c);
 
-		label = new JLabel("Description");
-		c.gridx = 0;
-		c.gridy = 1;
-		pane.add(label, c);
 
 		// ImageButton imageButton = new ImageButton("assets/def.png",
 		// "assets/hover1.png", "assets/pressed1.png",
@@ -99,53 +98,43 @@ public class NewTaskDialog extends JDialog {
 		// c.gridy = 1;
 		// pane.add(imageButton, c);
 
-		descriptionField = new JTextField();
-		c.gridx = 1;
+		descriptionField = new JTextArea();
+		descriptionField.setBorder(BorderFactory.createTitledBorder("Description"));
+		descriptionField.setRows(3);
+		c.gridx = 0;
 		c.gridy = 1;
+		c.gridwidth = 2;
+
+		descriptionField.setLineWrap(true);
+		descriptionField.setWrapStyleWord(true);
 		pane.add(descriptionField, c);
 
-		label = new JLabel("Date");
-		c.gridx = 0;
-		c.gridy = 2;
-		// XXX Marco: i think is better to use the BorderFactory, see below
-		// pane.add(label, c);
-
 		dateField = new JTextField();
-		dateField.setBorder(BorderFactory.createTitledBorder("Date")); // TODO
-
+		dateField.setBorder(BorderFactory.createTitledBorder("Date"));
 		dateField.setText(controller.getDateFormat().toPattern());
-
-		c.gridx = 1;
-		c.gridy = 2;
-		pane.add(dateField, c);
-
-		label = new JLabel("Category");
 		c.gridx = 0;
-		c.gridy = 3;
-		pane.add(label, c);
+		c.gridy = 2;
+		c.gridwidth = 2;
+		pane.add(dateField, c);
 
 		cmbCategory = new JComboBox<String>();
 
 		for (Category ca : controller.getCategories().values())
 			cmbCategory.addItem(ca.getName());
 
-		c.gridx = 1;
+		cmbCategory.setBorder(BorderFactory.createTitledBorder("Category")); 
+		c.gridx = 0;
 		c.gridy = 3;
+		c.gridwidth = 2;
+		cmbCategory.setBackground(Color.WHITE);
 		pane.add(cmbCategory, c);
 
-		label = new JLabel("Priority");
+		bar = new PriorityBar(Task.Priority.NOT_SET, controller);
+		bar.setBorder(BorderFactory.createTitledBorder("Priority"));
 		c.gridx = 0;
 		c.gridy = 4;
-		pane.add(label, c);
-
-		bar = new PriorityBar("assets/def.png", "assets/hover1.png",
-				"assets/pressed1.png", "assets/pressed1.png",
-				"assets/hover2.png", "assets/pressed2.png",
-				"assets/pressed2.png", "assets/hover3.png",
-				"assets/pressed3.png", "assets/pressed3.png",
-				Task.Priority.NOT_SET);
-		c.gridx = 1;
-		c.gridy = 4;
+		c.gridwidth = 2;
+		bar.setBackground(Color.WHITE);
 		pane.add(bar, c);
 
 		JButton button = new JButton("Cancel");
@@ -161,6 +150,7 @@ public class NewTaskDialog extends JDialog {
 		c.insets = new Insets(10, 0, 0, 0); // top padding
 		c.gridx = 0; // aligned with button 2
 		c.gridy = 5; // third row
+		c.gridwidth = 1;
 		pane.add(button, c);
 
 		button = new JButton("Ok");
@@ -169,9 +159,6 @@ public class NewTaskDialog extends JDialog {
 
 			public void actionPerformed(ActionEvent e) {
 
-				// TODO DUMMY VALUES
-				// finish this dialog... at the moment im using dummy values
-				// only
 
 				String name = nameField.getText();
 
@@ -193,9 +180,6 @@ public class NewTaskDialog extends JDialog {
 
 				String categoryName = ((String) cmbCategory.getSelectedItem());
 
-				// public final void addTask(String name, Date date, String
-				// priority,
-				// Boolean completed, String categoryName, String description) {
 				controller.addTask(name, date, priority, completed,
 						categoryName, description);
 
@@ -208,6 +192,7 @@ public class NewTaskDialog extends JDialog {
 		c.insets = new Insets(10, 0, 0, 0); // top padding
 		c.gridx = 1; // aligned with button 2
 		c.gridy = 5; // third row
+		c.gridwidth = 1;
 		pane.add(button, c);
 
 		pack();

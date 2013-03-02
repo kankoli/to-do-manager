@@ -1,5 +1,6 @@
 package view.custom_components;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,7 +24,7 @@ public class ImageButton extends JLabel {
 		this.pressed = new ImageIcon(p_pressed);
 		this.clicked = new ImageIcon(p_clicked);
 		this.isClicked = false;
-
+		
 		setIcon(this.def);
 		addMouseListener(new MouseListener() {
 			@Override
