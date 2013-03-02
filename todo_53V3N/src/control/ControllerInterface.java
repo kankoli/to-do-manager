@@ -12,6 +12,7 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.Action;
+import javax.swing.Timer;
 
 import utility.GlobalValues;
 import utility.GlobalValues.Languages;
@@ -36,6 +37,8 @@ import model.Task.Priority;
 
 public final class ControllerInterface {
 
+	public final static int AUTOSAVE_INTERVAL = 300000; // Time interval (5 minutes) to perform one autosave
+	
 	public static enum SortType {
 		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
@@ -80,6 +83,11 @@ public final class ControllerInterface {
 		pc = new PropertiesController(dataModel);
 		oc = new ObserverController(dataModel);
 
+		// Timer object is used to fire up the TimerAction every AUTOSAVE_INTERVAL miliseconds.
+		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL, this
+				.getAction(ControllerInterface.ActionName.TIMER));
+		autosaveTimer.start();
+		
 		// This makes a date like "31-13-2013 17:45"
 		// not valid!
 		for (SimpleDateFormat sdf : dateFormats)

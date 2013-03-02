@@ -40,6 +40,7 @@ public class ToDoMainTopPanel extends JPanel {
 
 		setLayout(new GridBagLayout());
 
+		addFlags();
 		addUrgentButton();
 		addTimeLabel();
 		addNewTaskButton();
@@ -54,6 +55,10 @@ public class ToDoMainTopPanel extends JPanel {
 		setVisible(true);
 	}
 
+	private void addFlags() {
+		
+	}
+	
 	private void addUrgentButton() {
 		ResourceBundle lang = controller.getLanguageBundle();
 
@@ -82,7 +87,7 @@ public class ToDoMainTopPanel extends JPanel {
 		urgentButton.setBackground(Color.WHITE);
 		urgentButton.setOpaque(true);
 		urgentButtonCons.gridx = 0;
-		urgentButtonCons.gridy = 0;
+		urgentButtonCons.gridy = 1;
 		urgentButtonCons.weightx = 0;
 		urgentButtonCons.weighty = 0;
 		urgentButtonCons.insets = new Insets(0, 10, 0, 0);
@@ -99,7 +104,7 @@ public class ToDoMainTopPanel extends JPanel {
 		timeLabel.setBackground(Color.WHITE);
 		timeLabel.setOpaque(true);
 		timeLabelCons.gridx = 1;
-		timeLabelCons.gridy = 0;
+		timeLabelCons.gridy = 1;
 		timeLabelCons.weightx = 1;
 		timeLabelCons.weighty = 0;
 		timeLabelCons.anchor = GridBagConstraints.CENTER;
@@ -124,7 +129,7 @@ public class ToDoMainTopPanel extends JPanel {
 		newTaskButton.setBackground(Color.WHITE);
 		newTaskButton.setOpaque(true);
 		newTaskButtonCons.gridx = 2;
-		newTaskButtonCons.gridy = 0;
+		newTaskButtonCons.gridy = 1;
 		newTaskButtonCons.weightx = 0;
 		newTaskButtonCons.weighty = 0;
 		newTaskButtonCons.insets = new Insets(0, 0, 0, 10);

@@ -14,11 +14,11 @@ public class PriorityButton extends ImageButton {
 	private Task.Priority prio;
 	private PriorityBar parent;
 
-	PriorityButton(PriorityBar p, Task.Priority tp, String p_def, String p_hover, String p_pressed, String p_clicked) {
-		this.def = new ImageIcon(p_def);
-		this.hover = new ImageIcon(p_hover);
-		this.pressed = new ImageIcon(p_pressed);
-		this.clicked = new ImageIcon(p_clicked);
+	PriorityButton(PriorityBar p, Task.Priority tp, ImageIcon p_def, ImageIcon p_hover, ImageIcon p_pressed, ImageIcon p_clicked) {
+		this.def = p_def;
+		this.hover = p_hover;
+		this.pressed = p_pressed;
+		this.clicked = p_clicked;
 		this.isClicked = false;
 
 		this.prio = tp;
