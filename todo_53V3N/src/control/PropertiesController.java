@@ -74,13 +74,6 @@ public final class PropertiesController {
 	}
 
 	/**
-	 * This method is called to retrieve current theme
-	 */
-	public final Properties getTheme() {
-		return dataModel.getTheme();
-	}
-
-	/**
 	 * This method is called when new theme is selected
 	 * 
 	 * @param index
@@ -88,12 +81,8 @@ public final class PropertiesController {
 	 * @throws FileNotFoundException 
 	 */
 	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
-
-		Themes oldTheme = Themes.valueOf(dataModel
-				.getProperty(GlobalValues.THEMEKEY));
-		if (oldTheme != theme)
+			
 			dataModel.setTheme(theme);
-
 	}
 
 }

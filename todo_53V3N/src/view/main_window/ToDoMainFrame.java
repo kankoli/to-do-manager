@@ -34,6 +34,10 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.metal.DefaultMetalTheme;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
+import javax.swing.plaf.metal.OceanTheme;
 
 import model.DataModel;
 
@@ -71,10 +75,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	public ToDoMainFrame() {
 		super();
 
+		// String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+		// System.out.println(lookAndFeel);
 
-		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-		System.out.println(lookAndFeel);
-		
 		DataModel db = null; // TODO exception handling, exception throwing..
 		try {
 			db = new DataModel();
@@ -122,8 +125,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		setContentPane(basePanel);
 
-		
-		changeTheme();
+		// XXX Marco: is good place to call it BEFORE adding components?
+		// First we set theme using last one
+		loadTheme();
 
 		pack();
 		setVisible(true);
@@ -332,7 +336,23 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				// TODO to be fixed, quick way
 
 				try {
-					controller.setTheme(GlobalValues.Themes.ANOTHER);
+					controller.setTheme(GlobalValues.Themes.THEME_0);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem(
+				lang.getString("mainFrame.menubar.theme.another1.name"));
+		menuItem.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO to be fixed, quick way
+
+				try {
+					controller.setTheme(GlobalValues.Themes.THEME_1);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -394,83 +414,90 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		bottomCons.fill = GridBagConstraints.BOTH;
 		basePanel.add(bottomPanel, bottomCons);
 	}
-	
-	
-	public void changeTheme(){
 
-		
+	/**
+	 * This method is called to change theme using currently setted theme
+	 */
+	private void loadTheme() {
+
 		// TODO we should have this one as default???
 
-		try {
 
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			System.out.println("[loadTheme] Theme changed, theme color is: "
+					+ controller.getProperty(GlobalValues.THEMEKEY));
+//			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				UIManager.setLookAndFeel(new MetalLookAndFeel());
+			} catch (UnsupportedLookAndFeelException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		
 
 		// TODO this is table of default values for THIS theme
 
-//		http://tips4java.wordpress.com/2008/10/09/uimanager-defaults/
-//		http://home.tiscali.nl/bmc88/java/sbook/061.html
+		// http://tips4java.wordpress.com/2008/10/09/uimanager-defaults/
+		// http://home.tiscali.nl/bmc88/java/sbook/061.html
+
+		// lista
+		// http://alvinalexander.com/java/java-uimanager-color-keys-list
 
 		// TODO now list all default values
-		UIDefaults defaults = 		UIManager.getLookAndFeelDefaults();
-		
-		for(Object v : 		defaults.keySet()){
-			System.out.println(v);
-		}
-		
-		
-//		FontUIResource a;
+		// UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+		//
+		// for (Object v : defaults.keySet()) {
+		// System.out.println(v);
+		// }
 
-		
-		
-
-
-		
-		// Now retrieve current theme object and override!
-		// sta roba conterrò key - value pairs, POI li uso per 
-		// inizializzare sotto.. es posso avere interi codificati per i colori
-		// oppure nomi dei font
-		// oppure altro???
+		// Now get my theme.. collection of key - value pair
 		Properties theme = controller.getThemeBundle();
 
-		
-// TODO now we have a list of properties...
-		UIManager.put("Button.background", Color.red);
+//		UIDefaults defaults = UIManager.getLookAndFeel().getDefaults();
+//		System.out.println("[DEFAULT] "
+//				+ defaults.getColor("Button.background"));
 
-		
-//		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-//		
-		
-//		
-//		UIManager.put("nimbusBase", Color.red);
-//		UIManager.put("nimbusBlueGrey", Color.black);
-//		UIManager.put("control", Color.gray);
+		// TODO now we have a list of properties taken from themeù
 
-		
-		SwingUtilities.updateComponentTreeUI(this);
-		pack();
-		
+		String s = null;
+
+		if ((s = theme.getProperty("Button.background")) != null) {
+			System.out.println("Cambiato a "
+					+ new ColorUIResource(new Color(Integer.parseInt(s))));
+
+			 UIManager.put("Button.background", new
+			 Color(Integer.parseInt(s)));
+
+//			 UIManager.put("Button.background", new
+//			 Color(Integer.parseInt(s)));
 //
-//		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//		    if ("Nimbus".equals(info.getName())) {
-//		        UIManager.setLookAndFeel(info.getClassName());
-//		        break;
-//		    }
-//		}
+			 
+			// UIManager.put("Button.background", new ColorUIResource (new
+			// Color(Integer.parseInt(s))));
+//			 UIManager.getLookAndFeelDefaults().put("Button.background", new Color(Integer.parseInt(s)));
 
+			// defaults.put("Button.background", new
+			// Color(Integer.parseInt(s)));
+
+
+		} else {
+			// TODO imponi la default
+			System.out.println("default button background");
+		}
+
+		
+
+		// TODO problema???? runtime non va!
+		SwingUtilities.updateComponentTreeUI(this);
+		revalidate();
+		repaint();
+
+//		SwingUtilities.updateComponentTreeUI(topPanel);
+//		SwingUtilities.updateComponentTreeUI(middlePanel);
+//		SwingUtilities.updateComponentTreeUI(bottomPanel);
+
+//		pack();
 	}
 
 	public void update(Observable o, Object arg) {
@@ -482,7 +509,10 @@ public class ToDoMainFrame extends JFrame implements Observer {
 			addMenu();
 			revalidate();
 			repaint();
-			changeTheme();
+		}
+
+		else if (msg == ControllerInterface.ChangeMessage.CHANGED_THEME) {
+			loadTheme();
 		}
 
 	}

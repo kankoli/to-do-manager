@@ -73,8 +73,6 @@ public final class DataModel extends Observable {
 	// For language support
 	private ResourceBundle languageBundle;
 
-	// For theme support
-	private Properties curTheme;
 
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
@@ -128,14 +126,11 @@ public final class DataModel extends Observable {
 				GlobalValues.supportedLocales[i]);
 
 		
-		System.out.println(props.getProperty(GlobalValues.THEMEKEY));
-		i = GlobalValues.Themes.valueOf(
-				props.getProperty(GlobalValues.THEMEKEY)).ordinal();
+//		System.out.println(props.getProperty(GlobalValues.THEMEKEY));
+//		i = GlobalValues.Themes.valueOf(
+//				props.getProperty(GlobalValues.THEMEKEY)).ordinal();
 
 		
-		// Load theme
-		curTheme = new Properties();
-		curTheme.load(new FileInputStream(GlobalValues.supportedThemes[i]));
 
 
 		// debug
@@ -377,15 +372,6 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * This method is called to retrieve current theme
-	 */
-	public final Properties getTheme() {
-
-		return curTheme;
-
-	}
-
-	/**
 	 * This method is called when new theme is selected
 	 * 
 	 * @param index
@@ -394,10 +380,8 @@ public final class DataModel extends Observable {
 	 */
 	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
 
-		curTheme.load(new FileInputStream(GlobalValues.supportedThemes[theme.ordinal()]));
-
-		setProperty(GlobalValues.THEMEKEY, theme.toString(), true);
-
+		setProperty(GlobalValues.THEMEKEY, theme.toString(), false);
+		hasChanged(ChangeMessage.CHANGED_THEME);
 	}
 
 	/**

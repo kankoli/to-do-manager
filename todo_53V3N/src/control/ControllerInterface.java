@@ -1,8 +1,12 @@
 package control;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,8 +43,10 @@ import model.Task.Priority;
 
 public final class ControllerInterface {
 
-	public final static int AUTOSAVE_INTERVAL = 300000; // Time interval (5 minutes) to perform one autosave
-	
+	public final static int AUTOSAVE_INTERVAL = 300000; // Time interval (5
+														// minutes) to perform
+														// one autosave
+
 	public static enum SortType {
 		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
@@ -50,7 +56,7 @@ public final class ControllerInterface {
 	};
 
 	public static enum ChangeMessage {
-		INIT, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
 	};
 
 	// TODO move other enum here?
@@ -65,6 +71,9 @@ public final class ControllerInterface {
 
 	// TODO we were discussing if we could use dataModel in a static way
 	private DataModel dataModel;
+
+	// For theme support
+	private Properties curTheme;
 
 	private ClassLoader cl;
 
@@ -85,15 +94,37 @@ public final class ControllerInterface {
 		pc = new PropertiesController(dataModel);
 		oc = new ObserverController(dataModel);
 
-		// Timer object is used to fire up the TimerAction every AUTOSAVE_INTERVAL miliseconds.
-		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL, this
-				.getAction(ControllerInterface.ActionName.TIMER));
+		// Timer object is used to fire up the TimerAction every
+		// AUTOSAVE_INTERVAL miliseconds.
+		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL,
+				this.getAction(ControllerInterface.ActionName.TIMER));
 		autosaveTimer.start();
-		
+
 		// This makes a date like "31-13-2013 17:45"
 		// not valid!
 		for (SimpleDateFormat sdf : dateFormats)
 			sdf.setLenient(false);
+
+		// Load last execution theme
+		curTheme = new Properties();
+
+		try {
+
+			Themes theme = GlobalValues.Themes.valueOf(dataModel
+					.getProperty(GlobalValues.THEMEKEY));
+
+			curTheme.load(getResource(
+					GlobalValues.supportedThemes[theme.ordinal()]).openStream());
+
+			System.out
+					.println("[ControllerInterface] Tema settato da ultima esecuzione"
+							+ theme);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -208,10 +239,12 @@ public final class ControllerInterface {
 	 * 
 	 * @param key
 	 * @param value
-	 * @param notifyObservers indicates wheter the property change should fire an event
+	 * @param notifyObservers
+	 *            indicates wheter the property change should fire an event
 	 * @return
 	 */
-	public final void setProperty(String key, String value, boolean notifyObservers) {
+	public final void setProperty(String key, String value,
+			boolean notifyObservers) {
 		pc.setProperty(key, value, notifyObservers);
 	}
 
@@ -232,7 +265,8 @@ public final class ControllerInterface {
 	 */
 	public final void setDateFormat(DateFormat df) {
 
-		setProperty(GlobalValues.DATEFORMATKEY, Integer.toString(df.ordinal()), true);
+		setProperty(GlobalValues.DATEFORMATKEY, Integer.toString(df.ordinal()),
+				true);
 	}
 
 	/**
@@ -260,43 +294,33 @@ public final class ControllerInterface {
 		ac.refreshLanguage();
 	}
 
-	
-	
-	
-	
 	/**
 	 * This method is called to retrieve current theme
 	 */
 	public final Properties getThemeBundle() {
-		return pc.getTheme();
+		return curTheme;
 	}
-
 
 	/**
 	 * This method is called when new theme is selected
 	 * 
 	 * @param index
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
-	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
-
-		// System.out.println(language);
-//		pc.setLanguage(language);
-
-		
-		pc.setTheme(theme);
-		// XXX should i call the setlanguage on the actioncontroller as well?
-		// Or better: we should have the view explicitly call this method? to
-		// discuss
-//		ac.refreshLanguage();
-		
-		
+	public final void setTheme(Themes theme) throws FileNotFoundException,
+			IOException {
+		// XXX Marco: im managing theme at this level, you think it's good?
+		// i still want to use the classloader
+		Themes oldTheme = Themes.valueOf(dataModel
+				.getProperty(GlobalValues.THEMEKEY));
+		if (oldTheme != theme) {
+			curTheme.load(getResource(
+					GlobalValues.supportedThemes[theme.ordinal()]).openStream());
+			pc.setTheme(theme);
+		}
 	}
 
-	
-	
-	
 	/**
 	 * This method is called to register as an observer on the datamodel
 	 * 
