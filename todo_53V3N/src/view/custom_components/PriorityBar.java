@@ -72,16 +72,16 @@ public class PriorityBar extends JPanel {
 	}
 	
 	public void loadImages(ControllerInterface ci) {
-		this.def = new ImageIcon(ci.getResource("assets/prio_def.png"));
-		this.hover1 = new ImageIcon(ci.getResource("assets/prio_1_hover.png"));
-		this.pressed1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
-		this.clicked1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
-		this.hover2 = new ImageIcon(ci.getResource("assets/prio_2_hover.png"));
-		this.pressed2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
-		this.clicked2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
-		this.hover3 = new ImageIcon(ci.getResource("assets/prio_3_hover.png"));
-		this.pressed3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
-		this.clicked3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
+		PriorityBar.def = new ImageIcon(ci.getResource("assets/prio_def.png"));
+		PriorityBar.hover1 = new ImageIcon(ci.getResource("assets/prio_1_hover.png"));
+		PriorityBar.pressed1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
+		PriorityBar.clicked1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
+		PriorityBar.hover2 = new ImageIcon(ci.getResource("assets/prio_2_hover.png"));
+		PriorityBar.pressed2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
+		PriorityBar.clicked2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
+		PriorityBar.hover3 = new ImageIcon(ci.getResource("assets/prio_3_hover.png"));
+		PriorityBar.pressed3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
+		PriorityBar.clicked3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
 	}
 	
 	public void setButtons() {

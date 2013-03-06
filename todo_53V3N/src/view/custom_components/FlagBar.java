@@ -27,7 +27,9 @@ public class FlagBar extends JPanel {
 	private FlagButton btn2;
 	private FlagButton btn3;
 	
-	public FlagBar(ControllerInterface ci) {
+	public FlagBar(GlobalValues.Languages l, ControllerInterface ci) {
+		
+		this.language = l;
 		
 		if(!imagesLoaded) {
 			loadImages(ci);
@@ -53,16 +55,12 @@ public class FlagBar extends JPanel {
 	}
 	
 	private void loadImages(ControllerInterface ci) {
-		
-		// XXX Marco: ok static, but let's access them in static way then
-		// so eclipse is happy :)
-		// FlagBar.f_en_def = ...
-		this.f_en_def = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
-		this.f_swe_def = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
-		this.f_it_def = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
-		this.f_en_set = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
-		this.f_swe_set = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
-		this.f_it_set = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
+		FlagBar.f_en_def = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
+		FlagBar.f_swe_def = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
+		FlagBar.f_it_def = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
+		FlagBar.f_en_set = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
+		FlagBar.f_swe_set = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
+		FlagBar.f_it_set = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
 	}
 	
 	protected void setButtons() {
