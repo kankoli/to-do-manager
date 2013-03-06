@@ -27,6 +27,9 @@ public class FlagButton extends ImageButton {
 		this.parent = p;
 		
 		setIcon(this.def);
+		
+		// XXX Marco: instead of MouseListener, why not MouseAdapter? So you dont need to override
+		// useless methods, MouseAdapter does that automatically u just override what needed
 		addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

@@ -54,16 +54,11 @@ public final class ActionsController {
 		ImageIcon addtask = new ImageIcon(
 				ci.getResource("assets/Icons/addtask.png"));
 
-		// addtask.
 		newTask = new NewTaskAction(
 				lang.getString("shared_actions.newtaskaction.text"), addtask,
 				lang.getString("shared_actions.newtaskaction.desc"),
 				KeyEvent.VK_T, ci);
 
-		// newTask = new NewTaskAction(
-		// lang.getString("shared_actions.newtaskaction.text"), null,
-		// lang.getString("shared_actions.newtaskaction.desc"),
-		// KeyEvent.VK_T, ci);
 
 		newCategory = new NewCategoryAction(
 				lang.getString("shared_actions.newcategoryaction.text"), null,

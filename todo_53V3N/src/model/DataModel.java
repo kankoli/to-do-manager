@@ -35,6 +35,7 @@ import control.ControllerInterface.ChangeMessage;
 import utility.GeneralFunctions;
 import utility.GlobalValues;
 import utility.GlobalValues.Languages;
+import utility.GlobalValues.Themes;
 
 /**
  * This class represent the dataModel of our application. It contains all data
@@ -71,6 +72,9 @@ public final class DataModel extends Observable {
 
 	// For language support
 	private ResourceBundle languageBundle;
+
+	// For theme support
+	private Properties curTheme;
 
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
@@ -109,6 +113,8 @@ public final class DataModel extends Observable {
 
 			props.setProperty(GlobalValues.DATEFORMATKEY,
 					GlobalValues.DATEFORMATVAL);
+
+			props.setProperty(GlobalValues.THEMEKEY, GlobalValues.THEMEVAL);
 		}
 
 		// XXX: Marco: attention to this!!! where put properties files???
@@ -120,6 +126,17 @@ public final class DataModel extends Observable {
 
 		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
 				GlobalValues.supportedLocales[i]);
+
+		
+		System.out.println(props.getProperty(GlobalValues.THEMEKEY));
+		i = GlobalValues.Themes.valueOf(
+				props.getProperty(GlobalValues.THEMEKEY)).ordinal();
+
+		
+		// Load theme
+		curTheme = new Properties();
+		curTheme.load(new FileInputStream(GlobalValues.supportedThemes[i]));
+
 
 		// debug
 		// String value = languageBundle
@@ -357,6 +374,30 @@ public final class DataModel extends Observable {
 				GlobalValues.supportedLocales[language.ordinal()]);
 
 		setProperty(GlobalValues.LANGUAGEKEY, language.toString(), true);
+	}
+
+	/**
+	 * This method is called to retrieve current theme
+	 */
+	public final Properties getTheme() {
+
+		return curTheme;
+
+	}
+
+	/**
+	 * This method is called when new theme is selected
+	 * 
+	 * @param index
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
+
+		curTheme.load(new FileInputStream(GlobalValues.supportedThemes[theme.ordinal()]));
+
+		setProperty(GlobalValues.THEMEKEY, theme.toString(), true);
+
 	}
 
 	/**

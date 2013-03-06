@@ -25,10 +25,12 @@ public class GlobalValues {
 	// Supported locale
 	public static final Locale[] supportedLocales = { new Locale("swe"),
 			Locale.ENGLISH, Locale.ITALIAN };
-
 	public static enum Languages {
 		SWE, EN, IT
 	};
+
+	public static final String[] supportedThemes = { "DefaultTheme", "AnotherTheme" };
+	public static enum Themes {DEFAULT, ANOTHER};
 
 	/* Default properties values */
 	public static final String PROPSFILE = "config.properties";
@@ -53,5 +55,8 @@ public class GlobalValues {
 
 	public static final String DATEFORMATKEY = "DateFormat";
 	public static final String DATEFORMATVAL = "0";
+
+	public static final String THEMEKEY = "CurrentTheme";
+	public static final String THEMEVAL = "DEFAULT";
 
 }

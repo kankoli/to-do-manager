@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Observer;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.swing.Action;
@@ -16,6 +17,7 @@ import javax.swing.Timer;
 
 import utility.GlobalValues;
 import utility.GlobalValues.Languages;
+import utility.GlobalValues.Themes;
 
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
@@ -258,6 +260,43 @@ public final class ControllerInterface {
 		ac.refreshLanguage();
 	}
 
+	
+	
+	
+	
+	/**
+	 * This method is called to retrieve current theme
+	 */
+	public final Properties getThemeBundle() {
+		return pc.getTheme();
+	}
+
+
+	/**
+	 * This method is called when new theme is selected
+	 * 
+	 * @param index
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
+
+		// System.out.println(language);
+//		pc.setLanguage(language);
+
+		
+		pc.setTheme(theme);
+		// XXX should i call the setlanguage on the actioncontroller as well?
+		// Or better: we should have the view explicitly call this method? to
+		// discuss
+//		ac.refreshLanguage();
+		
+		
+	}
+
+	
+	
+	
 	/**
 	 * This method is called to register as an observer on the datamodel
 	 * 

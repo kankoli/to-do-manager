@@ -1,9 +1,13 @@
 package control;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import utility.GlobalValues;
 import utility.GlobalValues.Languages;
+import utility.GlobalValues.Themes;
 
 import model.DataModel;
 
@@ -38,10 +42,12 @@ public final class PropertiesController {
 	 * 
 	 * @param key
 	 * @param value
-	 * @param notifyObservers indicates wheter the property change should fire an event
+	 * @param notifyObservers
+	 *            indicates wheter the property change should fire an event
 	 * @return
 	 */
-	public final void setProperty(String key, String value, boolean notifyObservers) {
+	public final void setProperty(String key, String value,
+			boolean notifyObservers) {
 		dataModel.setProperty(key, value, notifyObservers);
 	}
 
@@ -66,4 +72,28 @@ public final class PropertiesController {
 		if (oldLanguage != language)
 			dataModel.setLanguage(language);
 	}
+
+	/**
+	 * This method is called to retrieve current theme
+	 */
+	public final Properties getTheme() {
+		return dataModel.getTheme();
+	}
+
+	/**
+	 * This method is called when new theme is selected
+	 * 
+	 * @param index
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
+
+		Themes oldTheme = Themes.valueOf(dataModel
+				.getProperty(GlobalValues.THEMEKEY));
+		if (oldTheme != theme)
+			dataModel.setTheme(theme);
+
+	}
+
 }

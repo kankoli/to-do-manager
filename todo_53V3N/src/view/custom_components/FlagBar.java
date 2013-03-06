@@ -34,6 +34,9 @@ public class FlagBar extends JPanel {
 			imagesLoaded = true;
 		}			
 		
+		// XXX Marco: why not a FlagButton[] btns = new FlagButton[3];
+		// and then btns[0] = new...
+		// ...
 		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set);
 		btn2 = new FlagButton(this, GlobalValues.Languages.SWE, f_swe_def, f_swe_def, f_swe_set, f_swe_set);
 		btn3 = new FlagButton(this, GlobalValues.Languages.IT, f_it_def, f_it_def, f_it_set, f_it_set);
@@ -50,6 +53,10 @@ public class FlagBar extends JPanel {
 	}
 	
 	private void loadImages(ControllerInterface ci) {
+		
+		// XXX Marco: ok static, but let's access them in static way then
+		// so eclipse is happy :)
+		// FlagBar.f_en_def = ...
 		this.f_en_def = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
 		this.f_swe_def = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
 		this.f_it_def = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));

@@ -13,10 +13,12 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -25,6 +27,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
 
 import model.DataModel;
 
@@ -62,6 +71,10 @@ public class ToDoMainFrame extends JFrame implements Observer {
 	public ToDoMainFrame() {
 		super();
 
+
+		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+		System.out.println(lookAndFeel);
+		
 		DataModel db = null; // TODO exception handling, exception throwing..
 		try {
 			db = new DataModel();
@@ -108,6 +121,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		addMenu();
 
 		setContentPane(basePanel);
+
+		
+		changeTheme();
 
 		pack();
 		setVisible(true);
@@ -290,6 +306,42 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		menu.add(subMenu);
 
+		subMenu = new JMenu(lang.getString("mainFrame.menubar.theme.name"));
+		subMenu.setMnemonic(KeyEvent.VK_A);
+
+		menuItem = new JMenuItem(
+				lang.getString("mainFrame.menubar.theme.default.name"));
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// TODO to be fixed, quick way
+				try {
+					controller.setTheme(GlobalValues.Themes.DEFAULT);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		subMenu.add(menuItem);
+
+		menuItem = new JMenuItem(
+				lang.getString("mainFrame.menubar.theme.another.name"));
+		menuItem.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO to be fixed, quick way
+
+				try {
+					controller.setTheme(GlobalValues.Themes.ANOTHER);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		subMenu.add(menuItem);
+
+		menu.add(subMenu);
+
 		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
 		menu.setMnemonic(KeyEvent.VK_H);
 		getJMenuBar().add(menu);
@@ -342,15 +394,95 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		bottomCons.fill = GridBagConstraints.BOTH;
 		basePanel.add(bottomPanel, bottomCons);
 	}
+	
+	
+	public void changeTheme(){
+
+		
+		// TODO we should have this one as default???
+
+		try {
+
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// TODO this is table of default values for THIS theme
+
+//		http://tips4java.wordpress.com/2008/10/09/uimanager-defaults/
+//		http://home.tiscali.nl/bmc88/java/sbook/061.html
+
+		// TODO now list all default values
+		UIDefaults defaults = 		UIManager.getLookAndFeelDefaults();
+		
+		for(Object v : 		defaults.keySet()){
+			System.out.println(v);
+		}
+		
+		
+//		FontUIResource a;
+
+		
+		
+
+
+		
+		// Now retrieve current theme object and override!
+		// sta roba conterr˜ key - value pairs, POI li uso per 
+		// inizializzare sotto.. es posso avere interi codificati per i colori
+		// oppure nomi dei font
+		// oppure altro???
+		Properties theme = controller.getThemeBundle();
+
+		
+// TODO now we have a list of properties...
+		UIManager.put("Button.background", Color.red);
+
+		
+//		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+//		
+		
+//		
+//		UIManager.put("nimbusBase", Color.red);
+//		UIManager.put("nimbusBlueGrey", Color.black);
+//		UIManager.put("control", Color.gray);
+
+		
+		SwingUtilities.updateComponentTreeUI(this);
+		pack();
+		
+//
+//		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//		    if ("Nimbus".equals(info.getName())) {
+//		        UIManager.setLookAndFeel(info.getClassName());
+//		        break;
+//		    }
+//		}
+
+	}
 
 	public void update(Observable o, Object arg) {
 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+
 			addMenu();
 			revalidate();
 			repaint();
+			changeTheme();
 		}
 
 	}
