@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import utility.GlobalValues;
+import view.custom_components.FlagBar;
+
 import control.ControllerInterface;
 
 /**
@@ -31,6 +34,7 @@ public class ToDoMainTopPanel extends JPanel {
 									// tasks
 	private JLabel timeLabel; // placeholder for a clock
 	private JButton newTaskButton;
+	private FlagBar flagBar;
 
 	private ControllerInterface controller;
 
@@ -56,7 +60,15 @@ public class ToDoMainTopPanel extends JPanel {
 	}
 
 	private void addFlags() {
-		
+		GridBagConstraints cons = new GridBagConstraints();
+		flagBar = new FlagBar(controller);
+		cons.gridx = 0;
+		cons.gridy = 0;
+		cons.weightx = 0;
+		cons.weighty = 0;
+		cons.insets = new Insets(0, 10, 0, 0);
+		cons.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(flagBar, cons);
 	}
 	
 	private void addUrgentButton() {

@@ -1,6 +1,8 @@
 package view.custom_components;
 
 import java.awt.FlowLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -10,7 +12,7 @@ import utility.GlobalValues;
 import control.ControllerInterface;
 
 @SuppressWarnings("serial")
-public class FlagBar extends JPanel {
+public class FlagBar extends JPanel implements Observer {
 
 	protected GlobalValues.Languages language;
 	
@@ -27,9 +29,11 @@ public class FlagBar extends JPanel {
 	private FlagButton btn2;
 	private FlagButton btn3;
 	
-	public FlagBar(GlobalValues.Languages l, ControllerInterface ci) {
-		
-		this.language = l;
+	private ControllerInterface ci;
+	
+	public FlagBar(ControllerInterface controller) {
+		this.ci = controller;
+		this.language = GlobalValues.Languages.valueOf(ci.getProperty(GlobalValues.LANGUAGEKEY));
 		
 		if(!imagesLoaded) {
 			loadImages(ci);
@@ -39,9 +43,10 @@ public class FlagBar extends JPanel {
 		// XXX Marco: why not a FlagButton[] btns = new FlagButton[3];
 		// and then btns[0] = new...
 		// ...
-		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set);
-		btn2 = new FlagButton(this, GlobalValues.Languages.SWE, f_swe_def, f_swe_def, f_swe_set, f_swe_set);
-		btn3 = new FlagButton(this, GlobalValues.Languages.IT, f_it_def, f_it_def, f_it_set, f_it_set);
+//		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set);
+		btn1 = new FlagButton(ci, this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set, ci.getAction(ControllerInterface.ActionName.CHANGELANG));
+		btn2 = new FlagButton(ci, this, GlobalValues.Languages.SWE, f_swe_def, f_swe_def, f_swe_set, f_swe_set, ci.getAction(ControllerInterface.ActionName.CHANGELANG));
+		btn3 = new FlagButton(ci, this, GlobalValues.Languages.IT, f_it_def, f_it_def, f_it_set, f_it_set, ci.getAction(ControllerInterface.ActionName.CHANGELANG));
 		
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setHgap(0);
@@ -52,15 +57,17 @@ public class FlagBar extends JPanel {
 		add(btn3);
 			
 		setButtons();
+		
+		ci.registerAsObserver(this);
 	}
 	
 	private void loadImages(ControllerInterface ci) {
 		FlagBar.f_en_def = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
 		FlagBar.f_swe_def = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
 		FlagBar.f_it_def = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
-		FlagBar.f_en_set = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
-		FlagBar.f_swe_set = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
-		FlagBar.f_it_set = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
+		FlagBar.f_en_set = new ImageIcon(ci.getResource("assets/Icons/F_UK_set.gif"));
+		FlagBar.f_swe_set = new ImageIcon(ci.getResource("assets/Icons/F_Sweden_set.gif"));
+		FlagBar.f_it_set = new ImageIcon(ci.getResource("assets/Icons/F_Italy_set.gif"));
 	}
 	
 	protected void setButtons() {
@@ -72,7 +79,7 @@ public class FlagBar extends JPanel {
 				btn1.setIcon(f_en_set);
 				btn2.setIcon(f_swe_def);
 				btn3.setIcon(f_it_def);
-				btn1.setClicked(false);
+				btn1.setClicked(true);
 				btn2.setClicked(false);
 				btn3.setClicked(false);
 				break;
@@ -80,8 +87,8 @@ public class FlagBar extends JPanel {
 				btn1.setIcon(f_en_def);
 				btn2.setIcon(f_swe_set);
 				btn3.setIcon(f_it_def);
-				btn1.setClicked(true);
-				btn2.setClicked(false);
+				btn1.setClicked(false);
+				btn2.setClicked(true);
 				btn3.setClicked(false);
 				break;
 			case IT:
@@ -89,12 +96,22 @@ public class FlagBar extends JPanel {
 				btn2.setIcon(f_swe_def);
 				btn3.setIcon(f_it_set);
 				btn1.setClicked(false);
-				btn2.setClicked(true);
-				btn3.setClicked(false);
+				btn2.setClicked(false);
+				btn3.setClicked(true);
 				break;
 			default:
 				System.out.println("Whaaa");
 				break;
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+			this.language = GlobalValues.Languages.valueOf(ci.getProperty(GlobalValues.LANGUAGEKEY));
+			setButtons();
 		}
 	}
 }
