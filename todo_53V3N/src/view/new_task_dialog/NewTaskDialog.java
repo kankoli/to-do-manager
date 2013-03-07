@@ -54,6 +54,7 @@ import javax.swing.JTextField;
 import model.Category;
 import model.Task;
 
+import utility.GlobalValues;
 import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
@@ -72,8 +73,6 @@ public class NewTaskDialog extends JDialog {
 		super();
 		this.controller = controller;
 		setTitle("New Task");
-		setPreferredSize(new Dimension(160,275));
-		setMinimumSize(new Dimension(160,275));
 		
 		JPanel pane = (JPanel) getContentPane();
 		pane.setBackground(Color.WHITE);
@@ -194,6 +193,39 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 5; // third row
 		c.gridwidth = 1;
 		pane.add(button, c);
+
+		
+		int minHeight = 0;
+		minHeight += nameField.getHeight();
+		minHeight += descriptionField.getHeight();
+		minHeight += nameField.getHeight();
+		minHeight += dateField.getHeight();
+		minHeight += cmbCategory.getHeight();
+		minHeight += button.getHeight();
+		minHeight *= 1.2;
+
+		int minWidth = 0;
+		minWidth += nameField.getWidth();
+		minWidth *= 1.2;
+		
+		setPreferredSize(new Dimension(minWidth,minHeight));
+		setMinimumSize(new Dimension(minWidth,minHeight));
+		
+		// Retrieve last (main frame) size from state
+		double sizeX = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINYSIZEKEY));
+
+		// retrieve last (main frame) location from state
+		double posX = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINXPOSKEY));
+		double posY = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINYPOSKEY));
+		
+		
+		setLocation((int) (posX + ((sizeX - minWidth) / 2)), (int) (posY + ((sizeY - minHeight) / 2)));
+		
 
 		pack();
 		setVisible(true);

@@ -303,7 +303,7 @@ public final class TaskRow extends JPanel {
 
 					// editBut.setIcon(defaultIcon)
 					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/stopedittask.png")));
+							.getResource("assets/Icons/I_Hand.png")));
 
 				} else { // call edit task method
 
@@ -350,7 +350,7 @@ public final class TaskRow extends JPanel {
 					setBackground(t.getCategory().getColor());
 
 					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/edittask.png")));
+							.getResource("assets/Icons/I_Write.png")));
 					//
 					// editBut.setText(
 					// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));

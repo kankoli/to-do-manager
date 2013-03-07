@@ -11,6 +11,7 @@
 <xs:element name="completed" type="xs:string"/>
 <xs:element name="category" type="xs:string"/>
 <xs:element name="description" type="xs:string"/>
+<xs:element name="urgent" type="xs:string"/>
 <xs:element name="color" type="xs:string"/>
 
 <!-- definition of complex elements -->
@@ -29,6 +30,7 @@
                   <xs:element ref="completed"/>
                   <xs:element ref="category"/>
                   <xs:element ref="description"/>
+                  <xs:element ref="urgent"/>
                 </xs:sequence>
               </xs:complexType>
       		</xs:element>    

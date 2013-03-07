@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import utility.GlobalValues;
 import view.custom_components.FlagBar;
+import view.urgent_task_dialog.UrgentTaskDialog;
 
 import control.ControllerInterface;
 
@@ -82,12 +83,8 @@ public class ToDoMainTopPanel extends JPanel {
 				.getResource("assets/Icons/I_Exclamation.png")));
 		urgentButton.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent arg0) { // This will in
-															// future launch a
-															// new frame to show
-															// urgent tasks
-				JOptionPane.showMessageDialog(null,
-						"This button will show urgent tasks");
+			public void actionPerformed(ActionEvent arg0) { 
+				new UrgentTaskDialog(controller);
 			}
 		});
 		urgentButton.setMinimumSize(new Dimension(60, 60));

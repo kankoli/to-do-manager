@@ -20,10 +20,11 @@ public final class Task {
 
 	private String name;
 	private Date date;
-	private Category category;		// XXX perchè non direttamente reference a category???
+	private Category category;		// XXX perchÔøΩ non direttamente reference a category???
 	private Priority prio;
 	private boolean completed;
 	private String description;
+	private boolean urgent;
 
 	public Task(){
 		
@@ -36,6 +37,7 @@ public final class Task {
 		this.prio = prio;
 		this.completed = false;
 		this.description = description;
+		this.urgent = false;
 	}
 
 
@@ -75,8 +77,8 @@ public final class Task {
 		return completed;
 	}
 
-	public final void setCompleted(boolean completed) {
-		this.completed = completed;
+	public final void setCompleted(boolean b) {
+		this.completed = b;
 	}
 	
 	public final String getDescription() {
@@ -87,4 +89,12 @@ public final class Task {
 		this.description = description;
 	}
 
+	public final boolean getUrgent() {
+		return urgent;
+	}
+
+	public final void setUrgent(boolean b) {
+		this.urgent = b;
+	}
+	
 }
