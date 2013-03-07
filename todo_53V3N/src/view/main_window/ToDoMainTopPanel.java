@@ -79,7 +79,7 @@ public class ToDoMainTopPanel extends JPanel {
 				lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
 
 		urgentButton.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/urgenttask.png")));
+				.getResource("assets/Icons/I_Exclamation.png")));
 		urgentButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) { // This will in
@@ -90,12 +90,13 @@ public class ToDoMainTopPanel extends JPanel {
 						"This button will show urgent tasks");
 			}
 		});
-		urgentButton.setMinimumSize(new Dimension(100, 100));
-		urgentButton.setPreferredSize(new Dimension(100, 100));
+		urgentButton.setMinimumSize(new Dimension(60, 60));
+		urgentButton.setPreferredSize(new Dimension(60, 60));
 		urgentButton.setText("");
 		urgentButton.setBorder(null);
 		// urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 		// Color.darkGray));
+		// TODO Set all the borders to null and background colors according to the theme
 		urgentButton.setBackground(Color.WHITE);
 		urgentButton.setOpaque(true);
 		urgentButtonCons.gridx = 0;
@@ -131,8 +132,8 @@ public class ToDoMainTopPanel extends JPanel {
 
 		newTaskButton.setAction(controller
 				.getAction(ControllerInterface.ActionName.NEWTASK));
-		newTaskButton.setMinimumSize(new Dimension(100, 100));
-		newTaskButton.setPreferredSize(new Dimension(100, 100));
+		newTaskButton.setMinimumSize(new Dimension(60, 60));
+		newTaskButton.setPreferredSize(new Dimension(60, 60));
 		newTaskButton.setText("");
 		// newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 		// Color.darkGray));

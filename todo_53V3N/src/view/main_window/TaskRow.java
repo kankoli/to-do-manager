@@ -92,7 +92,7 @@ public final class TaskRow extends JPanel {
 		doneBut.setText("");
 
 		doneBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/donetask.png")));
+				.getResource("assets/Icons/I_Ok.png")));
 
 		doneBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -283,7 +283,7 @@ public final class TaskRow extends JPanel {
 		// JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 
 		editBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/edittask.png")));
+				.getResource("assets/Icons/I_Write.png")));
 
 		editBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -379,7 +379,7 @@ public final class TaskRow extends JPanel {
 		// deleteBut = new JButton(
 		// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
 		deleteBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/deletetask.png")));
+				.getResource("assets/Icons/I_Cancel.png")));
 
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
