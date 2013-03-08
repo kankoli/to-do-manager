@@ -138,7 +138,7 @@ public final class ControllerInterface {
 	 *            type of ordering
 	 * @return
 	 */
-	public final void sortTasks(SortType ordering) {
+	public static void sortTasks(SortType ordering) {
 		dc.sortTasks(ordering);
 	}
 

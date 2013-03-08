@@ -146,5 +146,6 @@ public class PriorityBar extends JPanel {
 	public void setPriority(Task.Priority prio)
 	{
 		this.prio = prio;
+		setButtons();
 	}
 }

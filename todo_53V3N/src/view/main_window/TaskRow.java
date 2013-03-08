@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,12 +40,17 @@ public final class TaskRow extends JPanel implements Observer {
 
 	private int[] offsets;
 	private boolean isSelected;
+	
+
+	private static ImageIcon editIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Write.png"));
+	private static ImageIcon doneIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Ok.png"));
+	private static ImageIcon deleteIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Cancel.png"));
 
 	// TODO MAKE ARRAY OF COMPONENTS!!!
 
 	// Always displayed
-	private JButton completionBtn;
-
+	private JButton doneBtn;
+	
 	// Buttons
 	private JButton deleteBtn;
 
@@ -84,31 +90,27 @@ public final class TaskRow extends JPanel implements Observer {
 	private void initComponents() {
 
 		// Always there
-		completionBtn = new JButton("");
-//		completionBtn.setIcon(new ImageIcon(controller
-//				.getResource("assets/Icons/donetask.png")));
-
-		completionBtn.addMouseListener(new MouseAdapter() {
+		doneBtn = new JButton("");
+		doneBtn.setIcon(doneIcon);
+		doneBtn.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
-				task.setCompleted(!task.getCompleted());
+				ControllerInterface.toggleCompleted(task);
 
 				// TODO
 				// This button will notify the parent (scrollpanel component)
 				// that this TaskRow has to be moved to completed or pending
 				// section.
 
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
+				
 			}
 		});
 
 		// completionBtn.setLocation(0, 0);
-		this.add(completionBtn);
+		this.add(doneBtn);
 		// completionBtn.setLocation(0, 0);
 
-		deleteBtn = new JButton("Delete");
+		deleteBtn = new JButton("");
+		deleteBtn.setIcon(deleteIcon);
 		deleteBtn.addActionListener(new ActionListener() {
 
 			@Override
@@ -191,8 +193,8 @@ public final class TaskRow extends JPanel implements Observer {
 
 		// Always here
 
-		Dimension sizes = completionBtn.getPreferredSize();
-		completionBtn.setBounds(0, 0, sizes.width, sizes.height);
+		Dimension sizes = doneBtn.getPreferredSize();
+		doneBtn.setBounds(0, 0, sizes.width, sizes.height);
 
 		if (isSelected)
 				renderClosed();

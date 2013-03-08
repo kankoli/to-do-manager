@@ -15,12 +15,15 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import control.ControllerInterface;
+import exceptions.InvalidCategoryException;
+import exceptions.InvalidDateException;
 
 import view.custom_components.PriorityBar;
 
@@ -242,6 +245,47 @@ public class EditPanel extends JPanel implements Observer,
 		updateButton.setText("Update"); // Load from language bundle
 		// Shared action here?
 		updateButton.setVisible(false);
+		updateButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO
+				// priority will be a radiobutton, for the moment it's just
+				// some text
+				// did this for quick prototype
+				String name = nameTextField.getText();
+
+				String date = dateTextField.getText();
+				// TODO change priorty to drop down list
+
+				// String priority = priorityField.getText();
+
+				Task.Priority priority = prioBar.getPriority();
+				// TODO: non meglio che categoryBox contenga direttamente
+				// Category???
+				// non stringhe!
+				String categoryName = (String) categoryComboBox
+						.getSelectedItem();
+				String description = descrTextArea.getText();
+
+				try {
+					ControllerInterface.editTask(selectedTask, name,
+							ControllerInterface.getDateFormat(), date, priority,
+							selectedTask.getCompleted(), categoryName, description);
+				} catch (InvalidCategoryException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),
+							"Category Problem", JOptionPane.WARNING_MESSAGE);
+
+				} catch (InvalidDateException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),
+							"Date problem", JOptionPane.WARNING_MESSAGE);
+
+					dateTextField.setText(ControllerInterface.getDateFormat().format(
+							selectedTask.getDate()));
+				}
+			}
+			
+		});
 
 		add(updateButton, constr);
 	}
@@ -252,6 +296,8 @@ public class EditPanel extends JPanel implements Observer,
 		if (!showingTask) {
 			setTaskPresentationVisible(true);
 		}
+
+		System.out.print("setSelectedTask");
 		updateTaskPresentation(selectedTask);
 	}
 
@@ -279,7 +325,10 @@ public class EditPanel extends JPanel implements Observer,
 		fillCategoryComboBox(); // retrieves from controller all categories
 		categoryComboBox.setSelectedItem(task.getCategory().getName());
 
-		prioBar = new PriorityBar(task.getPrio());
+		System.out.println("updateTaskPresentation");
+		System.out.println(task.getName());
+		System.out.println(task.getPrio());
+		prioBar.setPriority(task.getPrio());
 	}
 
 	private void updateDone(Task task) {

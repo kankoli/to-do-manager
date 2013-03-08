@@ -12,8 +12,6 @@ import control.ControllerInterface.SortType;
 @SuppressWarnings("serial")
 public final class SortTaskAction extends AbstractAction {
 
-	private ControllerInterface controller;
-
 	public SortTaskAction(String text, ImageIcon icon, String desc,
 			Integer mnemonic) {
 		super(text, icon);
@@ -41,6 +39,6 @@ public final class SortTaskAction extends AbstractAction {
 				.equals(arg0.getActionCommand()))
 			ordering = SortType.PRIORITY;
 
-		controller.sortTasks(ordering);
+		ControllerInterface.sortTasks(ordering);
 	}
 }
