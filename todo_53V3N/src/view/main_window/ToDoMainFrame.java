@@ -127,7 +127,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		// XXX Marco: is good place to call it BEFORE adding components?
 		// First we set theme using last one
-		loadTheme();
+//		loadTheme();
 
 		pack();
 		setVisible(true);
@@ -318,12 +318,24 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// TODO to be fixed, quick way
+//				// TODO to be fixed, quick way
+//				try {
+//					controller.setTheme(GlobalValues.Themes.DEFAULT);
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
+
 				try {
-					controller.setTheme(GlobalValues.Themes.DEFAULT);
-				} catch (IOException e1) {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					reloadTheme();
+
+				} catch (ClassNotFoundException | InstantiationException
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
 		});
 		subMenu.add(menuItem);
@@ -351,13 +363,37 @@ public class ToDoMainFrame extends JFrame implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// TODO to be fixed, quick way
 
+//				try {
+//					controller.setTheme(GlobalValues.Themes.THEME_1);
+//					
+//					
+//					
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
 				try {
-					controller.setTheme(GlobalValues.Themes.THEME_1);
-				} catch (IOException e1) {
+
+//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					
+					UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
+					reloadTheme();
+
+				} catch (ClassNotFoundException | InstantiationException
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
+			
 			}
+			
+
+
 		});
+		
+		
 		subMenu.add(menuItem);
 
 		menu.add(subMenu);
@@ -415,6 +451,11 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		basePanel.add(bottomPanel, bottomCons);
 	}
 
+	
+	private void reloadTheme(){
+		SwingUtilities.updateComponentTreeUI(this);
+	}
+	
 	/**
 	 * This method is called to change theme using currently setted theme
 	 */
@@ -489,9 +530,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		
 
 		// TODO problema???? runtime non va!
-		SwingUtilities.updateComponentTreeUI(this);
-		revalidate();
-		repaint();
+//		SwingUtilities.updateComponentTreeUI(this);
+//		revalidate();
+//		repaint();
 
 //		SwingUtilities.updateComponentTreeUI(topPanel);
 //		SwingUtilities.updateComponentTreeUI(middlePanel);
@@ -512,7 +553,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		}
 
 		else if (msg == ControllerInterface.ChangeMessage.CHANGED_THEME) {
-			loadTheme();
+//			loadTheme();
 		}
 
 	}
