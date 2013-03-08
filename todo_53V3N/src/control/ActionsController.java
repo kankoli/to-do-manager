@@ -52,7 +52,7 @@ public final class ActionsController {
 				KeyEvent.VK_Q, ci);
 
 		ImageIcon addtask = new ImageIcon(
-				ci.getResource("assets/Icons/addtask.png"));
+				ci.getResource("assets/Icons/I_Plus.png"));
 
 		newTask = new NewTaskAction(
 				lang.getString("shared_actions.newtaskaction.text"), addtask,

@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import view.custom_components.PendingCompletedRadioButtons;
+
 import control.ControllerInterface;
 
 /**
@@ -25,8 +27,6 @@ import control.ControllerInterface;
 @SuppressWarnings("serial")
 public class ToDoMainMiddlePanel extends JPanel implements Observer {
 
-	private JButton pendingButton;
-	private JButton completedButton;
 	private JScrollPane taskPanel;
 	private SortingBar sortingBar;
 	// private ToDoSortingBar sortingBar;
@@ -52,31 +52,36 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 	}
 
 	private void addPendingCompletedButtons() {
-		GridBagConstraints pendingCompletedButtonsCons = new GridBagConstraints();
-		ResourceBundle lang = controller.getLanguageBundle();
+//		GridBagConstraints pendingCompletedButtonsCons = new GridBagConstraints();
+//		ResourceBundle lang = controller.getLanguageBundle();
+//
+//		pendingButton = new JButton(
+//				lang.getString("mainFrame.middlePanel.button.pending.name"));
+//		pendingButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+//				Color.darkGray));
+//		pendingButton.setOpaque(true);
+//		pendingButton.setPreferredSize(new Dimension(100, 50));
+//		pendingButton.setMinimumSize(new Dimension(100, 50));
+//		pendingCompletedButtonsCons.gridy = 0;
+//		pendingCompletedButtonsCons.anchor = GridBagConstraints.LINE_START;
+//		add(pendingButton, pendingCompletedButtonsCons);
 
-		pendingButton = new JButton(
-				lang.getString("mainFrame.middlePanel.button.pending.name"));
-		pendingButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.darkGray));
-		pendingButton.setOpaque(true);
-		pendingButton.setPreferredSize(new Dimension(100, 50));
-		pendingButton.setMinimumSize(new Dimension(100, 50));
-		pendingCompletedButtonsCons.gridy = 0;
-		pendingCompletedButtonsCons.anchor = GridBagConstraints.LINE_START;
-		add(pendingButton, pendingCompletedButtonsCons);
-
-		completedButton = new JButton(
-				lang.getString("mainFrame.middlePanel.button.completed.name"));
-		completedButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.darkGray));
-		completedButton.setOpaque(true);
-		completedButton.setPreferredSize(new Dimension(100, 50));
-		completedButton.setMinimumSize(new Dimension(100, 50));
-		pendingCompletedButtonsCons.gridx = 1;
-		pendingCompletedButtonsCons.weightx = 1;
-		pendingCompletedButtonsCons.anchor = GridBagConstraints.LINE_START;
-		add(completedButton, pendingCompletedButtonsCons);
+//		completedButton = new JButton(
+//				lang.getString("mainFrame.middlePanel.button.completed.name"));
+//		completedButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+//				Color.darkGray));
+//		completedButton.setOpaque(true);
+//		completedButton.setPreferredSize(new Dimension(100, 50));
+//		completedButton.setMinimumSize(new Dimension(100, 50));
+//		pendingCompletedButtonsCons.gridx = 1;
+//		pendingCompletedButtonsCons.weightx = 1;
+//		pendingCompletedButtonsCons.anchor = GridBagConstraints.LINE_START;
+		
+		
+//		add(btns, pendingCompletedButtonsCons);		
+		PendingCompletedRadioButtons btns = new PendingCompletedRadioButtons(controller);
+		
+		add(btns);
 	}
 
 	private void addSortingBar() { // ToDoSortingBar will be completely revamped
@@ -118,16 +123,16 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 
-		// DataModel.ChangeMessage.
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
-
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			ResourceBundle lang = controller.getLanguageBundle();
-			completedButton.setText(lang
-					.getString("mainFrame.middlePanel.button.completed.name"));
-			pendingButton.setText(lang
-					.getString("mainFrame.middlePanel.button.pending.name"));
-
-		}
+//		// DataModel.ChangeMessage.
+//		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
+//
+//		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+//			ResourceBundle lang = controller.getLanguageBundle();
+//			completedButton.setText(lang
+//					.getString("mainFrame.middlePanel.button.completed.name"));
+//			pendingButton.setText(lang
+//					.getString("mainFrame.middlePanel.button.pending.name"));
+//
+//		}
 	}
 }

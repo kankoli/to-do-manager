@@ -73,6 +73,8 @@ public final class DataModel extends Observable {
 	// For language support
 	private ResourceBundle languageBundle;
 
+	private boolean isViewingCompletedTasks;
+
 
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
@@ -125,7 +127,7 @@ public final class DataModel extends Observable {
 		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
 				GlobalValues.supportedLocales[i]);
 
-		
+		isViewingCompletedTasks = false;
 //		System.out.println(props.getProperty(GlobalValues.THEMEKEY));
 //		i = GlobalValues.Themes.valueOf(
 //				props.getProperty(GlobalValues.THEMEKEY)).ordinal();
@@ -197,7 +199,8 @@ public final class DataModel extends Observable {
 			// System.out.println(c);
 			t.setCategory(c);
 			t.setDescription(taskNode.getChildText("description"));
-
+			t.setUrgent(Boolean.parseBoolean(taskNode
+					.getChildText("urgent")));
 			// System.out.println()
 
 			tl.add(t);
@@ -274,7 +277,8 @@ public final class DataModel extends Observable {
 					.getName()));
 			task.addContent(new Element("description").setText(t
 					.getDescription()));
-
+			task.addContent(new Element("urgent").setText(Boolean.toString(t
+					.getUrgent())));
 			tasks.addContent(task);
 		}
 
@@ -320,6 +324,35 @@ public final class DataModel extends Observable {
 	 */
 	public final List<Task> getTaskList() {
 		return taskList;
+	}
+	
+	/**
+	 * Retrieves the list of complete/incomplete tasks.
+	 * 
+	 * @return list of tasks
+	 */
+	public final List<Task> getFilteredTaskList() {
+		// TODO Filter tasks (complete/incomplete)
+		List<Task> filteredList = new LinkedList<Task>();
+		for (int i = 0; i < taskList.size(); i++) {
+			if (taskList.get(i).getCompleted() == isViewingCompletedTasks)
+				filteredList.add(taskList.get(i));
+		}
+		return filteredList;
+	}
+	
+	/**
+	 * Retrieves the list of urgent tasks.
+	 * 
+	 * @return list of tasks
+	 */
+	public final List<Task> getTaskListUrgent(boolean b) {
+		List<Task> filteredList = new LinkedList<Task>();
+		for (int i = 0; i < taskList.size(); i++) {
+			if (taskList.get(i).getUrgent() == b)
+				filteredList.add(taskList.get(i));
+		}
+		return filteredList;
 	}
 
 	/**
@@ -455,6 +488,11 @@ public final class DataModel extends Observable {
 		hasChanged(ChangeMessage.DELETED_CATEGORY);
 	}
 
+	public void setIsViewingCompletedTasks(boolean b) {
+		this.isViewingCompletedTasks = b;
+		hasChanged(ChangeMessage.CHANGED_FILTER);
+	}
+	
 	/**
 	 * This method is called by either datamodel or controller, to trigger the
 	 * change process.
@@ -467,5 +505,10 @@ public final class DataModel extends Observable {
 		// System.out.println("[DataModel]hasChanged -> " + msg);
 		setChanged();
 		notifyObservers(msg);
+	}
+
+	public void setUrgent(Task task, boolean b) {
+		task.setUrgent(b);
+		hasChanged(ChangeMessage.EDIT_URGENT);
 	}
 }

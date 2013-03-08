@@ -90,12 +90,31 @@ public final class DataController {
 	}
 
 	/**
-	 * This methods retrieves task list form datamodel
+	 * This methods retrieves the whole tasks list form data model
 	 * 
 	 * @return
 	 */
 	public final List<Task> getTaskList() {
 		return dataModel.getTaskList();
+	}
+
+	/**
+	 * This methods retrieves completed (true) or
+	 * uncompleted tasks list form data model
+	 * 
+	 * @return
+	 */
+	public final List<Task> getFilteredTaskList() {
+		return dataModel.getFilteredTaskList();
+	}
+
+	/**
+	 * This methods retrieves urgent tasks list form data model
+	 * 
+	 * @return
+	 */
+	public final List<Task> getTaskListUrgent(boolean b) {
+		return dataModel.getTaskListUrgent(b);
 	}
 
 	/**
@@ -194,5 +213,13 @@ public final class DataController {
 	 */
 	public final Map<String, Category> getCategories() {
 		return dataModel.getCategories();
+	}
+
+	public void setIsViewingCompletedTasks(boolean b) {
+		dataModel.setIsViewingCompletedTasks(b);
+	}
+
+	public void setUrgent(Task task, boolean b) {
+		dataModel.setUrgent(task, b);
 	}
 }

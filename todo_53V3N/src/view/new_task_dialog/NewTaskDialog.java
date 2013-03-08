@@ -54,6 +54,7 @@ import javax.swing.JTextField;
 import model.Category;
 import model.Task;
 
+import utility.GlobalValues;
 import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
@@ -68,12 +69,10 @@ public class NewTaskDialog extends JDialog {
 
 	private ControllerInterface controller;
 
-	public NewTaskDialog(final ControllerInterface controller) {
+	public NewTaskDialog(ControllerInterface ci) {
 		super();
-		this.controller = controller;
+		this.controller = ci;
 		setTitle("New Task");
-		setPreferredSize(new Dimension(160,275));
-		setMinimumSize(new Dimension(160,275));
 		
 		JPanel pane = (JPanel) getContentPane();
 		pane.setBackground(Color.WHITE);
@@ -81,7 +80,6 @@ public class NewTaskDialog extends JDialog {
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-
 		
 		nameField = new JTextField();
 		nameField.setBorder(BorderFactory.createTitledBorder("Name"));
@@ -89,14 +87,6 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 0;
 		c.gridwidth = 2;
 		pane.add(nameField, c);
-
-
-		// ImageButton imageButton = new ImageButton("assets/def.png",
-		// "assets/hover1.png", "assets/pressed1.png",
-		// "assets/pressed1.png");
-		// c.gridx = 1;
-		// c.gridy = 1;
-		// pane.add(imageButton, c);
 
 		descriptionField = new JTextArea();
 		descriptionField.setBorder(BorderFactory.createTitledBorder("Description"));
@@ -197,5 +187,38 @@ public class NewTaskDialog extends JDialog {
 
 		pack();
 		setVisible(true);
+		
+		int minHeight = 0;
+		minHeight += nameField.getHeight();
+		minHeight += descriptionField.getHeight();
+		minHeight += nameField.getHeight();
+		minHeight += dateField.getHeight();
+		minHeight += cmbCategory.getHeight();
+		minHeight += button.getHeight();
+		minHeight *= 1.2;
+
+		int minWidth = 0;
+		minWidth += nameField.getWidth();
+		minWidth *= 1.2;
+		
+		setPreferredSize(new Dimension(minWidth,minHeight));
+		setMinimumSize(new Dimension(minWidth,minHeight));
+		setResizable(false);
+		
+		// Retrieve last (main frame) size from state
+		double sizeX = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINYSIZEKEY));
+
+		// retrieve last (main frame) location from state
+		double posX = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINXPOSKEY));
+		double posY = Double.parseDouble(controller
+				.getProperty(GlobalValues.WINYPOSKEY));
+		
+		
+		setLocation((int) (posX + ((sizeX - minWidth) / 2)), (int) (posY + ((sizeY - minHeight) / 2)));
+		
 	}
 }

@@ -56,7 +56,7 @@ public final class ControllerInterface {
 	};
 
 	public static enum ChangeMessage {
-		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK
+		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
 	};
 
 	// TODO move other enum here?
@@ -151,7 +151,7 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This methods retrieves task list form datamodel
+	 * This methods retrieves tasks list form data controller
 	 * 
 	 * @return
 	 */
@@ -159,6 +159,24 @@ public final class ControllerInterface {
 		return dc.getTaskList();
 	}
 
+	/**
+	 * This methods retrieves complete/incomplete tasks list form data controller
+	 * 
+	 * @return
+	 */
+	public final List<Task> getFilteredTaskList() {
+		return dc.getFilteredTaskList();
+	}
+
+	/**
+	 * This methods retrieves urgent/non-urgent tasks list form data controller
+	 * 
+	 * @return
+	 */
+	public final List<Task> getTaskListUrgent(boolean b) {
+		return dc.getTaskListUrgent(b);
+	}
+	
 	/**
 	 * This method will be called to add a new Task to data model
 	 * 
@@ -205,6 +223,15 @@ public final class ControllerInterface {
 		dc.deleteTask(task);
 	}
 
+	/**
+	 * Set a task as urgent
+	 * 
+	 * @param task
+	 */
+	public final void setUrgent(Task task, boolean b) {
+		dc.setUrgent(task, b);
+	}
+	
 	/**
 	 * Retrieves category map from datamodel
 	 * 
@@ -321,6 +348,10 @@ public final class ControllerInterface {
 		}
 	}
 
+	public final void setIsViewingCompletedTasks(boolean b) {
+		dc.setIsViewingCompletedTasks(b);
+	}
+	
 	/**
 	 * This method is called to register as an observer on the datamodel
 	 * 
@@ -364,5 +395,4 @@ public final class ControllerInterface {
 			e.printStackTrace();
 		}
 	}
-
 }

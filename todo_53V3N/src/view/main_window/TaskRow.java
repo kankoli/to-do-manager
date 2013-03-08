@@ -92,7 +92,7 @@ public final class TaskRow extends JPanel {
 		doneBut.setText("");
 
 		doneBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/donetask.png")));
+				.getResource("assets/Icons/I_Ok.png")));
 
 		doneBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -103,10 +103,10 @@ public final class TaskRow extends JPanel {
 				// that this TaskRow has to be moved to completed or pending
 				// section.
 
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
+//				JOptionPane
+//						.showMessageDialog(
+//								null,
+//								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
 			}
 		});
 		GridBagConstraints con = new GridBagConstraints();
@@ -283,7 +283,7 @@ public final class TaskRow extends JPanel {
 		// JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 
 		editBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/edittask.png")));
+				.getResource("assets/Icons/I_Write.png")));
 
 		editBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -303,7 +303,7 @@ public final class TaskRow extends JPanel {
 
 					// editBut.setIcon(defaultIcon)
 					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/stopedittask.png")));
+							.getResource("assets/Icons/I_Write.png")));
 
 				} else { // call edit task method
 
@@ -350,7 +350,7 @@ public final class TaskRow extends JPanel {
 					setBackground(t.getCategory().getColor());
 
 					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/edittask.png")));
+							.getResource("assets/Icons/I_Hand.png")));
 					//
 					// editBut.setText(
 					// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
@@ -379,7 +379,7 @@ public final class TaskRow extends JPanel {
 		// deleteBut = new JButton(
 		// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
 		deleteBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/deletetask.png")));
+				.getResource("assets/Icons/I_Cancel.png")));
 
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {

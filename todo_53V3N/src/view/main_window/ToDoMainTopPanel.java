@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import utility.GlobalValues;
 import view.custom_components.FlagBar;
+import view.urgent_task_dialog.UrgentTaskDialog;
 
 import control.ControllerInterface;
 
@@ -64,10 +65,8 @@ public class ToDoMainTopPanel extends JPanel {
 		flagBar = new FlagBar(controller);
 		cons.gridx = 0;
 		cons.gridy = 0;
-		cons.weightx = 0;
-		cons.weighty = 0;
 		cons.insets = new Insets(0, 10, 0, 0);
-		cons.anchor = GridBagConstraints.FIRST_LINE_START;
+		cons.anchor = GridBagConstraints.LINE_END;
 		add(flagBar, cons);
 	}
 	
@@ -79,23 +78,20 @@ public class ToDoMainTopPanel extends JPanel {
 				lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
 
 		urgentButton.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/urgenttask.png")));
+				.getResource("assets/Icons/I_Exclamation.png")));
 		urgentButton.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent arg0) { // This will in
-															// future launch a
-															// new frame to show
-															// urgent tasks
-				JOptionPane.showMessageDialog(null,
-						"This button will show urgent tasks");
+			public void actionPerformed(ActionEvent arg0) { 
+				new UrgentTaskDialog(controller);
 			}
 		});
-		urgentButton.setMinimumSize(new Dimension(100, 100));
-		urgentButton.setPreferredSize(new Dimension(100, 100));
+		urgentButton.setMinimumSize(new Dimension(60, 60));
+		urgentButton.setPreferredSize(new Dimension(60, 60));
 		urgentButton.setText("");
 		urgentButton.setBorder(null);
 		// urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 		// Color.darkGray));
+		// TODO Set all the borders to null and background colors according to the theme
 		urgentButton.setBackground(Color.WHITE);
 		urgentButton.setOpaque(true);
 		urgentButtonCons.gridx = 0;
@@ -103,7 +99,7 @@ public class ToDoMainTopPanel extends JPanel {
 		urgentButtonCons.weightx = 0;
 		urgentButtonCons.weighty = 0;
 		urgentButtonCons.insets = new Insets(0, 10, 0, 0);
-		urgentButtonCons.anchor = GridBagConstraints.FIRST_LINE_START;
+		urgentButtonCons.anchor = GridBagConstraints.LINE_START;
 		add(urgentButton, urgentButtonCons);
 	}
 
@@ -131,8 +127,8 @@ public class ToDoMainTopPanel extends JPanel {
 
 		newTaskButton.setAction(controller
 				.getAction(ControllerInterface.ActionName.NEWTASK));
-		newTaskButton.setMinimumSize(new Dimension(100, 100));
-		newTaskButton.setPreferredSize(new Dimension(100, 100));
+		newTaskButton.setMinimumSize(new Dimension(60, 60));
+		newTaskButton.setPreferredSize(new Dimension(60, 60));
 		newTaskButton.setText("");
 		// newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 		// Color.darkGray));
@@ -145,7 +141,7 @@ public class ToDoMainTopPanel extends JPanel {
 		newTaskButtonCons.weightx = 0;
 		newTaskButtonCons.weighty = 0;
 		newTaskButtonCons.insets = new Insets(0, 0, 0, 10);
-		newTaskButtonCons.anchor = GridBagConstraints.FIRST_LINE_END;
+		newTaskButtonCons.anchor = GridBagConstraints.LINE_END;
 		add(newTaskButton, newTaskButtonCons);
 	}
 }
