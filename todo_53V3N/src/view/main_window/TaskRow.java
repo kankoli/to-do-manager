@@ -103,10 +103,10 @@ public final class TaskRow extends JPanel {
 				// that this TaskRow has to be moved to completed or pending
 				// section.
 
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
+//				JOptionPane
+//						.showMessageDialog(
+//								null,
+//								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
 			}
 		});
 		GridBagConstraints con = new GridBagConstraints();
@@ -303,7 +303,7 @@ public final class TaskRow extends JPanel {
 
 					// editBut.setIcon(defaultIcon)
 					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/I_Hand.png")));
+							.getResource("assets/Icons/I_Write.png")));
 
 				} else { // call edit task method
 
@@ -350,7 +350,7 @@ public final class TaskRow extends JPanel {
 					setBackground(t.getCategory().getColor());
 
 					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/I_Write.png")));
+							.getResource("assets/Icons/I_Hand.png")));
 					//
 					// editBut.setText(
 					// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));

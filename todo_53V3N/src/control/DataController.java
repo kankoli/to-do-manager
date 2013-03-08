@@ -113,8 +113,8 @@ public final class DataController {
 	 * 
 	 * @return
 	 */
-	public final List<Task> getUrgentTaskList() {
-		return dataModel.getUrgentTaskList();
+	public final List<Task> getTaskListUrgent(boolean b) {
+		return dataModel.getTaskListUrgent(b);
 	}
 
 	/**

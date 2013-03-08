@@ -69,9 +69,9 @@ public class NewTaskDialog extends JDialog {
 
 	private ControllerInterface controller;
 
-	public NewTaskDialog(final ControllerInterface controller) {
+	public NewTaskDialog(ControllerInterface ci) {
 		super();
-		this.controller = controller;
+		this.controller = ci;
 		setTitle("New Task");
 		
 		JPanel pane = (JPanel) getContentPane();
@@ -80,7 +80,6 @@ public class NewTaskDialog extends JDialog {
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-
 		
 		nameField = new JTextField();
 		nameField.setBorder(BorderFactory.createTitledBorder("Name"));
@@ -88,14 +87,6 @@ public class NewTaskDialog extends JDialog {
 		c.gridy = 0;
 		c.gridwidth = 2;
 		pane.add(nameField, c);
-
-
-		// ImageButton imageButton = new ImageButton("assets/def.png",
-		// "assets/hover1.png", "assets/pressed1.png",
-		// "assets/pressed1.png");
-		// c.gridx = 1;
-		// c.gridy = 1;
-		// pane.add(imageButton, c);
 
 		descriptionField = new JTextArea();
 		descriptionField.setBorder(BorderFactory.createTitledBorder("Description"));
@@ -194,6 +185,8 @@ public class NewTaskDialog extends JDialog {
 		c.gridwidth = 1;
 		pane.add(button, c);
 
+		pack();
+		setVisible(true);
 		
 		int minHeight = 0;
 		minHeight += nameField.getHeight();
@@ -210,6 +203,7 @@ public class NewTaskDialog extends JDialog {
 		
 		setPreferredSize(new Dimension(minWidth,minHeight));
 		setMinimumSize(new Dimension(minWidth,minHeight));
+		setResizable(false);
 		
 		// Retrieve last (main frame) size from state
 		double sizeX = Double.parseDouble(controller
@@ -226,8 +220,5 @@ public class NewTaskDialog extends JDialog {
 		
 		setLocation((int) (posX + ((sizeX - minWidth) / 2)), (int) (posY + ((sizeY - minHeight) / 2)));
 		
-
-		pack();
-		setVisible(true);
 	}
 }

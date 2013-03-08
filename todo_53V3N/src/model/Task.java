@@ -97,4 +97,8 @@ public final class Task {
 		this.urgent = b;
 	}
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

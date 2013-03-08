@@ -5,8 +5,17 @@
       <name>Task2</name>
       <date>2012-01-26T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
-      <completed>true</completed>
+      <completed>false</completed>
       <category>jshkshkf</category>
+      <description />
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>sdcvb</name>
+      <date>2012-04-14T10:10:00.000+02:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>kfjsdkfs</category>
       <description />
       <urgent>true</urgent>
     </task>
@@ -36,7 +45,7 @@ asdasdgugyuguugyuggugyuguyguyguygugyugyugugyuguyguguguguygg</description>
       <completed>false</completed>
       <category>fun</category>
       <description />
-      <urgent>false</urgent>
+      <urgent>true</urgent>
     </task>
     <task>
       <name>New T</name>

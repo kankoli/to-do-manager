@@ -65,10 +65,8 @@ public class ToDoMainTopPanel extends JPanel {
 		flagBar = new FlagBar(controller);
 		cons.gridx = 0;
 		cons.gridy = 0;
-		cons.weightx = 0;
-		cons.weighty = 0;
 		cons.insets = new Insets(0, 10, 0, 0);
-		cons.anchor = GridBagConstraints.FIRST_LINE_START;
+		cons.anchor = GridBagConstraints.LINE_END;
 		add(flagBar, cons);
 	}
 	
@@ -101,7 +99,7 @@ public class ToDoMainTopPanel extends JPanel {
 		urgentButtonCons.weightx = 0;
 		urgentButtonCons.weighty = 0;
 		urgentButtonCons.insets = new Insets(0, 10, 0, 0);
-		urgentButtonCons.anchor = GridBagConstraints.FIRST_LINE_START;
+		urgentButtonCons.anchor = GridBagConstraints.LINE_START;
 		add(urgentButton, urgentButtonCons);
 	}
 
@@ -143,7 +141,7 @@ public class ToDoMainTopPanel extends JPanel {
 		newTaskButtonCons.weightx = 0;
 		newTaskButtonCons.weighty = 0;
 		newTaskButtonCons.insets = new Insets(0, 0, 0, 10);
-		newTaskButtonCons.anchor = GridBagConstraints.FIRST_LINE_END;
+		newTaskButtonCons.anchor = GridBagConstraints.LINE_END;
 		add(newTaskButton, newTaskButtonCons);
 	}
 }

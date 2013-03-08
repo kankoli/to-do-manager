@@ -346,10 +346,10 @@ public final class DataModel extends Observable {
 	 * 
 	 * @return list of tasks
 	 */
-	public final List<Task> getUrgentTaskList() {
+	public final List<Task> getTaskListUrgent(boolean b) {
 		List<Task> filteredList = new LinkedList<Task>();
 		for (int i = 0; i < taskList.size(); i++) {
-			if (taskList.get(i).getUrgent())
+			if (taskList.get(i).getUrgent() == b)
 				filteredList.add(taskList.get(i));
 		}
 		return filteredList;
@@ -509,5 +509,6 @@ public final class DataModel extends Observable {
 
 	public void setUrgent(Task task, boolean b) {
 		task.setUrgent(b);
+		hasChanged(ChangeMessage.EDIT_URGENT);
 	}
 }

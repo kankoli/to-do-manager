@@ -44,6 +44,9 @@ public class UrgentCellRenderer implements ListCellRenderer {
 		lbl.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.darkGray));
 		panel.add(lbl);
 		
+		if (isSelected)
+			panel.setBackground(Color.cyan);
+		
 		return panel;
 	}
 }

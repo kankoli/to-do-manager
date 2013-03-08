@@ -56,7 +56,7 @@ public final class ControllerInterface {
 	};
 
 	public static enum ChangeMessage {
-		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER
+		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
 	};
 
 	// TODO move other enum here?
@@ -169,14 +169,14 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This methods retrieves urgent tasks list form data controller
+	 * This methods retrieves urgent/non-urgent tasks list form data controller
 	 * 
 	 * @return
 	 */
-	public final List<Task> getUrgentTaskList() {
-		return dc.getUrgentTaskList();
+	public final List<Task> getTaskListUrgent(boolean b) {
+		return dc.getTaskListUrgent(b);
 	}
-
+	
 	/**
 	 * This method will be called to add a new Task to data model
 	 * 
