@@ -1,469 +1,303 @@
 package view.main_window;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ResourceBundle;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
-import control.ControllerInterface;
-import exceptions.InvalidCategoryException;
-import exceptions.InvalidDateException;
-
-import utility.GlobalValues;
 import view.custom_components.PriorityBar;
 
-import model.Category;
 import model.Task;
+
+import control.ControllerInterface;
 
 /**
  * This component represent one row (one task) in the task scroll panel, with
  * wich user can interact.
  * 
- * @author Marco Dondio
+ * @author Marco Dondio, Magnus Larsson
  * 
  */
 
-// TODO fix layout
+@SuppressWarnings("serial")
+public final class TaskRow extends JPanel implements Observer {
 
-public final class TaskRow extends JPanel {
+	private Task task;
+	private TaskRowStatus curStatus;
 
-	private static final long serialVersionUID = 1L;
+	private int[] offsets;
+	private boolean isSelected;
 
-	private TaskScrollPanel taskScrollPanel; // reference to panel
-	// private ControllerInterface controller;
-	private ResourceBundle lang;
+	// TODO MAKE ARRAY OF COMPONENTS!!!
 
-	private Task t; // reference to task in datamodel
+	// Always displayed
+	private JButton completionBtn;
 
-	private JButton doneBut;
-	private JTextField nameField; // TODO Maybe doing an JTextField[] is better?
-	private JTextField dateField;
-	private JComboBox<String> categoryBox;
+	// Buttons
+	private JButton deleteBtn;
 
-	// private JTextField priorityField;
-	PriorityBar bar;
-	private JScrollPane descriptionPane;
-	private JTextArea descriptionArea;
-	private JButton editBut;
-	private JButton deleteBut;
+	// "Passive components"
+	private JLabel nameLbl;
+	private JLabel shortDescLbl;
+	private JLabel categoryLbl;
+	private JLabel dateLbl;
+	private PriorityBar bar;
 
-	private static ImageIcon editIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Write.png"));
-	private static ImageIcon doneIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Ok.png"));
-	private static ImageIcon deleteIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Cancel.png"));
 	
-	boolean isSelected = false;
+	public static enum TaskRowStatus {
+		CLOSED, OPENED, EDITING
+	};
 
-	public TaskRow(final TaskScrollPanel taskScrollPanel, Task ta) {
-		super();
-		t = ta;
-		// this.controller = controller;
-		this.taskScrollPanel = taskScrollPanel;
+	public TaskRow(final Task task, int[] offsets) {
+		this.task = task;
 
-		// TODO setlenient su sdf, rimosso
+//		this.curStatus = TaskRowStatus.CLOSED;
+//		this.setBackground(Color.red);// XXX debug
 
-		// TODO layout has to be fixed a lot! I didnt mind about it now
-		// this.setLayout(new FlowLayout(FlowLayout.LEFT,
-		// GlobalValues.TASKROW_ELEMENT_SPACING_X,
-		// GlobalValues.TASKROW_ELEMENT_SPACING_Y));
+//		this.setMinimumSize(new Dimension(900, 60));
+		
+		this.offsets = offsets;
+		this.isSelected = false;
 
-		this.setLayout(new GridBagLayout());
+		this.setLayout(null);
 
-		// preferences
-		// this.setBorder(BorderFactory.createLineBorder(Color.BLACK, ));
+		//		setBackground(Color.);
 
-		// Now add my components: done Button
-		lang = ControllerInterface.getLanguageBundle();
+		setBackground(Color.lightGray);
 
-		doneBut = new JButton();
-		// doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
-		doneBut.setText("");
+		initComponents();
 
-		doneBut.setIcon(doneIcon);
+	}
 
-		doneBut.addMouseListener(new MouseAdapter() {
+	private void initComponents() {
+
+		// Always there
+		completionBtn = new JButton("");
+//		completionBtn.setIcon(new ImageIcon(controller
+//				.getResource("assets/Icons/donetask.png")));
+
+		completionBtn.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
-				ControllerInterface.toggleCompleted(t);
+				task.setCompleted(!task.getCompleted());
 
 				// TODO
 				// This button will notify the parent (scrollpanel component)
 				// that this TaskRow has to be moved to completed or pending
 				// section.
 
-//				JOptionPane
-//						.showMessageDialog(
-//								null,
-//								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"This button will edit task status: completed/pending\nMaybe it should inform scrollpanel.. TODO");
 			}
 		});
-		GridBagConstraints con = new GridBagConstraints();
-		con.gridx = 0;
-		con.gridy = 0;
-		con.weightx = 1.0;
-		// con.insets = new Insets(0, 100, 0, 0);
-		con.anchor = GridBagConstraints.LINE_START;
-		// con.anchor = GridBagConstraints.LINE_END;
 
-		add(doneBut, con);
+		// completionBtn.setLocation(0, 0);
+		this.add(completionBtn);
+		// completionBtn.setLocation(0, 0);
 
-		nameField = new JTextField(t.getName());
-		// nameField.setHorizontalAlignment(JTextField.TRAILING);
-		nameField.setEnabled(false);
-		// nameField.setBackground(Color.LIGHT_GRAY);
-		nameField.setFont(new Font(null, Font.BOLD, 30));
-		// nameArea.setDisabledTextColor(Color.BLACK);
-		// nameField.setBorder(null);
-		con = new GridBagConstraints();
-		con.gridx = 1;
-		con.gridy = 0;
-		con.weightx = 1.0;
-		// con.fill = GridBagConstraints.WEST;
-		// con.insets = new Insets(0, 0, 0, 100);
-		// con.insets = Insets.WEST_INSETS : EAST_INSETS;
+		deleteBtn = new JButton("Delete");
+		deleteBtn.addActionListener(new ActionListener() {
 
-		con.anchor = GridBagConstraints.LINE_START;
-		add(nameField, con);
-
-		// date format
-		// TODO anche controlli su data qui
-		// dateField = new JTextField(sdf.format(t.getDate()));
-		dateField = new JTextField(ControllerInterface.getDateFormat().format(
-				t.getDate()));
-
-		dateField.setEnabled(false);
-		// dateField.setBackground(Color.GREEN);
-		// dateField.setDisabledTextColor(Color.BLACK);
-		// dateField.setBorder(null);
-		con = new GridBagConstraints();
-		con.gridx = 2;
-		con.gridy = 0;
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
-		add(dateField, con);
-
-		// now build category ComboBox
-
-		// TODO: Kadir suggests special combobox, our component wich extends
-		// combobox
-		// TODO: Kadir suggests special combobox, our component wich extends
-		// combobox
-		// TODO: Kadir suggests special combobox, our component wich extends
-		// combobox
-		// TODO: Kadir suggests special combobox, our component wich extends
-		// combobox
-		// TODO: Kadir suggests special combobox, our component wich extends
-		// combobox
-		// TODO: Kadir suggests special combobox, our component wich extends
-		// combobox
-		// maybe is better a button? Then simple dialog with colorpicker???
-		categoryBox = new JComboBox<String>();
-		for (Category c : ControllerInterface.getCategories().values()) {
-			categoryBox.addItem(c.getName());
-		}
-
-		// Add this special value for adding a task, will register listener
-
-		categoryBox.addItem(lang
-				.getString("shared_actions.newcategoryaction.text"));
-
-		categoryBox.addActionListener(new ActionListener() {
-
-			// If last "special item" is selected, open add category dialog
-			// will be an action, because also NewTaskDialog will use this
-			@SuppressWarnings("unchecked")
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				JComboBox<String> source = (JComboBox<String>) e.getSource();
 
-				// Note: this method fails is another category is called
-				// "New Category..."
-				// because it returns an index wich is not the last one
-				// TODO how do i prevent this problem? Check on values?
-				if (source.getSelectedIndex() == (source.getItemCount() - 1)) {
-
-					// TODO open add category dialog
-					// modify through controller
-					// view will be updated by observer call
-					// System.out.println("ultimo!");
-
-					// TODO
-					ControllerInterface.getAction(ControllerInterface.ActionName.NEWCAT)
-							.actionPerformed(null);
-					// new AddCategoryDialog(controller);
-				}
+				ControllerInterface.deleteTask(task);
 
 			}
 		});
 
-		// Select actual category
-		categoryBox.setSelectedItem(t.getCategory().getName());
-		categoryBox.setEnabled(false);
+		this.add(deleteBtn);
 
-		// categoryBox.setEditable(true);
-		// patternList.addActionListener(this);
+		// passive components
+		nameLbl = new JLabel(task.getName());
+		add(nameLbl);
+		shortDescLbl = new JLabel("Hover for description"); // TODO exception?
+		// shortDescLbl = new JLabel(task.getDescription().substring(0, 15) );
+		// // TODO exception?
 
-		con = new GridBagConstraints();
-		con.gridx = 3;
-		con.gridy = 0;
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
-		add(categoryBox, con);
+		shortDescLbl.setToolTipText(task.getDescription());
 
-		// And set my background color!
-		setBackground(t.getCategory().getColor());
+		add(shortDescLbl);
+		categoryLbl = new JLabel(task.getCategory().getName());
+		add(categoryLbl);
 
-		// ------------------------------------------------------
-		// TODO change this
+		// TODO will not be updated, to be solved...
+		dateLbl = new JLabel(ControllerInterface.getDateFormat().format(task.getDate()));
+		add(dateLbl);
 
-		// priorityField = new JTextField(t.getPrio().toString());
-		// priorityArea.addMouseListener(my);
-		// priorityField.setEnabled(false);
-		// priorityField.setBackground(Color.GREEN);
-		// priorityField.setDisabledTextColor(Color.BLACK);
-		// priorityField.setBorder(null);
-		// con.insets = new Insets(0, 0, 0, 300);
-		// con.anchor = GridBagConstraints.LINE_START;
-
-		// add(priorityField, con);
-
-		// PriorityBar pb = new PriorityBar(name, name, name, name, name, name,
-		// name, name, name, name);
-		bar = new PriorityBar(t.getPrio());
+		bar = new PriorityBar(task.getPrio());
 		bar.setEnabled(false);
+		add(bar);
+	};
 
-		con = new GridBagConstraints();
-		con.gridx = 4;
-		con.gridy = 0;
+	/**
+	 * This method is called to change status of the TaskRow.
+	 * 
+	 * @param taskRowStatus
+	 *            The status to be setted on the TaskRow
+	 */
+	// TODO is really needed? why public?
+	public void setStatus(TaskRow.TaskRowStatus newTaskRowStatus) {
 
-		add(bar, con);
-
-		// ------------------------------------------------------
-
-		descriptionArea = new JTextArea(t.getDescription(),
-				GlobalValues.TASKROW_DESC_ROWS, GlobalValues.TASKROW_DESC_COLS);
-
-		// descriptionArea = new JTextArea(t.getDescription());
-		// descriptionArea.setBounds( 0, 0, 200, 200 );
-		// descriptionArea.addMouseListener(my);
-		descriptionArea.setEnabled(false);
-		// descriptionArea.setBackground(Color.GREEN);
-		// descriptionArea.setDisabledTextColor(Color.BLACK);
-		descriptionArea.setLineWrap(true);
-		descriptionArea.setWrapStyleWord(true);
-
-		descriptionArea.setAlignmentX(CENTER_ALIGNMENT); // TODO not sure it
-															// works.. once
-															// again check
-															// layout
-
-		descriptionPane = new JScrollPane(descriptionArea);
-		descriptionPane.setVisible(false);
-		con = new GridBagConstraints();
-		con.gridx = 5;
-		con.gridy = 0;
-		if (!descriptionArea.getText().isEmpty())
-			descriptionPane.setVisible(true);
-
-		add(descriptionPane, con);
-
-		// Now the edit button
-		editBut = new JButton();
-		// editBut = new
-		// JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
-
-		editBut.setIcon(editIcon);
-
-		editBut.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent me) {
-
-				// if (editBut.getActionCommand().equals(
-				// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name")))
-				// {
-				if (!editBut.getIcon().toString().contains("stop")) {
-
-					// nameField.setBackground(Color.GREEN);
-					// dateField.setBackground(Color.GREEN);
-					// categoryField.setBackground(Color.GREEN);
-					// priorityField.setBackground(Color.GREEN);
-					// descriptionArea.setBackground(Color.GREEN);
-
-					// editBut.setText("Stop editing");
-
-					// editBut.setIcon(defaultIcon)
-					editBut.setIcon(editIcon);
-
-				} else { // call edit task method
-
-					// TODO
-					// priority will be a radiobutton, for the moment it's just
-					// some text
-					// did this for quick prototype
-					String name = nameField.getText();
-
-					String date = dateField.getText();
-					// TODO change priorty to drop down list
-
-					// String priority = priorityField.getText();
-
-					Task.Priority priority = bar.getPriority();
-					// TODO: non meglio che categoryBox contenga direttamente
-					// Category???
-					// non stringhe!
-					String categoryName = (String) categoryBox
-							.getSelectedItem();
-					String description = descriptionArea.getText();
-
-					try {
-						ControllerInterface.editTask(t, name,
-								ControllerInterface.getDateFormat(), date, priority,
-								t.getCompleted(), categoryName, description);
-					} catch (InvalidCategoryException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
-								"Category Problem", JOptionPane.WARNING_MESSAGE);
-
-					} catch (InvalidDateException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
-								"Date problem", JOptionPane.WARNING_MESSAGE);
-
-						dateField.setText(ControllerInterface.getDateFormat().format(
-								t.getDate()));
-					}
-					nameField.setBackground(Color.WHITE);
-					dateField.setBackground(Color.WHITE);
-					categoryBox.setBackground(Color.WHITE);
-					// bar.setBackground(Color.WHITE);
-					descriptionArea.setBackground(Color.WHITE);
-
-					setBackground(t.getCategory().getColor());
-
-					editBut.setIcon(editIcon);
-					//
-					// editBut.setText(
-					// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
-				}
-
-				nameField.setEnabled(!nameField.isEnabled());
-				dateField.setEnabled(!dateField.isEnabled());
-				categoryBox.setEnabled(!categoryBox.isEnabled());
-				// priorityField.setEnabled(!priorityField.isEnabled());
-				bar.setEnabled(!bar.isEnabled());
-
-				descriptionArea.setEnabled(!descriptionArea.isEnabled());
-			}
-		});
-
-		editBut.setVisible(false);
-		con = new GridBagConstraints();
-		con.gridx = 6;
-		con.gridy = 0;
-		con.weightx = 1.0;
-		con.anchor = GridBagConstraints.LINE_END;
-		add(editBut, con);
-
-		// Delete button apre un popup di conferma
-		deleteBut = new JButton();
-		// deleteBut = new JButton(
-		// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
-		deleteBut.setIcon(deleteIcon);
-
-		deleteBut.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent me) {
-
-				// Display a dialog for confirmation and read answer
-				// if yes, delete (call to parent, he knows already we r
-				// focused)
-				if (JOptionPane.showOptionDialog(null,
-						"Are you sure you want to delete \"" + t.getName()
-								+ "\"", "Confirm task deletion",
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
-						null, null, null) == JOptionPane.YES_OPTION) {
-
-					taskScrollPanel.deleteTask(); // TODO changed
-					// controller.deleteTask(t);
-				}
-			}
-
-		});
-		deleteBut.setVisible(false);
-		con = new GridBagConstraints();
-		// con.gridx = 7;
-		// con.gridy = 0;
-		add(deleteBut, con);
-
-		// Finally add panel listeners
-		addMouseListener(new MouseAdapter() {
-			// public void mousePressed(MouseEvent me) {
-
-			// XXX: to be discussed with team, do we really need a
-			// fixed focus when someone clicks? I feel that the onfocus
-			// event is enough!
-			// }
-
-			public void mouseEntered(MouseEvent e) {
-
-				if (!isSelected) {
-					setBorder(BorderFactory
-							.createBevelBorder(BevelBorder.LOWERED));
-
-					setSelected(true);
-				}
-
-			}
-
-			public void mouseExited(MouseEvent e) {
-				if (!isSelected) {
-					setBorder(BorderFactory
-							.createBevelBorder(BevelBorder.RAISED));
-
-					setSelected(false);
-				}
-			}
-		});
-
-		// setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		// setBorder(BorderFactory.createLineBorder(Color.black, 50));
-		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-	}
-
-	public final void setSelected(boolean visible) {
-
-		if (visible) {
-			taskScrollPanel.selectTaskRow(this);
-
-			setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-
-		} else
-			setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-
-		if (!descriptionArea.getText().isEmpty())
-			descriptionPane.setVisible(visible);
-
-		editBut.setVisible(visible);
-		deleteBut.setVisible(visible);
-
-		isSelected = visible;
+		this.curStatus = newTaskRowStatus;
+		
+		this.firePropertyChange("Status", null, curStatus);
 	}
 
 	/**
-	 * Returns the current Task associated to this TaskRow object
+	 * This method retrieves
 	 * 
-	 * @return current Task object
+	 * @return TaskRow status
 	 */
-	public final Task getTask() {
-		return t;
+	public TaskRowStatus getStatus() {
+		return curStatus;
+	}
+
+	// TODO paint method
+
+	/**
+	 * This method is called to change offsets
+	 * 
+	 * @param offsets
+	 *            The offsets to be
+	 */
+	public void setOffsets(int[] offsets) {
+
+		// TODO
+	}
+
+	// TODO method: needed to reload if task changes, then display of task
+	// should be updated
+	// ... settext...
+	// private void refreshComponents();
+
+	// This method will handle different rendering, depending on status
+	private void refreshRendering() {
+
+		// XXX: note, we make this AFTER supercall (wich uses layoutmanager)
+
+		// Always here
+
+		Dimension sizes = completionBtn.getPreferredSize();
+		completionBtn.setBounds(0, 0, sizes.width, sizes.height);
+
+		if (isSelected)
+				renderClosed();
+		else
+			renderNotSelected();
+	}
+
+	private void renderNotSelected() {
+
+		Dimension sizes = nameLbl.getPreferredSize();
+		nameLbl.setBounds(offsets[0], 20, sizes.width, sizes.height);
+
+		sizes = shortDescLbl.getPreferredSize();
+		shortDescLbl.setBounds(offsets[0] + 20 + nameLbl.getWidth(), 20,
+				sizes.width, sizes.height);
+
+		sizes = dateLbl.getPreferredSize();
+		dateLbl.setBounds(offsets[1], 20, sizes.width, sizes.height);
+
+		sizes = categoryLbl.getPreferredSize();
+		categoryLbl.setBounds(offsets[2]+15, 20, sizes.width, sizes.height);
+
+		sizes = bar.getPreferredSize();
+		bar.setBounds(offsets[3], 6, sizes.width, sizes.height);
+
+		deleteBtn.setVisible(false);
+
+		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+//		setBackground(Color.gray);
+	}
+
+	private void renderClosed() {
+
+//
+//		Dimension sizes = nameLbl.getPreferredSize();
+//		nameLbl.setBounds(offsets[0], 10, sizes.width, sizes.height);
+//
+//		sizes = shortDescLbl.getPreferredSize();
+//		shortDescLbl.setBounds(offsets[0] + 20 + nameLbl.getWidth(), 10,
+//				sizes.width, sizes.height);
+//
+//		sizes = dateLbl.getPreferredSize();
+//		dateLbl.setBounds(offsets[1], 10, sizes.width, sizes.height);
+//
+//		sizes = categoryLbl.getPreferredSize();
+//		categoryLbl.setBounds(offsets[2], 10, sizes.width, sizes.height);
+//
+//		sizes = bar.getPreferredSize();
+//		bar.setBounds(offsets[3], 6, sizes.width, sizes.height);
+//
+//
+		Dimension sizes = deleteBtn.getPreferredSize();
+		deleteBtn.setBounds(this.getWidth() - 10 - sizes.width, 13,
+				sizes.width, sizes.height);
+		deleteBtn.setVisible(true);
+//		
+		
+//		setBackground(Color.white);
+
+			setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+
+//		setBackground(Color.red);
+	}
+
+	/**
+	 * This method will be called by the renderer to update the selection status
+	 * 
+	 * @param isSelected
+	 *            The boolean which indicates selection status
+	 */
+	public void setSelected(boolean isSelected) {
+
+		this.isSelected = isSelected;
+		refreshRendering();
+	}
+
+	public boolean getSelected(){
+		return isSelected;
+	}
+	
+	//
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g); // XXX is it really needed?
+
+		
+		g.setColor(task.getCategory().getColor());
+		g.fillRect(offsets[2], 0, 10, 60);
+		
+		// Now handle my rendering using current status
+		refreshRendering();
+	}
+
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+
+		// XXX : remember that we r observer for dateformat events
+		// WHAT ELSE???
+
+	}
+	
+	public String toString(){
+		return task.getName();
+	}
+
+	public Task getTask() {
+		return task;
 	}
 }

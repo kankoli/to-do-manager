@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.jdom2.JDOMException;
 
@@ -64,8 +65,8 @@ public class TestMainWindow extends JFrame {
 		JPanel pnlBottom = new JPanel(new GridBagLayout());
 		
 		JPanel pnlSortBar = getSortBarPanel();
-		JPanel pnlTaskTable = getTaskTablePanel();
-		JPanel pnlTaskEdit = getTaskEditPanel();
+		EditPanel pnlTaskEdit = getTaskEditPanel();
+		JScrollPane pnlTaskTable = getTaskTablePanel(pnlTaskEdit);
 		JPanel pnlStatus = getStatusPanel();
 		
 		c.weightx = 1;
@@ -209,21 +210,21 @@ public class TestMainWindow extends JFrame {
 	}
 
 	private JPanel getSortBarPanel() {
-		JPanel pnlSortBar = new JPanel();
+		SortingBar pnlSortBar = new SortingBar(new int[]{100,100,100,100});
 		pnlSortBar.setBackground(Color.yellow);
 		return pnlSortBar;
 	}
-	
-	private JPanel getTaskTablePanel() {
-		JPanel pnlTaskTable = new JPanel();
-		pnlTaskTable.setBackground(Color.green);
-		return pnlTaskTable;
-	}
 
-	private JPanel getTaskEditPanel() {
-		JPanel pnlTaskEdit = new JPanel();
-		pnlTaskEdit.setBackground(Color.blue);
+	private EditPanel getTaskEditPanel() {
+		EditPanel pnlTaskEdit = new EditPanel();
 		return pnlTaskEdit;
+	}
+	
+	private JScrollPane getTaskTablePanel(EditPanel pnlTaskEdit) {
+		TaskTable table = new TaskTable(new int[]{100,100,100,100});
+		table.addPropertyChangeListener(pnlTaskEdit);
+		JScrollPane scrollPane = new JScrollPane(table);
+		return scrollPane;
 	}
 	
 	private JPanel getStatusPanel() {

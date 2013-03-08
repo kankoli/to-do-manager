@@ -32,14 +32,16 @@ import control.ControllerInterface.ActionName;
 public class SortingBar extends JPanel implements Observer {
 
 	private SortingTab activeTab;
+
+	// TODO Marco: make this List an array instead, we have fixed structure
 	private List<SortingTab> sortingTabs;
 	private SortingBarMouseListener mouseListener;
 
 	// XXX this is just for testing, will be an array
-	SortingTab tab1;
-	SortingTab tab2;
-	SortingTab tab3;
-	SortingTab tab4;
+	// SortingTab tab1;
+	// SortingTab tab2;
+	// SortingTab tab3;
+	// SortingTab tab4;
 
 	private class SortingBarMouseListener implements MouseListener,
 			MouseMotionListener {
@@ -49,11 +51,19 @@ public class SortingBar extends JPanel implements Observer {
 		private boolean rightEdgeInFocus = false;
 		private int mouseDraggedPosX;
 
+		// TODO testing
+		private SortingBar sb;
+		public SortingBarMouseListener(SortingBar sb){
+			this.sb = sb;
+		}
+		
+		
+		
 		@Override
 		// This listener will set the current selected tab as active
 		public void mouseClicked(MouseEvent me) {
 
-			// XXX Marco: Magnus, im using this way to simulate an event.. 
+			// XXX Marco: Magnus, im using this way to simulate an event..
 			// check code, it's temporary solution, works well
 			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			String[] names = {
@@ -73,8 +83,9 @@ public class SortingBar extends JPanel implements Observer {
 
 					// We create an actionevent using correct name...
 					Action a = ControllerInterface.getAction(ActionName.SORT);
-					a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, lang
-							.getString(names[i])));
+					a.actionPerformed(new ActionEvent(this,
+							ActionEvent.ACTION_PERFORMED, lang
+									.getString(names[i])));
 
 					activeTab = tab;
 					repaint();
@@ -129,6 +140,7 @@ public class SortingBar extends JPanel implements Observer {
 
 		// this method is used to manage the dragging behaviour
 		private void dragTabs(MouseEvent me) {
+
 			int xDiff = me.getX() - mouseDraggedPosX;
 			SortingTab currentTab = sortingTabs.get(tabInFocusIndex);
 
@@ -176,7 +188,24 @@ public class SortingBar extends JPanel implements Observer {
 			mouseDraggedPosX = me.getX();
 			repaint();
 
+			System.out.println("dragging done:");
+
+			// TODO Marco:
+			// http://docs.oracle.com/javase/tutorial/uiswing/events/propertychangelistener.html
+			// i think is better to use this isntead of change listener, we will
+			// add a property
+			// even when a different tab is clicked! Change is too general,
+			// property is more specific
+			for (SortingTab t : sortingTabs) {
+				System.out.println("tab: POS " + t.getXPos() + " - WIDTH "
+						+ t.getWidth());
+			}
+			
+			sb.firePropertyChange("offsets", null, sb.getTabOffsets());
+
+
 		}
+
 
 		// Calculate how much we can move this tab to the left
 		private int distanceAbleToMoveLeft(int currentTabIndex,
@@ -260,37 +289,63 @@ public class SortingBar extends JPanel implements Observer {
 
 	}
 
-	public SortingBar() {
+	public SortingBar(int[] sizes) {
 
-		mouseListener = new SortingBarMouseListener();
+		mouseListener = new SortingBarMouseListener(this);
 
 		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 
-		// TEST
-		tab1 = new SortingTab(
-				lang.getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
-				100, 30, 0, 0, true, 20, true, false);
-		tab2 = new SortingTab(
-				lang.getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
-				100, 30, 100, 0, false);
-		tab3 = new SortingTab(
-				lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
-				100, 30, 200, 0, false);
-		tab4 = new SortingTab(
-				lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
-				100, 30, 300, 0, false, 20, false, true);
+
+		// XXX Marco modificiations
 
 		sortingTabs = new ArrayList<SortingTab>();
 
-		sortingTabs.add(tab1);
-		sortingTabs.add(tab2);
-		sortingTabs.add(tab3);
-		sortingTabs.add(tab4);
+		sortingTabs.add(new SortingTab(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
+				230, 30, sizes[0], 0, true, 20, true, false));
+		sortingTabs.add(new SortingTab(lang
+				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
+				200, 30, sizes[1], 0, false));
+		sortingTabs
+				.add(new SortingTab(
+						lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
+						120, 30, sizes[2], 0, false));
+		sortingTabs
+				.add(new SortingTab(
+						lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
+						123, 30, sizes[3], 0, false, 20, false, true));
 
-		activeTab = tab1;
+//		
+//		sortingTabs = new ArrayList<SortingTab>();
+//
+//		sortingTabs.add(new SortingTab(lang
+//				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
+//				sizes[0], 30, 0, 0, true, 20, true, false));
+//		sortingTabs.add(new SortingTab(lang
+//				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
+//				sizes[1], 30, sizes[0], 0, false));
+//		sortingTabs
+//				.add(new SortingTab(
+//						lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
+//						sizes[2], 30, sizes[0]+sizes[1], 0, false));
+//		sortingTabs
+//				.add(new SortingTab(
+//						lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
+//						sizes[3], 30, sizes[0]+sizes[1]+sizes[2], 0, false, 20, false, true));
+//
+//		
+		
+		
+		activeTab = sortingTabs.get(0);
 
-		this.setPreferredSize(new Dimension(401, 32));
-		this.setMinimumSize(new Dimension(401, 32));
+		// TODO sotto va fixato con la somma delle sizes!
+		int size_x = 0;
+		
+		for(int i = 0; i < sizes.length; i++)
+			size_x += sizes[i];
+		this.setPreferredSize(new Dimension(size_x +1 , 32));
+
+		this.setMinimumSize(new Dimension(size_x +1, 32));
 		this.setBackground(Color.WHITE);
 
 		this.addMouseListener(mouseListener);
@@ -299,6 +354,22 @@ public class SortingBar extends JPanel implements Observer {
 
 		ControllerInterface.registerAsObserver(this);
 	}
+	
+	
+	/**
+	 * Small method to retrieve tab offsets
+	 * 
+	 * @return
+	 */
+	public int[] getTabOffsets() {
+		int[] offsets = new int[4];
+
+		for (int i = 0; i < offsets.length; i++)
+			offsets[i] = sortingTabs.get(i).getWidth();
+		
+		return offsets;
+	}
+
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -314,14 +385,22 @@ public class SortingBar extends JPanel implements Observer {
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = ControllerInterface.getLanguageBundle();
-			tab1.setName(lang
-					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
-			tab2.setName(lang
-					.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
-			tab3.setName(lang
-					.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
-			tab4.setName(lang
-					.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
+			sortingTabs
+					.get(0)
+					.setName(
+							lang.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
+			sortingTabs
+					.get(1)
+					.setName(
+							lang.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
+			sortingTabs
+					.get(2)
+					.setName(
+							lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
+			sortingTabs
+					.get(3)
+					.setName(
+							lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
 			revalidate();
 			repaint();
 		}

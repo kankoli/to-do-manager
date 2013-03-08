@@ -268,6 +268,8 @@ public class SortingTab {
 		g.setColor(Color.BLACK);
 		g.draw3DRect(getXPos(), getYPos(), getWidth(), getHeight(), true);
 		g.drawString(getName(), xPos + 2, yPos + (getHeight() / 2) + (g.getFontMetrics().getHeight() / 2));
+		
+
 	}
 	
 }

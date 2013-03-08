@@ -143,7 +143,7 @@ public class PriorityBar extends JPanel {
 		return this.prio;
 	}
 	
-	public void getPriority(Task.Priority prio)
+	public void setPriority(Task.Priority prio)
 	{
 		this.prio = prio;
 	}

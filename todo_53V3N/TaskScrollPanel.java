@@ -95,7 +95,7 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 
 		// Load from datamodel tasks
 		for (Task t : ControllerInterface.getFilteredTaskList()) {
-			TaskRow row = new TaskRow(this, t);
+			TaskRow row = new TaskRow(t, new int[]{});
 
 			// Now i add one row to the panel and to my List
 			taskList.add(row);
