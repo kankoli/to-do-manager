@@ -24,6 +24,7 @@ public class PriorityButton extends ImageButton {
 		this.prio = tp;
 		this.parent = p;
 		
+		setOpaque(false);
 		setIcon(this.def);
 		addMouseListener(new MouseListener() {
 			@Override

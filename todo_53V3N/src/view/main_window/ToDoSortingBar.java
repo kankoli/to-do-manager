@@ -23,7 +23,6 @@ public class ToDoSortingBar extends JPanel implements Observer{
 	private SortingTab activeTab;
 	private List<SortingTab> sortingTabs;	
 	private SortingBarMouseListener mouseListener;
-	private ControllerInterface controller;
 	
 	//private TaskPane taskPane;
 	
@@ -246,11 +245,11 @@ public class ToDoSortingBar extends JPanel implements Observer{
 		
 	}
 	
-	public ToDoSortingBar(ControllerInterface controller) {
+	public ToDoSortingBar() {
 		
 		mouseListener = new SortingBarMouseListener();
 		
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 		
 		//TEST
 		tab1 = new SortingTab(lang
@@ -270,7 +269,6 @@ public class ToDoSortingBar extends JPanel implements Observer{
 		sortingTabs.add(tab4);
 		
 		activeTab = tab1;
-		this.controller = controller;
 		
 		this.setPreferredSize(new Dimension(401, 32));
 		this.setMinimumSize(new Dimension(401, 32));
@@ -280,7 +278,7 @@ public class ToDoSortingBar extends JPanel implements Observer{
 		this.addMouseMotionListener(mouseListener);
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 	}
 	
 	/*public SortingBar (int width, int height) {
@@ -307,7 +305,7 @@ public class ToDoSortingBar extends JPanel implements Observer{
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			ResourceBundle lang = controller.getLanguageBundle();
+			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			tab1.setName(lang
 					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
 			tab2.setName(lang

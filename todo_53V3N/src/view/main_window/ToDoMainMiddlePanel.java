@@ -4,13 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -31,12 +27,9 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 	private SortingBar sortingBar;
 	// private ToDoSortingBar sortingBar;
 
-	private ControllerInterface controller;
-
-	public ToDoMainMiddlePanel(ControllerInterface controller) {
+	public ToDoMainMiddlePanel() {
 		super();
-
-		this.controller = controller;
+		
 		setLayout(new GridBagLayout());
 
 		addPendingCompletedButtons();
@@ -48,7 +41,7 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 		setBackground(Color.WHITE);
 		setVisible(true);
 
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 	}
 
 	private void addPendingCompletedButtons() {
@@ -79,7 +72,7 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 		
 		
 //		add(btns, pendingCompletedButtonsCons);		
-		PendingCompletedRadioButtons btns = new PendingCompletedRadioButtons(controller);
+		PendingCompletedRadioButtons btns = new PendingCompletedRadioButtons();
 		
 		add(btns);
 	}
@@ -88,7 +81,7 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 		GridBagConstraints sortingBarCons = new GridBagConstraints();
 
 		try {
-			sortingBar = new SortingBar(controller);
+			sortingBar = new SortingBar();
 			// sortingBar = new ToDoSortingBar(Arrays.asList("Name", "Date",
 			// "Category", "Priority"), Arrays.asList(50, 50, 50, 50), 25);
 
@@ -110,7 +103,7 @@ public class ToDoMainMiddlePanel extends JPanel implements Observer {
 		int sizes[] = { 10, 20, 30, 40 }; // TODO Temporary offset values for
 											// area sizes of TaskScrollPanel.
 
-		taskPanel = new TaskScrollPanel(sizes, controller);
+		taskPanel = new TaskScrollPanel(sizes);
 		taskPanelCons.gridy = 2;
 		taskPanelCons.weightx = 0;
 		taskPanelCons.weighty = 1;

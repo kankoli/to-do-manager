@@ -13,7 +13,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Observable;
@@ -28,16 +27,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.MetalTheme;
-import javax.swing.plaf.metal.OceanTheme;
 
 import model.DataModel;
 
@@ -63,7 +56,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 	// TODO Marco: also a timer wich saves DB periodically.. see here
 	// http://www.cab.u-szeged.hu/WWW/java/tutorial/ui/swing/timer.html
-	private ControllerInterface controller;
+	private static DataModel db;
 
 	/**
 	 * 
@@ -78,7 +71,6 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		// String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 		// System.out.println(lookAndFeel);
 
-		DataModel db = null; // TODO exception handling, exception throwing..
 		try {
 			db = new DataModel();
 
@@ -90,23 +82,19 @@ public class ToDoMainFrame extends JFrame implements Observer {
 			e.printStackTrace();
 		}
 
-		controller = new ControllerInterface(db);
+		ControllerInterface.init(db);
 
 		// Retrieve last size from state
-		double sizeX = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINXSIZEKEY));
-		double sizeY = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINYSIZEKEY));
+		double sizeX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINYSIZEKEY));
 
 		setPreferredSize(new Dimension((int) sizeX, (int) sizeY));
 		setMinimumSize(new Dimension(GlobalValues.MINXSIZE,
 				GlobalValues.MINYSIZE));
 
 		// retrieve last location from state
-		double posX = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINXPOSKEY));
-		double posY = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINYPOSKEY));
+		double posX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXPOSKEY));
+		double posY = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINYPOSKEY));
 		setLocation((int) posX, (int) posY);
 
 		// setPreferredSize(new Dimension(width, height));
@@ -137,8 +125,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		addWindowListener(new WindowAdapter() {
 
 			public void windowClosing(WindowEvent e) {
-				controller.getAction(ControllerInterface.ActionName.EXIT)
-						.actionPerformed(null);
+				ControllerInterface.getAction(ControllerInterface.ActionName.EXIT).actionPerformed(null);
 			}
 		});
 
@@ -150,9 +137,9 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				JFrame f = (JFrame) e.getSource();
 				Dimension d = f.getSize();
 
-				controller.setProperty(GlobalValues.WINXSIZEKEY,
+				ControllerInterface.setProperty(GlobalValues.WINXSIZEKEY,
 						Double.toString(d.getWidth()), false);
-				controller.setProperty(GlobalValues.WINYSIZEKEY,
+				ControllerInterface.setProperty(GlobalValues.WINYSIZEKEY,
 						Double.toString(d.getHeight()), false);
 			}
 
@@ -161,15 +148,15 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 				Point p = f.getLocation();
 
-				controller.setProperty(GlobalValues.WINXPOSKEY,
+				ControllerInterface.setProperty(GlobalValues.WINXPOSKEY,
 						Double.toString(p.getX()), false);
-				controller.setProperty(GlobalValues.WINYPOSKEY,
+				ControllerInterface.setProperty(GlobalValues.WINYPOSKEY,
 						Double.toString(p.getY()), false);
 			}
 
 		});
 
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 	}
 
 	public static void main(String[] args) {
@@ -184,7 +171,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		// TODO
 
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
 
@@ -204,8 +191,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		menu.addSeparator();
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.EXIT));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.EXIT));
 		menu.add(menuItem);
 
 		menu = new JMenu(lang.getString("mainFrame.menubar.edit"));
@@ -216,15 +202,13 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.NEWTASK));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.NEWTASK));
 		menuItem.setIcon(null);
 
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.NEWCAT));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.NEWCAT));
 		subMenu.add(menuItem);
 		menu.add(subMenu);
 
@@ -234,20 +218,17 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 		// TODO move constants from globalvalues to other place
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.CHANGELANG));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
 		menuItem.setText(lang.getString("mainFrame.menubar.language.english"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.CHANGELANG));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
 		menuItem.setText(lang.getString("mainFrame.menubar.language.swedish"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.CHANGELANG));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
 		menuItem.setText(lang.getString("mainFrame.menubar.language.italian"));
 		subMenu.add(menuItem);
 
@@ -256,29 +237,25 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		menu.add(subMenu);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.SORT));
 		menuItem.setText(lang
 				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.SORT));
 		menuItem.setText(lang
 				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.SORT));
 		menuItem.setText(lang
 				.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
-		menuItem.setAction(controller
-				.getAction(ControllerInterface.ActionName.SORT));
+		menuItem.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.SORT));
 		menuItem.setText(lang
 				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
 		subMenu.add(menuItem);
@@ -290,8 +267,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				lang.getString("mainFrame.menubar.dateformat.italian"));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller
-						.setDateFormat(ControllerInterface.DateFormat.ITALIAN);
+				ControllerInterface.setDateFormat(ControllerInterface.DateFormat.ITALIAN);
 
 			}
 		});
@@ -301,8 +277,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				lang.getString("mainFrame.menubar.dateformat.swedish"));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller
-						.setDateFormat(ControllerInterface.DateFormat.SWEDISH);
+				ControllerInterface.setDateFormat(ControllerInterface.DateFormat.SWEDISH);
 
 			}
 		});
@@ -348,7 +323,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 				// TODO to be fixed, quick way
 
 				try {
-					controller.setTheme(GlobalValues.Themes.THEME_0);
+					ControllerInterface.setTheme(GlobalValues.Themes.THEME_0);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -418,7 +393,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 	private void addTopPanel() {
 		GridBagConstraints topCons = new GridBagConstraints();
-		topPanel = new ToDoMainTopPanel(controller);
+		topPanel = new ToDoMainTopPanel();
 		topCons.gridx = 0;
 		topCons.gridy = 0;
 		topCons.weightx = 1;
@@ -429,7 +404,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 
 	private void addMiddlePanel() {
 		GridBagConstraints middleCons = new GridBagConstraints();
-		middlePanel = new ToDoMainMiddlePanel(controller);
+		middlePanel = new ToDoMainMiddlePanel();
 		middleCons.gridx = 0;
 		middleCons.gridy = 1;
 		middleCons.weightx = 1;
@@ -456,16 +431,16 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	
-	/**
-	 * This method is called to change theme using currently setted theme
-	 */
+//	/**
+//	 * This method is called to change theme using currently setted theme
+//	 */
 	private void loadTheme() {
 
 		// TODO we should have this one as default???
 
 
 			System.out.println("[loadTheme] Theme changed, theme color is: "
-					+ controller.getProperty(GlobalValues.THEMEKEY));
+					+ ControllerInterface.getProperty(GlobalValues.THEMEKEY));
 //			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
 			try {
@@ -493,13 +468,13 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		// }
 
 		// Now get my theme.. collection of key - value pair
-		Properties theme = controller.getThemeBundle();
+		Properties theme = ControllerInterface.getThemeBundle();
 
 //		UIDefaults defaults = UIManager.getLookAndFeel().getDefaults();
 //		System.out.println("[DEFAULT] "
 //				+ defaults.getColor("Button.background"));
 
-		// TODO now we have a list of properties taken from themeù
+		// TODO now we have a list of properties taken from themeÔøΩ
 
 		String s = null;
 
@@ -553,7 +528,7 @@ public class ToDoMainFrame extends JFrame implements Observer {
 		}
 
 		else if (msg == ControllerInterface.ChangeMessage.CHANGED_THEME) {
-//			loadTheme();
+			loadTheme();
 		}
 
 	}

@@ -30,31 +30,24 @@ public class PriorityBar extends JPanel {
 	//The static field PriorityBar.hover2 should be accessed in a static way	PriorityBar.java	/todo_53V3N/src/view/custom_components	line 38	Java Problem
 	// ...
 
-	protected static ImageIcon def;
-	protected static ImageIcon hover1;
-	protected static ImageIcon pressed1;
-	protected static ImageIcon clicked1;
-	protected static ImageIcon hover2;
-	protected static ImageIcon pressed2;
-	protected static ImageIcon clicked2;
-	protected static ImageIcon hover3;
-	protected static ImageIcon pressed3;
-	protected static ImageIcon clicked3;
-	
-	protected static boolean imagesLoaded = false;
+	protected static ImageIcon def = new ImageIcon(ControllerInterface.getResource("assets/prio_def.png"));
+	protected static ImageIcon hover1 = new ImageIcon(ControllerInterface.getResource("assets/prio_1_hover.png"));
+	protected static ImageIcon pressed1 = new ImageIcon(ControllerInterface.getResource("assets/prio_1_set.png"));
+	protected static ImageIcon clicked1 = new ImageIcon(ControllerInterface.getResource("assets/prio_1_set.png"));
+	protected static ImageIcon hover2 = new ImageIcon(ControllerInterface.getResource("assets/prio_2_hover.png"));
+	protected static ImageIcon pressed2 = new ImageIcon(ControllerInterface.getResource("assets/prio_2_set.png"));
+	protected static ImageIcon clicked2 = new ImageIcon(ControllerInterface.getResource("assets/prio_2_set.png"));
+	protected static ImageIcon hover3 = new ImageIcon(ControllerInterface.getResource("assets/prio_3_hover.png"));
+	protected static ImageIcon pressed3 = new ImageIcon(ControllerInterface.getResource("assets/prio_3_set.png"));
+	protected static ImageIcon clicked3 = new ImageIcon(ControllerInterface.getResource("assets/prio_3_set.png"));
 	
 	private PriorityButton btn1;
 	private PriorityButton btn2;
 	private PriorityButton btn3;
 	
-	public PriorityBar(Task.Priority prio, ControllerInterface ci) {
+	public PriorityBar(Task.Priority prio) {
 		
 		this.prio = prio;
-		
-		if(!imagesLoaded) {
-			loadImages(ci);
-			imagesLoaded = true;
-		}			
 		
 		btn1 = new PriorityButton(this, Task.Priority.LOW, def, hover1, pressed1, clicked1);
 		btn2 = new PriorityButton(this, Task.Priority.NORMAL, def, hover2, pressed2, clicked2);
@@ -69,19 +62,6 @@ public class PriorityBar extends JPanel {
 		add(btn3);
 			
 		setButtons();
-	}
-	
-	public void loadImages(ControllerInterface ci) {
-		PriorityBar.def = new ImageIcon(ci.getResource("assets/prio_def.png"));
-		PriorityBar.hover1 = new ImageIcon(ci.getResource("assets/prio_1_hover.png"));
-		PriorityBar.pressed1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
-		PriorityBar.clicked1 = new ImageIcon(ci.getResource("assets/prio_1_set.png"));
-		PriorityBar.hover2 = new ImageIcon(ci.getResource("assets/prio_2_hover.png"));
-		PriorityBar.pressed2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
-		PriorityBar.clicked2 = new ImageIcon(ci.getResource("assets/prio_2_set.png"));
-		PriorityBar.hover3 = new ImageIcon(ci.getResource("assets/prio_3_hover.png"));
-		PriorityBar.pressed3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
-		PriorityBar.clicked3 = new ImageIcon(ci.getResource("assets/prio_3_set.png"));
 	}
 	
 	public void setButtons() {
@@ -161,5 +141,10 @@ public class PriorityBar extends JPanel {
 	public Task.Priority getPriority()
 	{
 		return this.prio;
+	}
+	
+	public void getPriority(Task.Priority prio)
+	{
+		this.prio = prio;
 	}
 }

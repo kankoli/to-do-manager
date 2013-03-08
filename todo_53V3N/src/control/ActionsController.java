@@ -33,7 +33,10 @@ public final class ActionsController {
 	private Action sortTasks;
 	private Action timerAction;
 
-	public ActionsController(DataModel dataModel, ControllerInterface ci) {
+	private static ImageIcon addtask = new ImageIcon(
+			ControllerInterface.getResource("assets/Icons/I_Plus.png"));
+	
+	public ActionsController(DataModel dataModel) {
 
 		this.dataModel = dataModel;
 
@@ -44,33 +47,30 @@ public final class ActionsController {
 				lang.getString("shared_actions.changelanguageaction.text"),
 				null,
 				lang.getString("shared_actions.changelanguageaction.desc"),
-				KeyEvent.VK_L, ci);
+				KeyEvent.VK_L);
 
 		exitAction = new ExitAction(
 				lang.getString("shared_actions.exitaction.text"), null,
 				lang.getString("shared_actions.exitaction.desc"),
-				KeyEvent.VK_Q, ci);
-
-		ImageIcon addtask = new ImageIcon(
-				ci.getResource("assets/Icons/I_Plus.png"));
+				KeyEvent.VK_Q);
 
 		newTask = new NewTaskAction(
 				lang.getString("shared_actions.newtaskaction.text"), addtask,
 				lang.getString("shared_actions.newtaskaction.desc"),
-				KeyEvent.VK_T, ci);
+				KeyEvent.VK_T);
 
 
 		newCategory = new NewCategoryAction(
 				lang.getString("shared_actions.newcategoryaction.text"), null,
 				lang.getString("shared_actions.newcategoryaction.desc"),
-				KeyEvent.VK_C, ci);
+				KeyEvent.VK_C);
 
 		sortTasks = new SortTaskAction(
 				lang.getString("shared_actions.sorttaskaction.text"), null,
 				lang.getString("shared_actions.sorttaskaction.desc"),
-				KeyEvent.VK_O, ci);
+				KeyEvent.VK_O);
 		
-		timerAction = new TimerAction(ci); 
+		timerAction = new TimerAction(); 
 
 	}
 

@@ -2,7 +2,6 @@ package control;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import utility.GlobalValues;

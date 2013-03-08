@@ -6,31 +6,30 @@ import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
-
 import control.ControllerInterface;
 
 import model.Task;
 
-public class ObserverListModel extends DefaultListModel implements Observer {
+@SuppressWarnings({ "serial", "rawtypes" })
+public class ObserverListModel<T> extends DefaultListModel implements Observer {
 
-	private ControllerInterface controller;
-	public ObserverListModel(ControllerInterface ci) {
+	@SuppressWarnings("unchecked")
+	public ObserverListModel() {
 		super();
-		this.controller = ci;
-		List<Task> tasks = controller.getTaskListUrgent(true);
+		List<Task> tasks = ControllerInterface.getTaskListUrgent(true);
 		for (Task t : tasks)
 			addElement(t);
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
 
 		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) {
 			removeAllElements();
-			List<Task> tasks = controller.getTaskListUrgent(true);
+			List<Task> tasks = ControllerInterface.getTaskListUrgent(true);
 			for (Task t : tasks)
 				addElement(t);
 		}

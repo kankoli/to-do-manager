@@ -19,16 +19,12 @@ import control.ControllerInterface;
 @SuppressWarnings("serial")
 public class TimerAction extends AbstractAction {
 	
-	private ControllerInterface controller;
-	
-	public TimerAction(ControllerInterface controller) {
+	public TimerAction() {
 		super("", null);
-
-		this.controller = controller;
 	}
 
 	
 	public void actionPerformed(ActionEvent e) {
-		controller.saveDB();
+		ControllerInterface.saveDB();
 	}
 }

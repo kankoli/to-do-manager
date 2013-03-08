@@ -15,15 +15,13 @@ public final class SortTaskAction extends AbstractAction {
 	private ControllerInterface controller;
 
 	public SortTaskAction(String text, ImageIcon icon, String desc,
-			Integer mnemonic, ControllerInterface controller) {
+			Integer mnemonic) {
 		super(text, icon);
-
-		this.controller = controller;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
 
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 
 		SortType ordering = SortType.NONE;
 

@@ -15,19 +15,18 @@ import javax.swing.JRadioButton;
 
 import control.ControllerInterface;
 
+@SuppressWarnings("serial")
 public class PendingCompletedRadioButtons extends JPanel implements
 		ActionListener, Observer {
 
-	private ControllerInterface controller;
 	private JRadioButton btnPending;
 	private JRadioButton btnIncomplete;
 	
 	// http://docs.oracle.com/javase/tutorial/uiswing/examples/components/RadioButtonDemoProject/src/components/RadioButtonDemo.java
-	public PendingCompletedRadioButtons (ControllerInterface ci) {
+	public PendingCompletedRadioButtons () {
 		super(new BorderLayout());
 		
-		this.controller = ci;
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 		String pendingName = lang.getString("mainFrame.middlePanel.button.pending.name");
 		String completeName = lang.getString("mainFrame.middlePanel.button.completed.name");
 		
@@ -50,12 +49,12 @@ public class PendingCompletedRadioButtons extends JPanel implements
         add(btnPending, BorderLayout.PAGE_START);
         add(btnIncomplete, BorderLayout.PAGE_END);
         
-        controller.registerAsObserver(this);
+        ControllerInterface.registerAsObserver(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		controller.setIsViewingCompletedTasks(e.getActionCommand() == "true" ? true : false);
+		ControllerInterface.setIsViewingCompletedTasks(e.getActionCommand() == "true" ? true : false);
 	}
 
 	@Override
@@ -63,7 +62,7 @@ public class PendingCompletedRadioButtons extends JPanel implements
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
 		
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			ResourceBundle lang = controller.getLanguageBundle();
+			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			btnPending.setText(lang
 					.getString("mainFrame.middlePanel.button.completed.name"));
 			btnIncomplete.setText(lang

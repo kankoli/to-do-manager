@@ -1,47 +1,39 @@
 package view.urgent_task_dialog;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
 
+import utility.GlobalResources;
 import utility.GlobalValues;
-import view.custom_components.FlagBar;
 
 import model.Task;
 
 import control.ControllerInterface;
 
+@SuppressWarnings("serial")
 public class UrgentTaskDialog extends JDialog {
-	private ControllerInterface controller;
 
-	public UrgentTaskDialog(final ControllerInterface controller) {
+	@SuppressWarnings("unchecked")
+	public UrgentTaskDialog() {
 		super();
-		this.controller = controller;
 
 		setTitle("Urgent Tasks");
 
@@ -59,15 +51,14 @@ public class UrgentTaskDialog extends JDialog {
 		pnlHeader.setPreferredSize(new Dimension(270, 32));
 		pnlHeader.setLayout(new GridLayout(0, 2));
 
-		final ObserverComboBox cmbTasks = new ObserverComboBox(controller);
+		final ObserverComboBox cmbTasks = new ObserverComboBox();
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		pane.add(cmbTasks, c);
 		
 		JButton btn = new JButton();
-		btn.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/I_AddUrgent.png")));
+		btn.setIcon(GlobalResources.addUrgentIcon);
 		btn.setMinimumSize(new Dimension(45, 45));
 		btn.setPreferredSize(new Dimension(45, 45));
 		btn.setBorder(null);
@@ -103,9 +94,9 @@ public class UrgentTaskDialog extends JDialog {
 
 		final JList<Task> lst = new JList<Task>();
 
-		ObserverListModel dlm = new ObserverListModel(controller);
+		ObserverListModel<Task> dlm = new ObserverListModel<Task>();
 		lst.setModel(dlm);
-		lst.setCellRenderer(new UrgentCellRenderer(controller));
+		lst.setCellRenderer(new UrgentCellRenderer());
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -124,7 +115,7 @@ public class UrgentTaskDialog extends JDialog {
 					JMenuItem item = new JMenuItem("Delete");
 					item.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							controller.setUrgent(lst.getSelectedValue(), false);
+							ControllerInterface.setUrgent(lst.getSelectedValue(), false);
 						}
 					});
 					menu.add(item);
@@ -155,16 +146,12 @@ public class UrgentTaskDialog extends JDialog {
 		setMinimumSize(new Dimension(minWidth, minHeight));
 
 		// Retrieve last (main frame) size from state
-		double sizeX = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINXSIZEKEY));
-		double sizeY = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINYSIZEKEY));
+		double sizeX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINYSIZEKEY));
 
 		// retrieve last (main frame) location from state
-		double posX = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINXPOSKEY));
-		double posY = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINYPOSKEY));
+		double posX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXPOSKEY));
+		double posY = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINYPOSKEY));
 
 		setLocation((int) (posX + ((sizeX - minWidth) / 2)),
 				(int) (posY + ((sizeY - minHeight) / 2)));

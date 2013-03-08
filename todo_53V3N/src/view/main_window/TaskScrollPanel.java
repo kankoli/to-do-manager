@@ -11,7 +11,6 @@ import javax.swing.JScrollPane;
 
 import control.ControllerInterface;
 
-import model.DataModel;
 import model.Task;
 
 // TODO: log
@@ -28,15 +27,7 @@ import model.Task;
 
 // assignment 3
 
-
 // 3 hours TOT so far
-
-
-
-
-
-
-
 
 //--------------------
 //--------------------
@@ -62,7 +53,6 @@ import model.Task;
 @SuppressWarnings("serial")
 public final class TaskScrollPanel extends JScrollPane implements Observer {
 
-	private ControllerInterface controller;
 	private JPanel viewPort;
 	private List<TaskRow> taskList; // we store our child here, useful to access
 									// them
@@ -78,12 +68,11 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 	 * @param controller
 	 *            the controller object
 	 */
-	public TaskScrollPanel(int[] offsets, ControllerInterface controller) {
+	public TaskScrollPanel(int[] offsets) {
 		super();
-		this.controller = controller;
 
 		// register as observer
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 
 		setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -105,8 +94,8 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		viewPort.setLayout(new BoxLayout(viewPort, BoxLayout.PAGE_AXIS));
 
 		// Load from datamodel tasks
-		for (Task t : controller.getFilteredTaskList()) {
-			TaskRow row = new TaskRow(controller, this, t);
+		for (Task t : ControllerInterface.getFilteredTaskList()) {
+			TaskRow row = new TaskRow(this, t);
 
 			// Now i add one row to the panel and to my List
 			taskList.add(row);
@@ -166,7 +155,7 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 		curSelected = null;
 
 		// remove from datamodel
-		controller.deleteTask(t);
+		ControllerInterface.deleteTask(t);
 	}
 
 	// TODO add come observer
@@ -176,8 +165,16 @@ public final class TaskScrollPanel extends JScrollPane implements Observer {
 
 		// TODO
 		// Redraw panel, redraw row! riorganizzare! da discutere con team
-
-		refreshView();
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_FILTER
+				|| msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY
+				|| msg == ControllerInterface.ChangeMessage.CHANGED_THEME
+				|| msg == ControllerInterface.ChangeMessage.DELETED_CATEGORY
+				|| msg == ControllerInterface.ChangeMessage.DELETED_TASK
+				|| msg == ControllerInterface.ChangeMessage.EDIT_TASK
+				|| msg == ControllerInterface.ChangeMessage.NEW_TASK
+				|| msg == ControllerInterface.ChangeMessage.SORTED_TASK
+				|| msg == ControllerInterface.ChangeMessage.NEW_CATEGORY)
+			refreshView();
 		// viewPort.revalidate();
 		// viewPort.repaint();
 		//

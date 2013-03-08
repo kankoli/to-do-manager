@@ -4,21 +4,15 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-
-import control.ControllerInterface;
 
 import view.new_category_dialog.AddCategoryDialog;
 
+@SuppressWarnings("serial")
 public class NewCategoryAction extends AbstractAction {
 
-	private ControllerInterface controller;
-
 	public NewCategoryAction(String text, ImageIcon icon, String desc,
-			Integer mnemonic, ControllerInterface controller) {
+			Integer mnemonic) {
 		super(text, icon);
-
-		this.controller = controller;
 	}
 
 	@Override
@@ -38,7 +32,7 @@ public class NewCategoryAction extends AbstractAction {
 		// view will be updated by observer call
 		// System.out.println("ultimo!");
 
-		new AddCategoryDialog(controller);
+		new AddCategoryDialog();
 
 	}
 }

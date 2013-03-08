@@ -10,22 +10,20 @@ import model.Task;
 
 import control.ControllerInterface;
 
-public class ObserverComboBox extends JComboBox implements Observer {
+@SuppressWarnings("serial")
+public class ObserverComboBox extends JComboBox<Object> implements Observer {
 
-	private ControllerInterface controller;
-	
-	public ObserverComboBox(ControllerInterface ci) {
+	public ObserverComboBox() {
 		super();
-		this.controller = ci;
 		
 		insertItemAt("Select task to add...", 0);	
-		List<Task> nonUrgentTasks = controller.getTaskListUrgent(false);
+		List<Task> nonUrgentTasks = ControllerInterface.getTaskListUrgent(false);
 		for (int i = 0; i < nonUrgentTasks.size(); i++) {
 			addItem(nonUrgentTasks.get(i));
 		}
 		setSelectedIndex(0);
 		
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 	}
 	
 	@Override
@@ -35,7 +33,7 @@ public class ObserverComboBox extends JComboBox implements Observer {
 		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) {
 			removeAllItems();
 			insertItemAt("Select task to add...", 0);
-			List<Task> nonUrgentTasks = controller.getTaskListUrgent(false);
+			List<Task> nonUrgentTasks = ControllerInterface.getTaskListUrgent(false);
 			for (int i = 0; i < nonUrgentTasks.size(); i++) {
 				addItem(nonUrgentTasks.get(i));
 			}
@@ -45,6 +43,6 @@ public class ObserverComboBox extends JComboBox implements Observer {
 
 	public void setUrgent() {
 		if (getSelectedIndex() != 0)
-			controller.setUrgent((Task)getSelectedItem(), true);
+			ControllerInterface.setUrgent((Task)getSelectedItem(), true);
 	}
 }

@@ -13,18 +13,14 @@ import control.ControllerInterface;
 @SuppressWarnings("serial")
 public final class ChangeLanguageAction extends AbstractAction {
 
-	private ControllerInterface controller;
-
 	public ChangeLanguageAction(String text, ImageIcon icon, String desc,
-			Integer mnemonic, ControllerInterface controller) {
+			Integer mnemonic) {
 		super(text, icon);
-
-		this.controller = controller;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
 
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 
 		Languages l = null;
 
@@ -38,7 +34,7 @@ public final class ChangeLanguageAction extends AbstractAction {
 				.equals(arg0.getActionCommand()))
 			l = GlobalValues.Languages.IT;
 
-		controller.setLanguage(l);
+		ControllerInterface.setLanguage(l);
 
 	}
 }

@@ -222,4 +222,8 @@ public final class DataController {
 	public void setUrgent(Task task, boolean b) {
 		dataModel.setUrgent(task, b);
 	}
+
+	public void toggleCompleted(Task t) {
+		dataModel.toggleCompleted(t);		
+	}
 }

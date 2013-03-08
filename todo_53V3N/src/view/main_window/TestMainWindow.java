@@ -1,32 +1,57 @@
 package view.main_window;
 
 import java.awt.Color;
-import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridBagLayoutInfo;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ResourceBundle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import control.ControllerInterface;
+import org.jdom2.JDOMException;
+
+import model.DataModel;
 
 import view.custom_components.FlagBar;
+import view.custom_components.PendingCompletedRadioButtons;
+import view.urgent_task_dialog.UrgentTaskDialog;
+import control.ControllerInterface;
 
-
+@SuppressWarnings("serial")
 public class TestMainWindow extends JFrame {
+
+	private static ImageIcon urgentIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Exclamation.png"));
+	private static DataModel db;
 	
 	public static void main(String[] args) {
-		// ToDoMainFrame toDoFrame = // XXX Marco: i commented it, do we need a
-		// reference to Frame?
-		// new ToDoMainFrame(900, 600);
 		new TestMainWindow();
-
 	}
 	
 	public TestMainWindow() {
 		super();
+		
+		try {
+			db = new DataModel();
+
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		ControllerInterface.init(db);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -34,21 +59,14 @@ public class TestMainWindow extends JFrame {
 		JPanel pnlFrame = new JPanel();
 		pnlFrame.setLayout(new GridBagLayout());
 		
-		JPanel pnlTop = new JPanel(new GridBagLayout());
-		pnlTop.setBackground(Color.red);
-		JButton btn = new JButton("test");
-		pnlTop.add(btn);
+		JPanel pnlTop = getTopPanel();
 		
 		JPanel pnlBottom = new JPanel(new GridBagLayout());
 		
-		JPanel pnlSortBar = new JPanel();
-		pnlSortBar.setBackground(Color.yellow);
-		JPanel pnlTaskTable = new JPanel();
-		pnlTaskTable.setBackground(Color.green);
-		JPanel pnlTaskEdit = new JPanel();
-		pnlTaskEdit.setBackground(Color.blue);
-		JPanel pnlStatus = new JPanel();
-		pnlStatus.setBackground(Color.darkGray);
+		JPanel pnlSortBar = getSortBarPanel();
+		JPanel pnlTaskTable = getTaskTablePanel();
+		JPanel pnlTaskEdit = getTaskEditPanel();
+		JPanel pnlStatus = getStatusPanel();
 		
 		c.weightx = 1;
 		c.weighty = 0;
@@ -103,5 +121,114 @@ public class TestMainWindow extends JFrame {
 		setContentPane(pnlFrame);
 		pack();
 		setVisible(true);
+	}
+
+	private JPanel getTopPanel() {
+		JPanel pnlTop = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		JLabel lblClock = new JLabel("ClOcK");
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.insets = new Insets(10,10,10,10);
+		c.anchor = GridBagConstraints.WEST;
+		pnlTop.add(lblClock, c);
+		
+		FlagBar flagBar = new FlagBar();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.insets = new Insets(10,10,10,10);
+		c.anchor = GridBagConstraints.EAST;
+		pnlTop.add(flagBar, c);
+		
+		JButton urgentButton = new JButton();
+		urgentButton.setIcon(urgentIcon);
+		urgentButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) { 
+				new UrgentTaskDialog();
+			}
+		});
+		urgentButton.setMinimumSize(new Dimension(60, 60));
+		urgentButton.setPreferredSize(new Dimension(60, 60));
+		urgentButton.setText("");
+		urgentButton.setBorder(null);
+		// urgentButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+		// Color.darkGray));
+		urgentButton.setBackground(Color.WHITE);
+		urgentButton.setOpaque(true);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.insets = new Insets(10,10,10,10);
+		c.anchor = GridBagConstraints.WEST;
+		pnlTop.add(urgentButton, c);
+		
+		JButton newTaskButton = new JButton();
+		newTaskButton.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.NEWTASK));
+		newTaskButton.addPropertyChangeListener("text", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent e) {
+				((JButton) e.getSource()).setText("");
+			}
+			
+		});
+		newTaskButton.setMinimumSize(new Dimension(60, 60));
+		newTaskButton.setPreferredSize(new Dimension(60, 60));
+		newTaskButton.setText("");
+		// newTaskButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
+		// Color.darkGray));
+		newTaskButton.setBorder(null);
+		// newTaskButton.set
+		newTaskButton.setBackground(Color.WHITE);
+		newTaskButton.setOpaque(true);
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.insets = new Insets(10,10,10,10);
+		c.anchor = GridBagConstraints.EAST;
+		pnlTop.add(newTaskButton, c);
+		
+		PendingCompletedRadioButtons btns = new PendingCompletedRadioButtons();
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.insets = new Insets(10,10,10,10);
+		c.anchor = GridBagConstraints.WEST;
+		pnlTop.add(btns, c);
+		
+		return pnlTop;
+	}
+
+	private JPanel getSortBarPanel() {
+		JPanel pnlSortBar = new JPanel();
+		pnlSortBar.setBackground(Color.yellow);
+		return pnlSortBar;
+	}
+	
+	private JPanel getTaskTablePanel() {
+		JPanel pnlTaskTable = new JPanel();
+		pnlTaskTable.setBackground(Color.green);
+		return pnlTaskTable;
+	}
+
+	private JPanel getTaskEditPanel() {
+		JPanel pnlTaskEdit = new JPanel();
+		pnlTaskEdit.setBackground(Color.blue);
+		return pnlTaskEdit;
+	}
+	
+	private JPanel getStatusPanel() {
+		JPanel pnlStatus = new JPanel();
+		pnlStatus.setBackground(Color.darkGray);
+		return pnlStatus;
 	}
 }

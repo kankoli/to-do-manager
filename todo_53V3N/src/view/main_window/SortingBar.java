@@ -34,7 +34,6 @@ public class SortingBar extends JPanel implements Observer {
 	private SortingTab activeTab;
 	private List<SortingTab> sortingTabs;
 	private SortingBarMouseListener mouseListener;
-	private ControllerInterface controller;
 
 	// XXX this is just for testing, will be an array
 	SortingTab tab1;
@@ -56,7 +55,7 @@ public class SortingBar extends JPanel implements Observer {
 
 			// XXX Marco: Magnus, im using this way to simulate an event.. 
 			// check code, it's temporary solution, works well
-			ResourceBundle lang = controller.getLanguageBundle();
+			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			String[] names = {
 					"mainFrame.middlePanel.sortingBar.tab.title.name",
 					"mainFrame.middlePanel.sortingBar.tab.date.name",
@@ -73,7 +72,7 @@ public class SortingBar extends JPanel implements Observer {
 					tab.setFocus(true);
 
 					// We create an actionevent using correct name...
-					Action a = controller.getAction(ActionName.SORT);
+					Action a = ControllerInterface.getAction(ActionName.SORT);
 					a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, lang
 							.getString(names[i])));
 
@@ -261,11 +260,11 @@ public class SortingBar extends JPanel implements Observer {
 
 	}
 
-	public SortingBar(ControllerInterface controller) {
+	public SortingBar() {
 
 		mouseListener = new SortingBarMouseListener();
 
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 
 		// TEST
 		tab1 = new SortingTab(
@@ -289,7 +288,6 @@ public class SortingBar extends JPanel implements Observer {
 		sortingTabs.add(tab4);
 
 		activeTab = tab1;
-		this.controller = controller;
 
 		this.setPreferredSize(new Dimension(401, 32));
 		this.setMinimumSize(new Dimension(401, 32));
@@ -299,7 +297,7 @@ public class SortingBar extends JPanel implements Observer {
 		this.addMouseMotionListener(mouseListener);
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		controller.registerAsObserver(this);
+		ControllerInterface.registerAsObserver(this);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -315,7 +313,7 @@ public class SortingBar extends JPanel implements Observer {
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			ResourceBundle lang = controller.getLanguageBundle();
+			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			tab1.setName(lang
 					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
 			tab2.setName(lang

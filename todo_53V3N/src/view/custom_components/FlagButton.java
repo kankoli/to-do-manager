@@ -7,13 +7,10 @@ import java.util.ResourceBundle;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
 
 import control.ControllerInterface;
 
 import utility.GlobalValues;
-
-import model.Task;
 
 
 @SuppressWarnings("serial")
@@ -22,7 +19,7 @@ public class FlagButton extends ImageButton {
 	private GlobalValues.Languages language;
 	private FlagBar parent;
 	
-	FlagButton(final ControllerInterface ci, FlagBar p, GlobalValues.Languages l, ImageIcon p_def, ImageIcon p_hover, ImageIcon p_pressed, ImageIcon p_clicked, final Action action) {
+	FlagButton(FlagBar p, GlobalValues.Languages l, ImageIcon p_def, ImageIcon p_hover, ImageIcon p_pressed, ImageIcon p_clicked, final Action action) {
 		this.def = p_def;
 		this.hover = p_hover;
 		this.pressed = p_pressed;
@@ -45,7 +42,7 @@ public class FlagButton extends ImageButton {
 					parent.language = language;
 					parent.setButtons();
 
-					ResourceBundle lang = ci.getLanguageBundle();
+					ResourceBundle lang = ControllerInterface.getLanguageBundle();
 					String[] names = {
 							"mainFrame.menubar.language.swedish",
 							"mainFrame.menubar.language.english",

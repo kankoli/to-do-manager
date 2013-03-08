@@ -5,8 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -36,7 +34,6 @@ import exceptions.InvalidCategoryException;
 // public final class AddCategoryDialog extends JFrame {
 public final class AddCategoryDialog extends JDialog {
 
-	private ControllerInterface controller;
 	private JPanel basePanel;
 	private JTextField categoryField;
 	private JColorChooser jcc;
@@ -51,10 +48,8 @@ public final class AddCategoryDialog extends JDialog {
 	 * @param height
 	 *            height of frame in pixels
 	 */
-	public AddCategoryDialog(final ControllerInterface controller) {
+	public AddCategoryDialog() {
 		super();
-		this.controller = controller;
-
 		// setPreferredSize(new Dimension(width, height));
 		// setMinimumSize(new Dimension(width, height));
 
@@ -153,7 +148,7 @@ public final class AddCategoryDialog extends JDialog {
 				Color co = jcc.getSelectionModel().getSelectedColor();
 
 				try {
-					controller.addCategory(name, co);
+					ControllerInterface.addCategory(name, co);
 					dispose(); // close dialog
 				} catch (InvalidCategoryException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(),

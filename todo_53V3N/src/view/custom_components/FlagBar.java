@@ -16,37 +16,30 @@ public class FlagBar extends JPanel implements Observer {
 
 	protected GlobalValues.Languages language;
 	
-	protected static ImageIcon f_en_set;
-	protected static ImageIcon f_en_def;
-	protected static ImageIcon f_swe_set;
-	protected static ImageIcon f_swe_def;
-	protected static ImageIcon f_it_set;
-	protected static ImageIcon f_it_def;
-	
-	protected static boolean imagesLoaded = false;
+	protected static ImageIcon f_en_set = new ImageIcon(ControllerInterface.getResource("assets/Icons/F_UK_set.gif"));
+	protected static ImageIcon f_en_def = new ImageIcon(ControllerInterface.getResource("assets/Icons/F_UK.png"));
+	protected static ImageIcon f_swe_set = new ImageIcon(ControllerInterface.getResource("assets/Icons/F_Sweden_set.gif"));
+	protected static ImageIcon f_swe_def = new ImageIcon(ControllerInterface.getResource("assets/Icons/F_Sweden.png"));
+	protected static ImageIcon f_it_set = new ImageIcon(ControllerInterface.getResource("assets/Icons/F_Italy_set.gif"));
+	protected static ImageIcon f_it_def = new ImageIcon(ControllerInterface.getResource("assets/Icons/F_Italy.png"));
 	
 	private FlagButton btn1;
 	private FlagButton btn2;
 	private FlagButton btn3;
 	
-	private ControllerInterface ci;
-	
-	public FlagBar(ControllerInterface controller) {
-		this.ci = controller;
-		this.language = GlobalValues.Languages.valueOf(ci.getProperty(GlobalValues.LANGUAGEKEY));
-		
-		if(!imagesLoaded) {
-			loadImages(ci);
-			imagesLoaded = true;
-		}			
+	public FlagBar() {
+		this.language = GlobalValues.Languages.valueOf(ControllerInterface.getProperty(GlobalValues.LANGUAGEKEY));
 		
 		// XXX Marco: why not a FlagButton[] btns = new FlagButton[3];
 		// and then btns[0] = new...
 		// ...
 //		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set);
-		btn1 = new FlagButton(ci, this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set, ci.getAction(ControllerInterface.ActionName.CHANGELANG));
-		btn2 = new FlagButton(ci, this, GlobalValues.Languages.SWE, f_swe_def, f_swe_def, f_swe_set, f_swe_set, ci.getAction(ControllerInterface.ActionName.CHANGELANG));
-		btn3 = new FlagButton(ci, this, GlobalValues.Languages.IT, f_it_def, f_it_def, f_it_set, f_it_set, ci.getAction(ControllerInterface.ActionName.CHANGELANG));
+		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set, 
+				ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
+		btn2 = new FlagButton(this, GlobalValues.Languages.SWE, f_swe_def, f_swe_def, f_swe_set, f_swe_set, 
+				ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
+		btn3 = new FlagButton(this, GlobalValues.Languages.IT, f_it_def, f_it_def, f_it_set, f_it_set, 
+				ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
 		
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setHgap(0);
@@ -58,16 +51,7 @@ public class FlagBar extends JPanel implements Observer {
 			
 		setButtons();
 		
-		ci.registerAsObserver(this);
-	}
-	
-	private void loadImages(ControllerInterface ci) {
-		FlagBar.f_en_def = new ImageIcon(ci.getResource("assets/Icons/F_UK.png"));
-		FlagBar.f_swe_def = new ImageIcon(ci.getResource("assets/Icons/F_Sweden.png"));
-		FlagBar.f_it_def = new ImageIcon(ci.getResource("assets/Icons/F_Italy.png"));
-		FlagBar.f_en_set = new ImageIcon(ci.getResource("assets/Icons/F_UK_set.gif"));
-		FlagBar.f_swe_set = new ImageIcon(ci.getResource("assets/Icons/F_Sweden_set.gif"));
-		FlagBar.f_it_set = new ImageIcon(ci.getResource("assets/Icons/F_Italy_set.gif"));
+		ControllerInterface.registerAsObserver(this);
 	}
 	
 	protected void setButtons() {
@@ -110,7 +94,7 @@ public class FlagBar extends JPanel implements Observer {
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			this.language = GlobalValues.Languages.valueOf(ci.getProperty(GlobalValues.LANGUAGEKEY));
+			this.language = GlobalValues.Languages.valueOf(ControllerInterface.getProperty(GlobalValues.LANGUAGEKEY));
 			setButtons();
 		}
 	}

@@ -63,10 +63,13 @@ public final class TaskRow extends JPanel {
 	private JButton editBut;
 	private JButton deleteBut;
 
+	private static ImageIcon editIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Write.png"));
+	private static ImageIcon doneIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Ok.png"));
+	private static ImageIcon deleteIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Cancel.png"));
+	
 	boolean isSelected = false;
 
-	public TaskRow(final ControllerInterface controller,
-			final TaskScrollPanel taskScrollPanel, Task ta) {
+	public TaskRow(final TaskScrollPanel taskScrollPanel, Task ta) {
 		super();
 		t = ta;
 		// this.controller = controller;
@@ -85,18 +88,17 @@ public final class TaskRow extends JPanel {
 		// this.setBorder(BorderFactory.createLineBorder(Color.BLACK, ));
 
 		// Now add my components: done Button
-		lang = controller.getLanguageBundle();
+		lang = ControllerInterface.getLanguageBundle();
 
 		doneBut = new JButton();
 		// doneBut.setText(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.done.name"));
 		doneBut.setText("");
 
-		doneBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/I_Ok.png")));
+		doneBut.setIcon(doneIcon);
 
 		doneBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
-				t.setCompleted(!t.getCompleted());
+				ControllerInterface.toggleCompleted(t);
 
 				// TODO
 				// This button will notify the parent (scrollpanel component)
@@ -140,7 +142,7 @@ public final class TaskRow extends JPanel {
 		// date format
 		// TODO anche controlli su data qui
 		// dateField = new JTextField(sdf.format(t.getDate()));
-		dateField = new JTextField(controller.getDateFormat().format(
+		dateField = new JTextField(ControllerInterface.getDateFormat().format(
 				t.getDate()));
 
 		dateField.setEnabled(false);
@@ -170,7 +172,7 @@ public final class TaskRow extends JPanel {
 		// combobox
 		// maybe is better a button? Then simple dialog with colorpicker???
 		categoryBox = new JComboBox<String>();
-		for (Category c : controller.getCategories().values()) {
+		for (Category c : ControllerInterface.getCategories().values()) {
 			categoryBox.addItem(c.getName());
 		}
 
@@ -183,8 +185,9 @@ public final class TaskRow extends JPanel {
 
 			// If last "special item" is selected, open add category dialog
 			// will be an action, because also NewTaskDialog will use this
+			@SuppressWarnings("unchecked")
 			public void actionPerformed(ActionEvent e) {
-				JComboBox<String> source = ((JComboBox<String>) e.getSource());
+				JComboBox<String> source = (JComboBox<String>) e.getSource();
 
 				// Note: this method fails is another category is called
 				// "New Category..."
@@ -198,7 +201,7 @@ public final class TaskRow extends JPanel {
 					// System.out.println("ultimo!");
 
 					// TODO
-					controller.getAction(ControllerInterface.ActionName.NEWCAT)
+					ControllerInterface.getAction(ControllerInterface.ActionName.NEWCAT)
 							.actionPerformed(null);
 					// new AddCategoryDialog(controller);
 				}
@@ -239,7 +242,7 @@ public final class TaskRow extends JPanel {
 
 		// PriorityBar pb = new PriorityBar(name, name, name, name, name, name,
 		// name, name, name, name);
-		bar = new PriorityBar(t.getPrio(), controller);
+		bar = new PriorityBar(t.getPrio());
 		bar.setEnabled(false);
 
 		con = new GridBagConstraints();
@@ -282,8 +285,7 @@ public final class TaskRow extends JPanel {
 		// editBut = new
 		// JButton(lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
 
-		editBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/I_Write.png")));
+		editBut.setIcon(editIcon);
 
 		editBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -302,8 +304,7 @@ public final class TaskRow extends JPanel {
 					// editBut.setText("Stop editing");
 
 					// editBut.setIcon(defaultIcon)
-					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/I_Write.png")));
+					editBut.setIcon(editIcon);
 
 				} else { // call edit task method
 
@@ -327,8 +328,8 @@ public final class TaskRow extends JPanel {
 					String description = descriptionArea.getText();
 
 					try {
-						controller.editTask(t, name,
-								controller.getDateFormat(), date, priority,
+						ControllerInterface.editTask(t, name,
+								ControllerInterface.getDateFormat(), date, priority,
 								t.getCompleted(), categoryName, description);
 					} catch (InvalidCategoryException e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),
@@ -338,7 +339,7 @@ public final class TaskRow extends JPanel {
 						JOptionPane.showMessageDialog(null, e.getMessage(),
 								"Date problem", JOptionPane.WARNING_MESSAGE);
 
-						dateField.setText(controller.getDateFormat().format(
+						dateField.setText(ControllerInterface.getDateFormat().format(
 								t.getDate()));
 					}
 					nameField.setBackground(Color.WHITE);
@@ -349,8 +350,7 @@ public final class TaskRow extends JPanel {
 
 					setBackground(t.getCategory().getColor());
 
-					editBut.setIcon(new ImageIcon(controller
-							.getResource("assets/Icons/I_Hand.png")));
+					editBut.setIcon(editIcon);
 					//
 					// editBut.setText(
 					// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.edit.name"));
@@ -378,8 +378,7 @@ public final class TaskRow extends JPanel {
 		deleteBut = new JButton();
 		// deleteBut = new JButton(
 		// lang.getString("mainFrame.middlePanel.taskScrollPanel.taskRow.button.delete.name"));
-		deleteBut.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/I_Cancel.png")));
+		deleteBut.setIcon(deleteIcon);
 
 		deleteBut.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {

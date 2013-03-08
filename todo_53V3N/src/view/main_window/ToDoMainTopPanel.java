@@ -13,10 +13,8 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import utility.GlobalValues;
 import view.custom_components.FlagBar;
 import view.urgent_task_dialog.UrgentTaskDialog;
 
@@ -37,11 +35,10 @@ public class ToDoMainTopPanel extends JPanel {
 	private JButton newTaskButton;
 	private FlagBar flagBar;
 
-	private ControllerInterface controller;
+	private static ImageIcon urgentIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Exclamation.png"));
 
-	public ToDoMainTopPanel(ControllerInterface controller) {
+	public ToDoMainTopPanel() {
 		super();
-		this.controller = controller;
 
 		setLayout(new GridBagLayout());
 
@@ -62,7 +59,7 @@ public class ToDoMainTopPanel extends JPanel {
 
 	private void addFlags() {
 		GridBagConstraints cons = new GridBagConstraints();
-		flagBar = new FlagBar(controller);
+		flagBar = new FlagBar();
 		cons.gridx = 0;
 		cons.gridy = 0;
 		cons.insets = new Insets(0, 10, 0, 0);
@@ -71,18 +68,17 @@ public class ToDoMainTopPanel extends JPanel {
 	}
 	
 	private void addUrgentButton() {
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 
 		GridBagConstraints urgentButtonCons = new GridBagConstraints();
 		urgentButton = new JButton(
 				lang.getString("mainFrame.topPanel.button.urgentTasks.name"));
 
-		urgentButton.setIcon(new ImageIcon(controller
-				.getResource("assets/Icons/I_Exclamation.png")));
+		urgentButton.setIcon(urgentIcon);
 		urgentButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) { 
-				new UrgentTaskDialog(controller);
+				new UrgentTaskDialog();
 			}
 		});
 		urgentButton.setMinimumSize(new Dimension(60, 60));
@@ -120,13 +116,12 @@ public class ToDoMainTopPanel extends JPanel {
 	}
 
 	private void addNewTaskButton() {
-		ResourceBundle lang = controller.getLanguageBundle();
+		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 		GridBagConstraints newTaskButtonCons = new GridBagConstraints();
 		newTaskButton = new JButton(
 				lang.getString("mainFrame.topPanel.button.newTask.name"));
 
-		newTaskButton.setAction(controller
-				.getAction(ControllerInterface.ActionName.NEWTASK));
+		newTaskButton.setAction(ControllerInterface.getAction(ControllerInterface.ActionName.NEWTASK));
 		newTaskButton.setMinimumSize(new Dimension(60, 60));
 		newTaskButton.setPreferredSize(new Dimension(60, 60));
 		newTaskButton.setText("");

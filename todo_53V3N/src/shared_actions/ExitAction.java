@@ -15,21 +15,16 @@ import control.ControllerInterface;
 @SuppressWarnings("serial")
 public class ExitAction extends AbstractAction {
 
-	private ControllerInterface controller;
-	
-
 	public ExitAction(String text, ImageIcon icon, String desc,
-			Integer mnemonic, ControllerInterface controller) {
+			Integer mnemonic) {
 		super(text, icon);
-
-		this.controller = controller;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
 		// TODO here coded needed at closing
 
-		controller.saveDB();
+		ControllerInterface.saveDB();
 		System.exit(0);
 	}
 

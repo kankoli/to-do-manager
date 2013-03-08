@@ -511,4 +511,9 @@ public final class DataModel extends Observable {
 		task.setUrgent(b);
 		hasChanged(ChangeMessage.EDIT_URGENT);
 	}
+
+	public void toggleCompleted(Task task) {
+		task.setCompleted(!task.getCompleted());
+		hasChanged(ChangeMessage.EDIT_TASK);
+	}
 }

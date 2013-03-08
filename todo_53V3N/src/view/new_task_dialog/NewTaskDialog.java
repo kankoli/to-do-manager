@@ -39,14 +39,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -59,6 +57,7 @@ import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
 
+@SuppressWarnings("serial")
 public class NewTaskDialog extends JDialog {
 
 	private JTextField nameField;
@@ -67,11 +66,8 @@ public class NewTaskDialog extends JDialog {
 	private JComboBox<String> cmbCategory;
 	private PriorityBar bar;
 
-	private ControllerInterface controller;
-
-	public NewTaskDialog(ControllerInterface ci) {
+	public NewTaskDialog() {
 		super();
-		this.controller = ci;
 		setTitle("New Task");
 		
 		JPanel pane = (JPanel) getContentPane();
@@ -101,7 +97,7 @@ public class NewTaskDialog extends JDialog {
 
 		dateField = new JTextField();
 		dateField.setBorder(BorderFactory.createTitledBorder("Date"));
-		dateField.setText(controller.getDateFormat().toPattern());
+		dateField.setText(ControllerInterface.getDateFormat().toPattern());
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -109,7 +105,7 @@ public class NewTaskDialog extends JDialog {
 
 		cmbCategory = new JComboBox<String>();
 
-		for (Category ca : controller.getCategories().values())
+		for (Category ca : ControllerInterface.getCategories().values())
 			cmbCategory.addItem(ca.getName());
 
 		cmbCategory.setBorder(BorderFactory.createTitledBorder("Category")); 
@@ -119,7 +115,7 @@ public class NewTaskDialog extends JDialog {
 		cmbCategory.setBackground(Color.WHITE);
 		pane.add(cmbCategory, c);
 
-		bar = new PriorityBar(Task.Priority.NOT_SET, controller);
+		bar = new PriorityBar(Task.Priority.NOT_SET);
 		bar.setBorder(BorderFactory.createTitledBorder("Priority"));
 		c.gridx = 0;
 		c.gridy = 4;
@@ -157,7 +153,7 @@ public class NewTaskDialog extends JDialog {
 				// TODO date picker
 				Date date = null;
 				try {
-					date = controller.getDateFormat()
+					date = ControllerInterface.getDateFormat()
 							.parse(dateField.getText());
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
@@ -170,7 +166,7 @@ public class NewTaskDialog extends JDialog {
 
 				String categoryName = ((String) cmbCategory.getSelectedItem());
 
-				controller.addTask(name, date, priority, completed,
+				ControllerInterface.addTask(name, date, priority, completed,
 						categoryName, description);
 
 				dispose();
@@ -206,15 +202,12 @@ public class NewTaskDialog extends JDialog {
 		setResizable(false);
 		
 		// Retrieve last (main frame) size from state
-		double sizeX = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINXSIZEKEY));
-		double sizeY = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINYSIZEKEY));
+		double sizeX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINYSIZEKEY));
 
 		// retrieve last (main frame) location from state
-		double posX = Double.parseDouble(controller
-				.getProperty(GlobalValues.WINXPOSKEY));
-		double posY = Double.parseDouble(controller
+		double posX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXPOSKEY));
+		double posY = Double.parseDouble(ControllerInterface
 				.getProperty(GlobalValues.WINYPOSKEY));
 		
 		
