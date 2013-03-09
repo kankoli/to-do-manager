@@ -1,6 +1,5 @@
 package view.main_window;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,6 +24,7 @@ import control.ControllerInterface.ActionName;
  * for the task. It is resizable (dragging), you will be able to sort task by
  * clicking on tab sections.
  * 
+ * Please note... it's not working yet
  * @author Magnus Larsson
  * 
  */

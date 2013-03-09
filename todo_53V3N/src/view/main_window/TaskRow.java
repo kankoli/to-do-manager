@@ -7,14 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
@@ -25,31 +22,33 @@ import model.Task;
 import control.ControllerInterface;
 
 /**
- * This component represent one row (one task) in the task scroll panel, with
- * wich user can interact.
+ * NOTE: this component has to be heavily optimized, we used many old designs...
+ * even some useless things still there This component represent one row (one
+ * task) in the task scroll panel, with wich user can interact.
  * 
  * @author Marco Dondio, Magnus Larsson
  * 
  */
 
 @SuppressWarnings("serial")
-public final class TaskRow extends JPanel implements Observer {
+public final class TaskRow extends JPanel {
 
 	private Task task;
-	private TaskRowStatus curStatus;
 
 	private int[] offsets;
 	private boolean isSelected;
 
-	private static ImageIcon editIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Write.png"));
-	private static ImageIcon doneIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Ok.png"));
-	private static ImageIcon deleteIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Cancel.png"));
+	private static ImageIcon doneIcon = new ImageIcon(
+			ControllerInterface.getResource("assets/Icons/I_Ok.png"));
+	private static ImageIcon deleteIcon = new ImageIcon(
+			ControllerInterface.getResource("assets/Icons/I_Cancel.png"));
 
 	// TODO MAKE ARRAY OF COMPONENTS!!!
+	// no time unfortunately
 
 	// Always displayed
 	private JButton doneBtn;
-	
+
 	// Buttons
 	private JButton deleteBtn;
 
@@ -60,19 +59,9 @@ public final class TaskRow extends JPanel implements Observer {
 	private JLabel dateLbl;
 	private PriorityBar bar;
 
-	
-	public static enum TaskRowStatus {
-		CLOSED, OPENED, EDITING
-	};
-
 	public TaskRow(final Task task, int[] offsets) {
 		this.task = task;
 
-//		this.curStatus = TaskRowStatus.CLOSED;
-//		this.setBackground(Color.red);// XXX debug
-
-//		this.setMinimumSize(new Dimension(900, 60));
-		
 		this.offsets = offsets;
 		this.isSelected = false;
 
@@ -84,29 +73,20 @@ public final class TaskRow extends JPanel implements Observer {
 
 	}
 
+	// This methods initializes components, we r not using any layout manager
 	private void initComponents() {
 
-		// Always there
-		doneBtn = new JButton("");
+		doneBtn = new JButton();
 		doneBtn.setIcon(doneIcon);
 		doneBtn.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				ControllerInterface.toggleCompleted(task);
-
-				// TODO
-				// This button will notify the parent (scrollpanel component)
-				// that this TaskRow has to be moved to completed or pending
-				// section.
-
-				
 			}
 		});
 
-		// completionBtn.setLocation(0, 0);
 		this.add(doneBtn);
-		// completionBtn.setLocation(0, 0);
 
-		deleteBtn = new JButton("");
+		deleteBtn = new JButton();
 		deleteBtn.setIcon(deleteIcon);
 		deleteBtn.addActionListener(new ActionListener() {
 
@@ -120,12 +100,15 @@ public final class TaskRow extends JPanel implements Observer {
 
 		this.add(deleteBtn);
 
-		// passive components
 		nameLbl = new JLabel(task.getName());
 		add(nameLbl);
-		shortDescLbl = new JLabel("Hover for description"); // TODO exception?
-		// shortDescLbl = new JLabel(task.getDescription().substring(0, 15) );
-		// // TODO exception?
+
+		String shortDesc = task.getDescription();
+
+		shortDescLbl = new JLabel(
+				(shortDesc.length() <= 15) ? shortDesc.substring(0,
+						Math.min(15, shortDesc.length())) : shortDesc
+						.substring(0, Math.min(15, shortDesc.length())) + "...");
 
 		shortDescLbl.setToolTipText(task.getDescription());
 
@@ -133,8 +116,8 @@ public final class TaskRow extends JPanel implements Observer {
 		categoryLbl = new JLabel(task.getCategory().getName());
 		add(categoryLbl);
 
-		// TODO will not be updated, to be solved...
-		dateLbl = new JLabel(ControllerInterface.getDateFormat().format(task.getDate()));
+		dateLbl = new JLabel(ControllerInterface.getDateFormat().format(
+				task.getDate()));
 		add(dateLbl);
 
 		bar = new PriorityBar(task.getPrio());
@@ -143,62 +126,28 @@ public final class TaskRow extends JPanel implements Observer {
 	};
 
 	/**
-	 * This method is called to change status of the TaskRow.
-	 * 
-	 * @param taskRowStatus
-	 *            The status to be setted on the TaskRow
-	 */
-	// TODO is really needed? why public?
-	public void setStatus(TaskRow.TaskRowStatus newTaskRowStatus) {
-
-		this.curStatus = newTaskRowStatus;
-		
-		this.firePropertyChange("Status", null, curStatus);
-	}
-
-	/**
-	 * This method retrieves
-	 * 
-	 * @return TaskRow status
-	 */
-	public TaskRowStatus getStatus() {
-		return curStatus;
-	}
-
-	// TODO paint method
-
-	/**
-	 * This method is called to change offsets
+	 * This method is called to change offsets after dragging sortingbar
 	 * 
 	 * @param offsets
 	 *            The offsets to be
 	 */
 	public void setOffsets(int[] offsets) {
-
 		// TODO
+		// we didnt finish in time
 	}
 
-	// TODO method: needed to reload if task changes, then display of task
-	// should be updated
-	// ... settext...
-	// private void refreshComponents();
-
-	// This method will handle different rendering, depending on status
+	// XXX We r using our own painting behaviour...
 	private void refreshRendering() {
-
-		// XXX: note, we make this AFTER supercall (wich uses layoutmanager)
-
-		// Always here
-
 		Dimension sizes = doneBtn.getPreferredSize();
 		doneBtn.setBounds(0, 0, sizes.width, sizes.height);
 
 		if (isSelected)
-				renderClosed();
+			renderSelected();
 		else
 			renderNotSelected();
 	}
 
+	// This renders the row when not selected
 	private void renderNotSelected() {
 
 		Dimension sizes = nameLbl.getPreferredSize();
@@ -212,7 +161,7 @@ public final class TaskRow extends JPanel implements Observer {
 		dateLbl.setBounds(offsets[1], 20, sizes.width, sizes.height);
 
 		sizes = categoryLbl.getPreferredSize();
-		categoryLbl.setBounds(offsets[2]+15, 20, sizes.width, sizes.height);
+		categoryLbl.setBounds(offsets[2] + 15, 20, sizes.width, sizes.height);
 
 		sizes = bar.getPreferredSize();
 		bar.setBounds(offsets[3], 6, sizes.width, sizes.height);
@@ -220,40 +169,17 @@ public final class TaskRow extends JPanel implements Observer {
 		deleteBtn.setVisible(false);
 
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-//		setBackground(Color.gray);
 	}
 
-	private void renderClosed() {
+	// This renders the row when selected
+	private void renderSelected() {
 
-//
-//		Dimension sizes = nameLbl.getPreferredSize();
-//		nameLbl.setBounds(offsets[0], 10, sizes.width, sizes.height);
-//
-//		sizes = shortDescLbl.getPreferredSize();
-//		shortDescLbl.setBounds(offsets[0] + 20 + nameLbl.getWidth(), 10,
-//				sizes.width, sizes.height);
-//
-//		sizes = dateLbl.getPreferredSize();
-//		dateLbl.setBounds(offsets[1], 10, sizes.width, sizes.height);
-//
-//		sizes = categoryLbl.getPreferredSize();
-//		categoryLbl.setBounds(offsets[2], 10, sizes.width, sizes.height);
-//
-//		sizes = bar.getPreferredSize();
-//		bar.setBounds(offsets[3], 6, sizes.width, sizes.height);
-//
-//
 		Dimension sizes = deleteBtn.getPreferredSize();
 		deleteBtn.setBounds(this.getWidth() - 10 - sizes.width, 13,
 				sizes.width, sizes.height);
 		deleteBtn.setVisible(true);
-//		
-		
-//		setBackground(Color.white);
 
-			setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-
-//		setBackground(Color.red);
+		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
 
 	/**
@@ -268,31 +194,25 @@ public final class TaskRow extends JPanel implements Observer {
 		refreshRendering();
 	}
 
-	public boolean getSelected(){
+	public boolean getSelected() {
 		return isSelected;
 	}
-	
-	//
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g); // XXX is it really needed?
 
-		
+	/**
+	 * NOTE: We r NOT using a layout manager, because we want to simulate a
+	 * dragging behaviour of a table header, we make our own component
+	 */
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
 		g.setColor(task.getCategory().getColor());
 		g.fillRect(offsets[2], 0, 10, 60);
-		
+
 		// Now handle my rendering using current status
 		refreshRendering();
 	}
 
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-		// XXX : remember that we r observer for dateformat events
-		// WHAT ELSE???
-
-	}
-	
-	public String toString(){
+	public String toString() {
 		return task.getName();
 	}
 

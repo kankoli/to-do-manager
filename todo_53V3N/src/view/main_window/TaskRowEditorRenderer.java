@@ -7,6 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+@SuppressWarnings("serial")
 public class TaskRowEditorRenderer extends AbstractCellEditor implements
 		TableCellEditor, TableCellRenderer {
 

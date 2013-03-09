@@ -133,26 +133,15 @@ public class EditPanel extends JPanel implements Observer,
 		descrTextArea.setLineWrap(true);
 		descrTextArea.setWrapStyleWord(true);
 
-		descrTextArea.setAlignmentX(CENTER_ALIGNMENT); // TODO not sure it
-														// works.. once
-														// again check
-														// layout
+		// descrTextArea.setAlignmentX(CENTER_ALIGNMENT);
 
 		descScrollPane = new JScrollPane(descrTextArea);
 
 		descScrollPane.setVisible(false);
 		add(descScrollPane, constr);
-
-		// descrTextArea.setRows(10);
-		// descrTextArea.setLineWrap(true);
-		// descrTextArea.setWrapStyleWord(true);
-
-		// descrTextArea.setVisible(false);
-		// TODO
-		// add(descrTextArea, constr);
 	}
 
-	private void addDateTextField() { // DO
+	private void addDateTextField() {
 		GridBagConstraints constr = new GridBagConstraints();
 		dateTextField = new JTextField();
 
@@ -168,7 +157,7 @@ public class EditPanel extends JPanel implements Observer,
 		add(dateTextField, constr);
 	}
 
-	private void addCategoryComboBox() { // DO
+	private void addCategoryComboBox() {
 		GridBagConstraints constr = new GridBagConstraints();
 		categoryComboBox = new JComboBox<String>();
 
@@ -207,7 +196,7 @@ public class EditPanel extends JPanel implements Observer,
 				// Note: this method fails is another category is called
 				// "New Category..."
 				// because it returns an index which is not the last one
-				// TODO how do i prevent this problem? Check on values?
+				// XXX how do i prevent this problem? Check on values?
 				if (categoryComboBox.getSelectedIndex() == (categoryComboBox
 						.getItemCount() - 1)) {
 					ControllerInterface.getAction(
@@ -258,23 +247,12 @@ public class EditPanel extends JPanel implements Observer,
 		updateButton.setVisible(false);
 		updateButton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO
-				// priority will be a radiobutton, for the moment it's just
-				// some text
-				// did this for quick prototype
 				String name = nameTextField.getText();
-
 				String date = dateTextField.getText();
-				// TODO change priorty to drop down list
-
-				// String priority = priorityField.getText();
 
 				Task.Priority priority = prioBar.getPriority();
-				// TODO: non meglio che categoryBox contenga direttamente
-				// Category???
-				// non stringhe!
+				// XXX: category should contain not string, but category
 				String categoryName = (String) categoryComboBox
 						.getSelectedItem();
 				String description = descrTextArea.getText();
@@ -294,6 +272,7 @@ public class EditPanel extends JPanel implements Observer,
 
 					dateTextField.setText(ControllerInterface.getDateFormat()
 							.format(selectedTask.getDate()));
+
 				}
 			}
 
@@ -341,14 +320,6 @@ public class EditPanel extends JPanel implements Observer,
 		prioBar.setPriority(task.getPrio());
 	}
 
-	private void updateDone(Task task) {
-
-		// TODO
-		// controllerInterface.editTask(task, name, sdf, date, priority,
-		// completed, categoryName, description)
-
-	}
-
 	public void update(Observable o, Object arg) {
 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
@@ -359,6 +330,15 @@ public class EditPanel extends JPanel implements Observer,
 			revalidate();
 			repaint();
 		}
+
+		// TODO to be fixed.. temporary behaviour
+		if (msg == ControllerInterface.ChangeMessage.DELETED_TASK) {
+
+			this.showingTask = false;
+			setTaskPresentationVisible(false);
+
+		}
+
 	}
 
 	private void updateLanguagePresentation() {
@@ -381,12 +361,11 @@ public class EditPanel extends JPanel implements Observer,
 
 	}
 
-	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// When clicking on editor
 		if (evt.getPropertyName().equals("tableCellEditor")) {
 			TaskTable tt = (TaskTable) evt.getSource();
 			setSelectedTask(((TaskRow) tt.getEditorComponent()).getTask());
 		}
+
 	}
 }

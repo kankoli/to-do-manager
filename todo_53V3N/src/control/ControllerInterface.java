@@ -89,7 +89,8 @@ public final class ControllerInterface {
 
 		// Timer object is used to fire up the TimerAction every
 		// AUTOSAVE_INTERVAL miliseconds.
-		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL, getAction(ControllerInterface.ActionName.TIMER));
+		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL,
+				getAction(ControllerInterface.ActionName.TIMER));
 		autosaveTimer.start();
 
 		// This makes a date like "31-13-2013 17:45"
@@ -108,12 +109,12 @@ public final class ControllerInterface {
 			curTheme.load(getResource(
 					GlobalValues.supportedThemes[theme.ordinal()]).openStream());
 
-			System.out
-					.println("[ControllerInterface] Tema settato da ultima esecuzione"
-							+ theme);
+			// System.out
+			// .println("[ControllerInterface] Tema settato da ultima esecuzione"
+			// + theme);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -152,7 +153,8 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This methods retrieves complete/incomplete tasks list form data controller
+	 * This methods retrieves complete/incomplete tasks list form data
+	 * controller
 	 * 
 	 * @return
 	 */
@@ -168,7 +170,7 @@ public final class ControllerInterface {
 	public static List<Task> getTaskListUrgent(boolean b) {
 		return dc.getTaskListUrgent(b);
 	}
-	
+
 	/**
 	 * This method will be called to add a new Task to data model
 	 * 
@@ -223,7 +225,7 @@ public final class ControllerInterface {
 	public static void setUrgent(Task task, boolean b) {
 		dc.setUrgent(task, b);
 	}
-	
+
 	/**
 	 * Retrieves category map from datamodel
 	 * 
@@ -343,7 +345,7 @@ public final class ControllerInterface {
 	public static void setIsViewingCompletedTasks(boolean b) {
 		dc.setIsViewingCompletedTasks(b);
 	}
-	
+
 	/**
 	 * This method is called to register as an observer on the datamodel
 	 * 
@@ -390,6 +392,6 @@ public final class ControllerInterface {
 
 	public static void toggleCompleted(Task t) {
 		dc.toggleCompleted(t);
-		
+
 	}
 }

@@ -2,121 +2,85 @@
 <todoManagerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="todoManagerData.xsd">
   <tasks>
     <task>
-      <name>WOOO</name>
-      <date>2012-01-26T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>jshkshkf</category>
-      <description />
-      <urgent>false</urgent>
-    </task>
-    <task>
-      <name>sdcvb</name>
-      <date>2012-04-14T10:10:00.000+02:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>kfjsdkfs</category>
-      <description />
-      <urgent>true</urgent>
-    </task>
-    <task>
-      <name>Task1</name>
-      <date>2013-01-25T22:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>Sport</category>
-      <description />
-      <urgent>true</urgent>
-    </task>
-    <task>
-      <name>Task1</name>
-      <date>2013-01-25T22:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>Sport</category>
-      <description />
-      <urgent>true</urgent>
-    </task>
-    <task>
-      <name>Task1</name>
-      <date>2013-01-25T22:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>Sport</category>
-      <description />
-      <urgent>true</urgent>
-    </task>
-    <task>
-      <name>Task1</name>
-      <date>2013-01-25T22:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>true</completed>
-      <category>Sport</category>
-      <description />
-      <urgent>true</urgent>
-    </task>
-    <task>
-      <name>Task1</name>
-      <date>2013-01-25T22:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>true</completed>
-      <category>Sport</category>
-      <description />
-      <urgent>true</urgent>
-    </task>
-    <task>
       <name>ciao</name>
       <date>2013-01-27T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
       <completed>true</completed>
-      <category>fun</category>
-      <description>this is new!
-asdasdgugyuguugyuggugyuguyguyguygugyugyugugyuguyguguguguygg</description>
+      <category>Sport</category>
+      <description>this is new!</description>
       <urgent>false</urgent>
-    </task>
-    <task>
-      <name>Task0</name>
-      <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description />
-      <urgent>true</urgent>
     </task>
     <task>
       <name>A good name!</name>
       <date>2013-01-31T17:45:00.000+01:00</date>
       <priority>LOW</priority>
       <completed>false</completed>
-      <category>Prova</category>
+      <category>Test</category>
       <description>some brief text.sfksfskfjskfskdfsdkfjskdhfskdskdfskjfdsklfjskdljfksdljflsdkjlsdjfsdljfsdlfjsdljsdlfjdslfjsdlfjsdljfsldjdlsjflsdkjfldsjfldsjfldsjfdkls</description>
       <urgent>false</urgent>
+    </task>
+    <task>
+      <name>Hi 3</name>
+      <date>2013-02-20T12:30:00.000+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>Meeting</category>
+      <description>this is new!</description>
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>Hi2</name>
+      <date>2013-02-21T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
+      <completed>true</completed>
+      <category>Fun</category>
+      <description>this is new!</description>
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>H4i</name>
+      <date>2013-02-23T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
+      <completed>false</completed>
+      <category>Sport</category>
+      <description>this is new!</description>
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>Hi</name>
+      <date>2013-02-27T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
+      <completed>false</completed>
+      <category>Fun</category>
+      <description>this is new!</description>
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>Hi</name>
+      <date>2013-02-27T12:30:00.000+01:00</date>
+      <priority>LOW</priority>
+      <completed>false</completed>
+      <category>Fun</category>
+      <description>this is new! A description!</description>
+      <urgent>true</urgent>
     </task>
   </tasks>
   <categories>
     <category>
-      <name>kfjsdkfs</name>
-      <color>-11867345</color>
+      <name>Fun</name>
+      <color>-9916485</color>
     </category>
     <category>
-      <name>meeting</name>
+      <name>Test</name>
+      <color>-1104603</color>
+    </category>
+    <category>
+      <name>Meeting</name>
       <color>-7283286</color>
-    </category>
-    <category>
-      <name>jshkshkf</name>
-      <color>-4000695</color>
     </category>
     <category>
       <name>Sport</name>
       <color>-14752099</color>
-    </category>
-    <category>
-      <name>fun</name>
-      <color>-9916485</color>
-    </category>
-    <category>
-      <name>Prova</name>
-      <color>-1104603</color>
     </category>
   </categories>
 </todoManagerData>

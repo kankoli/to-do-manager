@@ -4,8 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,7 +18,7 @@ import control.ControllerInterface;
 
 /**
  * This class represent a table holding tasks. It will listen for changes on
- * dataModel and on the SortingBar.
+ * dataModel and on the SortingBar. NOT FINISHED YET, STILL DEVELOPING...
  * 
  * @author Marco Dondio, Magnus Larsson
  * 
@@ -31,8 +29,6 @@ public class TaskTable extends JTable implements Observer,
 
 	private DefaultTableModel taskTableModel;
 
-	private HashMap<Task, TaskRow> taskPanelsMap;
-
 	private int curTaskRowIndex; // index of cur selected row!
 
 	private int[] offsets; // stores data from sortingbar object
@@ -42,7 +38,6 @@ public class TaskTable extends JTable implements Observer,
 	 * 
 	 * @author Marco Dondio, Magnus Larsson
 	 */
-
 
 	/**
 	 * 
@@ -62,7 +57,7 @@ public class TaskTable extends JTable implements Observer,
 
 		// Now some list behaviour
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		setRowHeight(60); // TODO make global constant
+		setRowHeight(60); // XXX make global constant
 
 		// this.setro
 
@@ -84,15 +79,12 @@ public class TaskTable extends JTable implements Observer,
 
 			public void mouseMoved(MouseEvent e) {
 
-				curTaskRowIndex = rowAtPoint(e.getPoint());		
-
+				// keep index and
 				// Signal it selected, will be used when rendering
+				curTaskRowIndex = rowAtPoint(e.getPoint());
 				setRowSelectionInterval(curTaskRowIndex, curTaskRowIndex);
 			}
-	});
-		
-		// create empty map
-		taskPanelsMap = new HashMap<Task, TaskRow>();
+		});
 
 		// Finally retrieve data and load into table
 		refreshView();
@@ -101,7 +93,6 @@ public class TaskTable extends JTable implements Observer,
 	/**
 	 * This method fills the table model by reloading data from controller
 	 */
-	// TODO magari ci va un boolean per indicare pending o completed????
 	public final void refreshView() {
 
 		// Create new DefaultdataModel object
@@ -114,163 +105,51 @@ public class TaskTable extends JTable implements Observer,
 
 		List<Task> tl = ControllerInterface.getFilteredTaskList();
 
-		// TODO do otpimization later, here we check if
-		// hashmap has more element this means we did delete
-		Iterator<Task> iter = taskPanelsMap.keySet().iterator();
-		while (iter.hasNext()) {
-
-			Task t = iter.next();
-			if (!tl.contains(t))
-				iter.remove();
-
-		}
-
-		// XXX
-		// int[] sizes = { 100, 20, 30, 40 };
-
 		// Now create or retrieve panel
 		for (Task t : tl) {
-			// TaskRow row = new TaskRow(controller, this, t);
 
-			TaskRow row = taskPanelsMap.get(t);
-			if (row == null) {
-				row = new TaskRow(t, offsets);
-			//	row.addPropertyChangeListener(this); // register as listener on
-														// row
-				taskPanelsMap.put(t, row);
+			// XXX Marco: IMPORTANT, OPTIMIZE: instead of creating a new
+			// taskrow, we should
+			// have
+			// one and use like a updateTask.. we avoid instantiate each time a
+			// new panel
 
-			}
+			TaskRow row = new TaskRow(t, offsets);
 
 			taskTableModel.addRow(new TaskRow[] { row });
+
 		}
 	}
 
 	/**
-	 * This method is called by a row, to signal that he is selected. This
-	 * method will make the panel aware of who is the currently selected Row
-	 * 
-	 * @param newtable_TaskRow
-	 *            the row wich is selected
-	 */
-	protected final void selectTaskRow(TaskRow TaskRow) {
-
-		// TODO to be fixed
-
-		// Deselect previous TEST_TaskRow
-		// if (curSelected != null)
-		// curSelected.setSelected(false);
-		//
-		// // And then make selected current row
-		// curSelected = row;
-	}
-
-	/**
-	 * This method is called by a TEST_TaskRow when user deletes it. This makes
-	 * TaskScrollPanel delete it from viewport and removes it also in the
-	 * datamodel itself.
-	 */
-	protected final void deleteTask() {
-
-		// TODO to be fixed
-		// problema: view index e datamodel index
-
-		System.out.println("[deleteTask] Removing " + curTaskRowIndex);
-
-
-
-		taskTableModel.removeRow(convertRowIndexToModel(curTaskRowIndex));
-
-		// taskTableModel.fireTableRowsDeleted(curTaskRowIndex,
-		// curTaskRowIndex);
-
-		// taskTableModel.
-		// tableConvertRowIndexToModel(1);
-
-		// Task t = curSelected.getTask();
-		//
-		// // JOptionPane.showMessageDialog(null, "Task \"" + t.getName()
-		// // + "\" removed!");
-		//
-		// // Removes
-		// taskList.remove(curSelected);
-		// viewPort.remove(curSelected);
-		// curSelected = null;
-		//
-		// // remove from datamodel
-		// controller.deleteTask(t);
-
-		// curTaskRow;
-
-		// taskTableModel.
-
-		// TODO
-
-		// revalidate();
-		// repaint();
-	}
-
-	// TODO
-	public final void resizeRow(int size) {
-
-		this.setRowHeight(curTaskRowIndex, size);
-	}
-
-	/**
-	 * Called to resize internal text areas. Unused yet
+	 * Called to resize internal text areas. NOT READY YET!
 	 * 
 	 * @param offsets
+	 *            The offsets for resizing behaviour
 	 */
 	public final void resizeColumnsContent(int[] offsets) {
 
+		// TODO NOT READY YET!!!
+		// it will implement the dragging behaviour
 		// TODO check with Magnus
 	}
 
 	/**
-	 * This method will be fired when dataModel changes
+	 * This method will be fired when dataModel changes. It will reload the data
+	 * in the table
 	 */
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
 		refreshView();
-
-		// TODO check if we need or not
-		// this.revalidate();
-		// this.repaint();
-
+		revalidate();
+		repaint();
 	}
 
 	/**
 	 * This method will be fired when a property on the sortingBar changes
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-
-		// TODO we can have many source
-		if (evt.getSource() instanceof TaskRow) {
-			{
-				
-//				NEW_TaskRow tr = 					(NEW_TaskRow) evt.getSource();
-				
-				if (evt.getPropertyName().equals("Status")) {
-					TaskRow.TaskRowStatus curStatus = (TaskRow.TaskRowStatus) evt
-							.getNewValue();
-
-					if (curStatus == TaskRow.TaskRowStatus.OPENED
-							|| curStatus == TaskRow.TaskRowStatus.EDITING)
-						this.setRowHeight(curTaskRowIndex, 143);
-
-					
-//					if (!tr.getSelected()  || curStatus == NEW_TaskRow.TaskRowStatus.CLOSED)
-//						this.setRowHeight(curTaskRowIndex, 60);
-
-					
-					if (curStatus == TaskRow.TaskRowStatus.CLOSED)
-						this.setRowHeight(curTaskRowIndex, 60);
-
-				}
-
-			}
-		}
-
+		// TODO
+		// no time unfortunately... :(
 	}
 
 }
