@@ -17,27 +17,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
 
 import control.ControllerInterface;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
+import utility.GlobalValues;
 import view.custom_components.PriorityBar;
 
 import model.Category;
 import model.Task;
-
-//import model.Task;
-//import view.custom_components.PriorityBar;
-
-//import model.Category;
-
-//import control.ControllerInterface;
-
-//import view.custom_components.PriorityBar;
 
 /**
  * 
@@ -51,6 +43,7 @@ public class EditPanel extends JPanel implements Observer,
 	private JLabel noTaskSelectedLabel;
 	private JTextField nameTextField;
 	private JTextArea descrTextArea;
+	private JScrollPane descScrollPane;
 	private JTextField dateTextField;
 	private JComboBox<String> categoryComboBox;
 	private PriorityBar prioBar;
@@ -94,7 +87,7 @@ public class EditPanel extends JPanel implements Observer,
 		constr.gridx = 0;
 		constr.gridy = 0;
 		constr.gridheight = 0;
-		constr.gridwidth = 0;
+		constr.gridwidth = 1;
 		constr.weightx = 1;
 		constr.weighty = 1;
 		constr.anchor = GridBagConstraints.NORTHWEST;
@@ -116,6 +109,7 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 0;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
+		nameTextField.setColumns(GlobalValues.TASKROW_DESC_COLS);
 		nameTextField.setVisible(false);
 		add(nameTextField, constr);
 
@@ -133,12 +127,29 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 0;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		descrTextArea.setRows(10);
+		descrTextArea = new JTextArea(GlobalValues.TASKROW_DESC_ROWS,
+				GlobalValues.TASKROW_DESC_COLS);
+
 		descrTextArea.setLineWrap(true);
 		descrTextArea.setWrapStyleWord(true);
 
-		descrTextArea.setVisible(false);
-		add(descrTextArea, constr);
+		descrTextArea.setAlignmentX(CENTER_ALIGNMENT); // TODO not sure it
+														// works.. once
+														// again check
+														// layout
+
+		descScrollPane = new JScrollPane(descrTextArea);
+
+		descScrollPane.setVisible(false);
+		add(descScrollPane, constr);
+
+		// descrTextArea.setRows(10);
+		// descrTextArea.setLineWrap(true);
+		// descrTextArea.setWrapStyleWord(true);
+
+		// descrTextArea.setVisible(false);
+		// TODO
+		// add(descrTextArea, constr);
 	}
 
 	private void addDateTextField() { // DO
@@ -270,8 +281,9 @@ public class EditPanel extends JPanel implements Observer,
 
 				try {
 					ControllerInterface.editTask(selectedTask, name,
-							ControllerInterface.getDateFormat(), date, priority,
-							selectedTask.getCompleted(), categoryName, description);
+							ControllerInterface.getDateFormat(), date,
+							priority, selectedTask.getCompleted(),
+							categoryName, description);
 				} catch (InvalidCategoryException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),
 							"Category Problem", JOptionPane.WARNING_MESSAGE);
@@ -280,11 +292,11 @@ public class EditPanel extends JPanel implements Observer,
 					JOptionPane.showMessageDialog(null, e.getMessage(),
 							"Date problem", JOptionPane.WARNING_MESSAGE);
 
-					dateTextField.setText(ControllerInterface.getDateFormat().format(
-							selectedTask.getDate()));
+					dateTextField.setText(ControllerInterface.getDateFormat()
+							.format(selectedTask.getDate()));
 				}
 			}
-			
+
 		});
 
 		add(updateButton, constr);
@@ -297,13 +309,12 @@ public class EditPanel extends JPanel implements Observer,
 			setTaskPresentationVisible(true);
 		}
 
-		System.out.print("setSelectedTask");
 		updateTaskPresentation(selectedTask);
 	}
 
 	private void setTaskPresentationVisible(boolean visible) {
 		nameTextField.setVisible(visible);
-		descrTextArea.setVisible(visible);
+		descScrollPane.setVisible(visible);
 		dateTextField.setVisible(visible);
 		categoryComboBox.setVisible(visible);
 		prioBar.setVisible(visible);
@@ -315,9 +326,9 @@ public class EditPanel extends JPanel implements Observer,
 	}
 
 	private void updateTaskPresentation(Task task) { // FIX
-		
+
 		nameTextField.setText(task.getName());
-		
+
 		descrTextArea.setText(task.getDescription());
 		dateTextField.setText(ControllerInterface.getDateFormat().format(
 				task.getDate()));
@@ -325,7 +336,6 @@ public class EditPanel extends JPanel implements Observer,
 		fillCategoryComboBox(); // retrieves from controller all categories
 		categoryComboBox.setSelectedItem(task.getCategory().getName());
 
-		System.out.println("updateTaskPresentation");
 		System.out.println(task.getName());
 		System.out.println(task.getPrio());
 		prioBar.setPriority(task.getPrio());
@@ -373,7 +383,7 @@ public class EditPanel extends JPanel implements Observer,
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		//When clicking on editor
+		// When clicking on editor
 		if (evt.getPropertyName().equals("tableCellEditor")) {
 			TaskTable tt = (TaskTable) evt.getSource();
 			setSelectedTask(((TaskRow) tt.getEditorComponent()).getTask());

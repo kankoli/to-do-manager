@@ -2,72 +2,85 @@
 <todoManagerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="todoManagerData.xsd">
   <tasks>
     <task>
-      <name>Task1</name>
-      <date>2013-01-24T22:30:00.000+01:00</date>
-      <priority>LOW</priority>
+      <name>WOOO</name>
+      <date>2012-01-26T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
       <completed>false</completed>
-      <category>fun</category>
+      <category>jshkshkf</category>
       <description />
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>sdcvb</name>
+      <date>2012-04-14T10:10:00.000+02:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>kfjsdkfs</category>
+      <description />
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>Task1</name>
+      <date>2013-01-25T22:30:00.000+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>true</completed>
+      <category>Sport</category>
+      <description />
+      <urgent>true</urgent>
     </task>
     <task>
       <name>ciao</name>
       <date>2013-01-27T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
-      <completed>false</completed>
+      <completed>true</completed>
       <category>fun</category>
-      <description>ajkdajksdj aksj daklsj dalskjd lajd klasjd lajd ksd jalsd jkldj aldj alsdjalk jdalsd jaldj aklj dladj</description>
-    </task>
-    <task>
-      <name>New task!</name>
-      <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>fun</category>
-      <description>some brief text.</description>
-    </task>
-    <task>
-      <name>Task2</name>
-      <date>2013-01-26T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>meeting</category>
-      <description />
+      <description>this is new!
+asdasdgugyuguugyuggugyuguyguyguygugyugyugugyuguyguguguguygg</description>
+      <urgent>false</urgent>
     </task>
     <task>
       <name>Task0</name>
       <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
+      <priority>NORMAL</priority>
       <completed>false</completed>
       <category>fun</category>
       <description />
+      <urgent>true</urgent>
     </task>
     <task>
-      <name>Another task!</name>
+      <name>A good name!</name>
       <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>HIGH</priority>
+      <priority>LOW</priority>
       <completed>false</completed>
-      <category>fun</category>
-      <description>a description...</description>
+      <category>Prova</category>
+      <description>some brief text.sfksfskfjskfskdfsdkfjskdhfskdskdfskjfdsklfjskdljfksdljflsdkjlsdjfsdljfsdlfjsdljsdlfjdslfjsdlfjsdljfsldjdlsjflsdkjfldsjfldsjfldsjfdkls</description>
+      <urgent>false</urgent>
     </task>
   </tasks>
   <categories>
     <category>
+      <name>kfjsdkfs</name>
+      <color>-11867345</color>
+    </category>
+    <category>
       <name>meeting</name>
-      <color>-16777216</color>
+      <color>-7283286</color>
+    </category>
+    <category>
+      <name>jshkshkf</name>
+      <color>-4000695</color>
+    </category>
+    <category>
+      <name>Sport</name>
+      <color>-14752099</color>
     </category>
     <category>
       <name>fun</name>
-      <color>-16423322</color>
+      <color>-9916485</color>
+    </category>
+    <category>
+      <name>Prova</name>
+      <color>-1104603</color>
     </category>
   </categories>
-  <options>
-    <option>
-      <key>one_option_name</key>
-      <value>1</value>
-    </option>
-    <option>
-      <key>some_other_option</key>
-      <value>0</value>
-    </option>
-  </options>
 </todoManagerData>

@@ -9,11 +9,11 @@ public class GlobalValues {
 	public static final String DBXSDFILE = "todoManagerData.xsd";
 
 	/* Graphical preferences */
-	public static final int MINXSIZE = 900;
+	public static final int MINXSIZE = 1120;
 	public static final int MINYSIZE = 600;
 
-	public static final int TASKROW_DESC_ROWS = 3;
-	public static final int TASKROW_DESC_COLS = 10;
+	public static final int TASKROW_DESC_ROWS = 4;
+	public static final int TASKROW_DESC_COLS = 20;
 
 	// TODO we will need icons? Like mac cool small icons?
 	/* Supported language */

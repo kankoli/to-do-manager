@@ -40,7 +40,6 @@ public final class TaskRow extends JPanel implements Observer {
 
 	private int[] offsets;
 	private boolean isSelected;
-	
 
 	private static ImageIcon editIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Write.png"));
 	private static ImageIcon doneIcon = new ImageIcon(ControllerInterface.getResource("assets/Icons/I_Ok.png"));
@@ -78,8 +77,6 @@ public final class TaskRow extends JPanel implements Observer {
 		this.isSelected = false;
 
 		this.setLayout(null);
-
-		//		setBackground(Color.);
 
 		setBackground(Color.lightGray);
 

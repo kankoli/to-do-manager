@@ -53,12 +53,11 @@ public class SortingBar extends JPanel implements Observer {
 
 		// TODO testing
 		private SortingBar sb;
-		public SortingBarMouseListener(SortingBar sb){
+
+		public SortingBarMouseListener(SortingBar sb) {
 			this.sb = sb;
 		}
-		
-		
-		
+
 		@Override
 		// This listener will set the current selected tab as active
 		public void mouseClicked(MouseEvent me) {
@@ -200,12 +199,10 @@ public class SortingBar extends JPanel implements Observer {
 				System.out.println("tab: POS " + t.getXPos() + " - WIDTH "
 						+ t.getWidth());
 			}
-			
+
 			sb.firePropertyChange("offsets", null, sb.getTabOffsets());
 
-
 		}
-
 
 		// Calculate how much we can move this tab to the left
 		private int distanceAbleToMoveLeft(int currentTabIndex,
@@ -295,7 +292,6 @@ public class SortingBar extends JPanel implements Observer {
 
 		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 
-
 		// XXX Marco modificiations
 
 		sortingTabs = new ArrayList<SortingTab>();
@@ -315,38 +311,38 @@ public class SortingBar extends JPanel implements Observer {
 						lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
 						123, 30, sizes[3], 0, false, 20, false, true));
 
-//		
-//		sortingTabs = new ArrayList<SortingTab>();
-//
-//		sortingTabs.add(new SortingTab(lang
-//				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
-//				sizes[0], 30, 0, 0, true, 20, true, false));
-//		sortingTabs.add(new SortingTab(lang
-//				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
-//				sizes[1], 30, sizes[0], 0, false));
-//		sortingTabs
-//				.add(new SortingTab(
-//						lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
-//						sizes[2], 30, sizes[0]+sizes[1], 0, false));
-//		sortingTabs
-//				.add(new SortingTab(
-//						lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
-//						sizes[3], 30, sizes[0]+sizes[1]+sizes[2], 0, false, 20, false, true));
-//
-//		
-		
-		
+		//
+		// sortingTabs = new ArrayList<SortingTab>();
+		//
+		// sortingTabs.add(new SortingTab(lang
+		// .getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
+		// sizes[0], 30, 0, 0, true, 20, true, false));
+		// sortingTabs.add(new SortingTab(lang
+		// .getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
+		// sizes[1], 30, sizes[0], 0, false));
+		// sortingTabs
+		// .add(new SortingTab(
+		// lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
+		// sizes[2], 30, sizes[0]+sizes[1], 0, false));
+		// sortingTabs
+		// .add(new SortingTab(
+		// lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
+		// sizes[3], 30, sizes[0]+sizes[1]+sizes[2], 0, false, 20, false,
+		// true));
+		//
+		//
+
 		activeTab = sortingTabs.get(0);
 
 		// TODO sotto va fixato con la somma delle sizes!
 		int size_x = 0;
-		
-		for(int i = 0; i < sizes.length; i++)
-			size_x += sizes[i];
-		this.setPreferredSize(new Dimension(size_x +1 , 32));
 
-		this.setMinimumSize(new Dimension(size_x +1, 32));
-		this.setBackground(Color.WHITE);
+		for (int i = 0; i < sizes.length; i++)
+			size_x += sizes[i];
+		this.setPreferredSize(new Dimension(size_x + 1, 32));
+
+		this.setMinimumSize(new Dimension(size_x + 1, 32));
+		// this.setBackground(Color.WHITE);
 
 		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
@@ -354,8 +350,7 @@ public class SortingBar extends JPanel implements Observer {
 
 		ControllerInterface.registerAsObserver(this);
 	}
-	
-	
+
 	/**
 	 * Small method to retrieve tab offsets
 	 * 
@@ -366,10 +361,9 @@ public class SortingBar extends JPanel implements Observer {
 
 		for (int i = 0; i < offsets.length; i++)
 			offsets[i] = sortingTabs.get(i).getWidth();
-		
+
 		return offsets;
 	}
-
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

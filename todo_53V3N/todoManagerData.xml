@@ -2,7 +2,7 @@
 <todoManagerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="todoManagerData.xsd">
   <tasks>
     <task>
-      <name>Task2</name>
+      <name>WOOO</name>
       <date>2012-01-26T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
       <completed>false</completed>
@@ -23,6 +23,42 @@
       <name>Task1</name>
       <date>2013-01-25T22:30:00.000+01:00</date>
       <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>Sport</category>
+      <description />
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>Task1</name>
+      <date>2013-01-25T22:30:00.000+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>Sport</category>
+      <description />
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>Task1</name>
+      <date>2013-01-25T22:30:00.000+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>Sport</category>
+      <description />
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>Task1</name>
+      <date>2013-01-25T22:30:00.000+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>true</completed>
+      <category>Sport</category>
+      <description />
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>Task1</name>
+      <date>2013-01-25T22:30:00.000+01:00</date>
+      <priority>NORMAL</priority>
       <completed>true</completed>
       <category>Sport</category>
       <description />
@@ -31,9 +67,9 @@
     <task>
       <name>ciao</name>
       <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>NORMAL</priority>
-      <completed>false</completed>
-      <category>Sport</category>
+      <priority>HIGH</priority>
+      <completed>true</completed>
+      <category>fun</category>
       <description>this is new!
 asdasdgugyuguugyuggugyuguyguyguygugyugyugugyuguyguguguguygg</description>
       <urgent>false</urgent>
@@ -41,19 +77,19 @@ asdasdgugyuguugyuggugyuguyguyguygugyugyugugyuguyguguguguygg</description>
     <task>
       <name>Task0</name>
       <date>2013-01-27T12:30:00.000+01:00</date>
-      <priority>LOW</priority>
+      <priority>NORMAL</priority>
       <completed>false</completed>
       <category>fun</category>
       <description />
       <urgent>true</urgent>
     </task>
     <task>
-      <name>New T</name>
+      <name>A good name!</name>
       <date>2013-01-31T17:45:00.000+01:00</date>
       <priority>LOW</priority>
       <completed>false</completed>
       <category>Prova</category>
-      <description>some brief text.</description>
+      <description>some brief text.sfksfskfjskfskdfsdkfjskdhfskdskdfskjfdsklfjskdljfksdljflsdkjlsdjfsdljfsdlfjsdljsdlfjdslfjsdlfjsdljfsldjdlsjflsdkjfldsjfldsjfldsjfdkls</description>
       <urgent>false</urgent>
     </task>
   </tasks>
