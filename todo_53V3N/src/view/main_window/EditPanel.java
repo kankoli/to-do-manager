@@ -174,11 +174,23 @@ public class EditPanel extends JPanel implements Observer,
 
 		categoryComboBox.setVisible(false);
 
+		updateCategoryComboBox(); // Initialize from controller
 		add(categoryComboBox, constr);
 	}
 
-	private void fillCategoryComboBox() {
+	// This method is called to refresh combobox content
+	private void updateCategoryComboBox() {
 
+		// If we alrady have a listeners, it means that
+		// we are refreshing list, remove listner and all elements
+		if (categoryComboBox.getActionListeners().length > 0) {
+			categoryComboBox.removeActionListener(categoryComboBox
+					.getActionListeners()[0]);
+			categoryComboBox.removeAllItems();
+
+		}
+
+		// Then retrieve all values from categories
 		for (Category c : ControllerInterface.getCategories().values()) {
 			categoryComboBox.addItem(c.getName());
 		}
@@ -208,7 +220,7 @@ public class EditPanel extends JPanel implements Observer,
 
 	}
 
-	private void addPrioBar() { // DO
+	private void addPrioBar() {
 		GridBagConstraints constr = new GridBagConstraints();
 		prioBar = new PriorityBar(Task.Priority.NOT_SET);
 
@@ -304,7 +316,7 @@ public class EditPanel extends JPanel implements Observer,
 		showingTask = visible;
 	}
 
-	private void updateTaskPresentation(Task task) { // FIX
+	private void updateTaskPresentation(Task task) {
 
 		nameTextField.setText(task.getName());
 
@@ -312,11 +324,8 @@ public class EditPanel extends JPanel implements Observer,
 		dateTextField.setText(ControllerInterface.getDateFormat().format(
 				task.getDate()));
 
-		fillCategoryComboBox(); // retrieves from controller all categories
 		categoryComboBox.setSelectedItem(task.getCategory().getName());
 
-		System.out.println(task.getName());
-		System.out.println(task.getPrio());
 		prioBar.setPriority(task.getPrio());
 	}
 
@@ -333,10 +342,14 @@ public class EditPanel extends JPanel implements Observer,
 
 		// TODO to be fixed.. temporary behaviour
 		if (msg == ControllerInterface.ChangeMessage.DELETED_TASK) {
-
-			this.showingTask = false;
+			showingTask = false;
 			setTaskPresentationVisible(false);
+		}
 
+		// XXX Marco: i added this
+		// Force reload of side panel, to refresh with new category
+		if (msg == ControllerInterface.ChangeMessage.NEW_CATEGORY) {
+			updateCategoryComboBox();
 		}
 
 	}

@@ -17,8 +17,8 @@ public class TaskRowEditorRenderer extends AbstractCellEditor implements
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
-		// System.out.println("[Renderer - getTableCellRendererComponent] "
-		// + row + " -> " + isSelected);
+//		 System.out.println("[Renderer - getTableCellRendererComponent] "
+//		 + row + " -> " + isSelected);
 
 		TaskRow tr = (TaskRow) value;
 		tr.setSelected(isSelected);
@@ -28,8 +28,9 @@ public class TaskRowEditorRenderer extends AbstractCellEditor implements
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 
-		System.out.println("[Editor - getTableCellRendererComponent] " + row
-				+ " -> " + isSelected);
+//		System.out.println("[Editor - getTableCellRendererComponent] " + row
+//				+ " -> " + isSelected);
+
 		curEditedTaskRow = (TaskRow) value;
 
 		return curEditedTaskRow;
@@ -39,8 +40,9 @@ public class TaskRowEditorRenderer extends AbstractCellEditor implements
 
 		System.out.println("[Editor - getCellEditorValue]");
 
-		// curEditedTaskRow.setSelected(false);
+//		 curEditedTaskRow.setSelected(false);
 
+//		return null;
 		return curEditedTaskRow;
 	}
 

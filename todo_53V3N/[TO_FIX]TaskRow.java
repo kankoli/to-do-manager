@@ -21,6 +21,15 @@ import model.Task;
 
 import control.ControllerInterface;
 
+// TODO
+//TODO
+//TODO
+//TODO
+//TODO
+//TODO
+//TODO
+// This class is a variant of the one used in TaskRow, needs to be fixed.. not ready yet
+
 /**
  * NOTE: this component has to be heavily optimized, we used many old designs...
  * even some useless things still there This component represent one row (one
@@ -30,7 +39,6 @@ import control.ControllerInterface;
  * 
  */
 
-// TODO: lot of debugging, code should be better organized.. no time..
 @SuppressWarnings("serial")
 public final class TaskRow extends JPanel {
 
@@ -122,7 +130,7 @@ public final class TaskRow extends JPanel {
 		add(dateLbl);
 
 		bar = new PriorityBar(task.getPrio());
-		bar.setEnabled(false);
+//		bar.setVisible(false);
 		add(bar);
 	};
 
@@ -137,53 +145,17 @@ public final class TaskRow extends JPanel {
 		// we didnt finish in time
 	}
 
-	// XXX We r using our own painting behaviour...
-	private void refreshRendering() {
-		
-		System.out.println("[Task: "+ task.getName()+"] refreshRendering " + isSelected);
-		Dimension sizes = doneBtn.getPreferredSize();
-		doneBtn.setBounds(0, 0, sizes.width, sizes.height);
-
-		if (isSelected)
-			renderSelected();
-		else
-			renderNotSelected();
-	}
-
 	// This renders the row when not selected
 	private void renderNotSelected() {
 
-		Dimension sizes = nameLbl.getPreferredSize();
-		nameLbl.setBounds(offsets[0], 20, sizes.width, sizes.height);
-
-		sizes = shortDescLbl.getPreferredSize();
-		shortDescLbl.setBounds(offsets[0] + 20 + nameLbl.getWidth(), 20,
-				sizes.width, sizes.height);
-
-		sizes = dateLbl.getPreferredSize();
-		dateLbl.setBounds(offsets[1], 20, sizes.width, sizes.height);
-
-		sizes = categoryLbl.getPreferredSize();
-		categoryLbl.setBounds(offsets[2] + 15, 20, sizes.width, sizes.height);
-
-		sizes = bar.getPreferredSize();
-		bar.setBounds(offsets[3], 6, sizes.width, sizes.height);
-
 		deleteBtn.setVisible(false);
-
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 	}
 
 	// This renders the row when selected
 	private void renderSelected() {
 
-		Dimension sizes = deleteBtn.getPreferredSize();
-		deleteBtn.setBounds(this.getWidth() - 10 - sizes.width, 13,
-				sizes.width, sizes.height);
-
-		
 		deleteBtn.setVisible(true);
-
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
 
@@ -196,7 +168,7 @@ public final class TaskRow extends JPanel {
 	public void setSelected(boolean isSelected) {
 
 		this.isSelected = isSelected;
-		refreshRendering();
+		// refreshRendering();
 	}
 
 	public boolean getSelected() {
@@ -205,7 +177,8 @@ public final class TaskRow extends JPanel {
 
 	/**
 	 * NOTE: We r NOT using a layout manager, because we want to simulate a
-	 * dragging behaviour of a table header, we make our own component
+	 * dragging behaviour of a table header, we make our own component We r
+	 * using our own painting behaviour...
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -213,8 +186,40 @@ public final class TaskRow extends JPanel {
 		// Add color stripe
 		g.setColor(task.getCategory().getColor());
 		g.fillRect(offsets[2], 0, 10, 60);
-		
-		refreshRendering();
+
+		// Add other components: this is done AFTER default painting
+		System.out.println("[Task: " + task.getName() + "] paintComponent "
+				+ isSelected);
+
+		Dimension sizes = doneBtn.getPreferredSize();
+		doneBtn.setBounds(0, 0, sizes.width, sizes.height);
+
+		sizes = nameLbl.getPreferredSize();
+		nameLbl.setBounds(offsets[0], 20, sizes.width, sizes.height);
+
+		sizes = shortDescLbl.getPreferredSize();
+		shortDescLbl.setBounds(offsets[0] + 20 + nameLbl.getWidth(), 20,
+				sizes.width, sizes.height);
+
+		sizes = dateLbl.getPreferredSize();
+		dateLbl.setBounds(offsets[1], 20, sizes.width, sizes.height);
+
+		sizes = categoryLbl.getPreferredSize();
+		categoryLbl.setBounds(offsets[2] + 15, 20, sizes.width, sizes.height);
+
+		bar.setBackground(Color.yellow);
+		sizes = bar.getPreferredSize();
+		bar.setBounds(offsets[3], 6, sizes.width, sizes.height);
+
+		sizes = deleteBtn.getPreferredSize();
+		deleteBtn.setBounds(this.getWidth() - 10 - sizes.width, 13,
+				sizes.width, sizes.height);
+
+		if (isSelected)
+			renderSelected();
+		else
+			renderNotSelected();
+
 	}
 
 	public String toString() {

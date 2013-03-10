@@ -140,8 +140,8 @@ public class TaskTable extends JTable implements Observer,
 	 */
 	public void update(Observable o, Object arg) {
 		refreshView();
-		revalidate();
-		repaint();
+//		revalidate();
+//		repaint();
 	}
 
 	/**

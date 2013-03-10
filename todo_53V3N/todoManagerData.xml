@@ -61,7 +61,7 @@
       <priority>LOW</priority>
       <completed>false</completed>
       <category>Fun</category>
-      <description>this is new! A description!</description>
+      <description>this is new!</description>
       <urgent>true</urgent>
     </task>
   </tasks>
