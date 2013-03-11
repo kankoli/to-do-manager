@@ -190,31 +190,41 @@ public final class DatePicker extends JPanel implements ActionListener {
 
 	// Action listener refreshes data
 	public final void actionPerformed(ActionEvent e) {
-		// This method stores data from combobox inside date field
 
-		Calendar calendar = GregorianCalendar.getInstance();
-		calendar.setTime(date);
+		date = new Date();
+		
+		// Idea is to create all comboboxes, then switch display order later
+		combos[0] = new JComboBox<String>();
+		combos[1] = new JComboBox<String>();
+		combos[2] = new JComboBox<String>();
+		combos[3] = new JComboBox<String>();
+		combos[4] = new JComboBox<String>();
 
-		// Update date content using combobox values
-		calendar.set(Calendar.YEAR, Integer
-				.parseInt((String) combos[DatePart.YEAR.ordinal()]
-						.getSelectedItem()));
-		calendar.set(Calendar.MONTH, (Integer
-				.parseInt((String) combos[DatePart.MONTH.ordinal()]
-						.getSelectedItem()) - 1)); // remember -1
-		calendar.set(Calendar.DAY_OF_MONTH, Integer
-				.parseInt((String) combos[DatePart.DAY.ordinal()]
-						.getSelectedItem()));
-		calendar.set(Calendar.HOUR_OF_DAY, Integer
-				.parseInt((String) combos[DatePart.HOUR.ordinal()]
-						.getSelectedItem()));
-		calendar.set(Calendar.MINUTE, Integer
-				.parseInt((String) combos[DatePart.MINUTE.ordinal()]
-						.getSelectedItem()));
+		// Fill the combos
+		for (int i = 0; i < combos.length; i++) {
+			for (int j = ranges[i][0]; j <= ranges[i][1]; j++)
+				combos[i].addItem((j < 10 ? "0" : "") + Integer.toString(j));
 
-		// Store back updated date
-		date = calendar.getTime();
-		// System.out.println(date.toString());
+			// Remove the arrow button from the combo boxes (optional)
+			combos[i].setUI(new BasicComboBoxUI() {
+				protected JButton createArrowButton() {
+					return new JButton() {
+						public int getWidth() {
+							return 0;
+						}
+					};
+				}
+			});
+			
+			// Finally add action listeners to handle user events
+				combos[i].addActionListener(this);
+
+		}
+		// Set suitable layout
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+		// Now add date boxes, using order of current dateformat
+		addDateBoxes(DateFormat.values()[Integer.parseInt(ControllerInterface
+				.getProperty(GlobalValues.DATEFORMATKEY))]);
 	}
-
 }
