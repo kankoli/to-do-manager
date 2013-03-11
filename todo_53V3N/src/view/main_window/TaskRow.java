@@ -96,7 +96,7 @@ public final class TaskRow extends JPanel {
 
 				if (JOptionPane.showOptionDialog(null,
 						"Are you sure you want to delete \"" + task.getName()
-								+ "\"", "Confirm task deletion",
+								+ "\" ?", "Confirm task deletion",
 						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 						null, null, null) == JOptionPane.YES_OPTION) {
 
