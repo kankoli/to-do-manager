@@ -50,10 +50,6 @@ import utility.GlobalValues.Themes;
  * 
  */
 
-// XXX category can be null in a task, remember
-
-// TODO: come gestici editing???
-
 public final class DataModel extends Observable {
 
 	// datetime formate used in xs:datetime format
@@ -329,7 +325,7 @@ public final class DataModel extends Observable {
 	/**
 	 * Retrieves the list of complete/incomplete tasks.
 	 * 
-	 * @return list of tasks
+	 * @return list of filtered tasks, using currently selected
 	 */
 	public final List<Task> getFilteredTaskList() {
 		// TODO Filter tasks (complete/incomplete)
@@ -356,7 +352,7 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * * This method retrieves the property
+	 * This method retrieves the property
 	 * 
 	 * @param key
 	 * @return

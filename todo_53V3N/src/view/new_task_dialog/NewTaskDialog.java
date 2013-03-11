@@ -38,7 +38,6 @@ package view.new_task_dialog;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -53,6 +52,7 @@ import model.Category;
 import model.Task;
 
 import utility.GlobalValues;
+import view.custom_components.DatePicker;
 import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
@@ -62,7 +62,8 @@ public class NewTaskDialog extends JDialog {
 
 	private JTextField nameField;
 	private JTextArea descriptionField;
-	private JTextField dateField;
+//	private JTextField dateField;
+	private DatePicker datePicker;
 	private JComboBox<String> cmbCategory;
 	private PriorityBar bar;
 
@@ -95,14 +96,23 @@ public class NewTaskDialog extends JDialog {
 		descriptionField.setWrapStyleWord(true);
 		pane.add(descriptionField, c);
 
-		dateField = new JTextField();
-		dateField.setBorder(BorderFactory.createTitledBorder("Date"));
-		dateField.setText(ControllerInterface.getDateFormat().toPattern());
+//		dateField = new JTextField();
+//		dateField.setBorder(BorderFactory.createTitledBorder("Date"));
+//		dateField.setText(ControllerInterface.getDateFormat().toPattern());
+//		c.gridx = 0;
+//		c.gridy = 2;
+//		c.gridwidth = 2;
+//		pane.add(dateField, c);
+
+		datePicker = new DatePicker();
+		datePicker.setBorder(BorderFactory.createTitledBorder("Date"));
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
-		pane.add(dateField, c);
+		pane.add(datePicker, c);
 
+		
+		
 		cmbCategory = new JComboBox<String>();
 
 		for (Category ca : ControllerInterface.getCategories().values())
@@ -150,16 +160,18 @@ public class NewTaskDialog extends JDialog {
 
 				String description = descriptionField.getText();
 
-				// TODO date picker
-				Date date = null;
-				try {
-					date = ControllerInterface.getDateFormat()
-							.parse(dateField.getText());
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+//				// TODO date picker
+//				Date date = null;
+//				try {
+//					date = ControllerInterface.getDateFormat()
+//							.parse(dateField.getText());
+//				} catch (ParseException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
 
+				Date date = datePicker.getDate();
+				
 				Task.Priority priority = bar.getPriority();
 
 				boolean completed = false;
@@ -188,7 +200,9 @@ public class NewTaskDialog extends JDialog {
 		minHeight += nameField.getHeight();
 		minHeight += descriptionField.getHeight();
 		minHeight += nameField.getHeight();
-		minHeight += dateField.getHeight();
+//		minHeight += dateField.getHeight();
+		minHeight += datePicker.getHeight();
+
 		minHeight += cmbCategory.getHeight();
 		minHeight += button.getHeight();
 		minHeight *= 1.2;

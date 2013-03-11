@@ -22,10 +22,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import control.ControllerInterface;
+import control.ControllerInterface.DateFormat;
 import exceptions.InvalidCategoryException;
 import exceptions.InvalidDateException;
 
 import utility.GlobalValues;
+import view.custom_components.DatePicker;
 import view.custom_components.PriorityBar;
 
 import model.Category;
@@ -45,6 +47,8 @@ public class EditPanel extends JPanel implements Observer,
 	private JTextArea descrTextArea;
 	private JScrollPane descScrollPane;
 	private JTextField dateTextField;
+	private DatePicker datePicker;
+
 	private JComboBox<String> categoryComboBox;
 	private PriorityBar prioBar;
 	private JButton updateButton;
@@ -75,9 +79,15 @@ public class EditPanel extends JPanel implements Observer,
 		addNameTextField();
 		addDescrTextArea();
 		addDateTextField();
+
+		addDatePicker();
+
 		addCategoryComboBox();
+
 		addPrioBar();
+
 		addUpdateButton();
+
 	}
 
 	private void addNoTaskSelectedLabel() {
@@ -157,12 +167,32 @@ public class EditPanel extends JPanel implements Observer,
 		add(dateTextField, constr);
 	}
 
+	private void addDatePicker() {
+		// TODO Auto-generated method stub
+
+		GridBagConstraints constr = new GridBagConstraints();
+
+		constr.gridx = 0;
+		constr.gridy = 3;
+		constr.gridheight = 1;
+		constr.gridwidth = 1;
+		constr.weightx = 1;
+		constr.weighty = 1;
+		constr.anchor = GridBagConstraints.NORTHWEST;
+
+		datePicker = new DatePicker();
+		datePicker.setVisible(false);
+
+		add(datePicker, constr);
+
+	}
+
 	private void addCategoryComboBox() {
 		GridBagConstraints constr = new GridBagConstraints();
 		categoryComboBox = new JComboBox<String>();
 
 		constr.gridx = 0;
-		constr.gridy = 3;
+		constr.gridy = 4;
 		constr.gridheight = 1;
 		constr.gridwidth = 1;
 		constr.weightx = 1;
@@ -225,7 +255,7 @@ public class EditPanel extends JPanel implements Observer,
 		prioBar = new PriorityBar(Task.Priority.NOT_SET);
 
 		constr.gridx = 0;
-		constr.gridy = 4;
+		constr.gridy = 5;
 		constr.gridheight = 1;
 		constr.gridwidth = 1;
 		constr.weightx = 1;
@@ -247,21 +277,23 @@ public class EditPanel extends JPanel implements Observer,
 		updateButton = new JButton();
 
 		constr.gridx = 0;
-		constr.gridy = 5;
+		constr.gridy = 6;
 		constr.gridheight = 1;
 		constr.gridwidth = 1;
 		constr.weightx = 1;
 		constr.weighty = 1;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		updateButton.setText("Update"); // Load from language bundle
+		
+		updateButton.setText(languageBundle.getString("task.taskInput.update"));
+//		updateButton.setText("Update"); // Load from language bundle
 		// Shared action here?
 		updateButton.setVisible(false);
 		updateButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
 				String name = nameTextField.getText();
-				String date = dateTextField.getText();
+//				String date = dateTextField.getText();
 
 				Task.Priority priority = prioBar.getPriority();
 				// XXX: category should contain not string, but category
@@ -270,8 +302,7 @@ public class EditPanel extends JPanel implements Observer,
 				String description = descrTextArea.getText();
 
 				try {
-					ControllerInterface.editTask(selectedTask, name,
-							ControllerInterface.getDateFormat(), date,
+					ControllerInterface.editTask(selectedTask, name, datePicker.getDate(),
 							priority, selectedTask.getCompleted(),
 							categoryName, description);
 				} catch (InvalidCategoryException e) {
@@ -307,6 +338,7 @@ public class EditPanel extends JPanel implements Observer,
 		nameTextField.setVisible(visible);
 		descScrollPane.setVisible(visible);
 		dateTextField.setVisible(visible);
+		datePicker.setVisible(visible);
 		categoryComboBox.setVisible(visible);
 		prioBar.setVisible(visible);
 		updateButton.setVisible(visible);
@@ -324,6 +356,8 @@ public class EditPanel extends JPanel implements Observer,
 		dateTextField.setText(ControllerInterface.getDateFormat().format(
 				task.getDate()));
 
+		datePicker.updateDate(task.getDate());
+
 		categoryComboBox.setSelectedItem(task.getCategory().getName());
 
 		prioBar.setPriority(task.getPrio());
@@ -339,7 +373,6 @@ public class EditPanel extends JPanel implements Observer,
 			revalidate();
 			repaint();
 		}
-
 		// TODO to be fixed.. temporary behaviour
 		if (msg == ControllerInterface.ChangeMessage.DELETED_TASK) {
 			showingTask = false;
@@ -365,6 +398,16 @@ public class EditPanel extends JPanel implements Observer,
 				.getString("task.taskInput.desc")));
 		dateTextField.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.date")));
+
+		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.date")
+				+ " "
+				+ ControllerInterface.getDateFormat().toPattern()));
+
+		datePicker.switchDateFormat(DateFormat.values()[Integer
+				.parseInt(ControllerInterface
+						.getProperty(GlobalValues.DATEFORMATKEY))]);
+
 		categoryComboBox.setBorder(BorderFactory
 				.createTitledBorder(languageBundle
 						.getString("task.taskInput.category")));
