@@ -11,17 +11,17 @@
       <urgent>false</urgent>
     </task>
     <task>
-      <name>A good name!</name>
-      <date>2013-01-31T17:45:00.000+01:00</date>
-      <priority>LOW</priority>
+      <name>Hi</name>
+      <date>2013-02-17T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
       <completed>false</completed>
-      <category>Test</category>
-      <description>some brief text.sfksfskfjskfskdfsdkfjskdhfskdskdfskjfdsklfjskdljfksdljflsdkjlsdjfsdljfsdlfjsdljsdlfjdslfjsdlfjsdljfsldjdlsjflsdkjfldsjfldsjfldsjfdkls</description>
+      <category>Fun</category>
+      <description>this is new!</description>
       <urgent>false</urgent>
     </task>
     <task>
       <name>Hi 3</name>
-      <date>2013-02-20T12:35:00.000+01:00</date>
+      <date>2013-02-20T12:37:00.000+01:00</date>
       <priority>NORMAL</priority>
       <completed>false</completed>
       <category>Meeting</category>
@@ -49,20 +49,29 @@
     <task>
       <name>Hi</name>
       <date>2013-02-27T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>Fun</category>
-      <description>this is new!</description>
-      <urgent>false</urgent>
-    </task>
-    <task>
-      <name>Hi</name>
-      <date>2013-02-27T12:30:00.000+01:00</date>
       <priority>LOW</priority>
       <completed>false</completed>
       <category>Fun</category>
       <description>this is new!</description>
       <urgent>true</urgent>
+    </task>
+    <task>
+      <name>asd</name>
+      <date>2013-03-11T16:11:09.808+01:00</date>
+      <priority>NOT_SET</priority>
+      <completed>false</completed>
+      <category>NEW</category>
+      <description />
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>A good name!</name>
+      <date>2013-03-11T16:11:32.101+01:00</date>
+      <priority>LOW</priority>
+      <completed>false</completed>
+      <category>Test</category>
+      <description>some brief text.sfksfskfjskfskdfsdkfjskdhfskdskdfskjfdsklfjskdljfksdljflsdkjlsdjfsdljfsdlfjsdljsdlfjdslfjsdlfjsdljfsldjdlsjflsdkjfldsjfldsjfldsjfdkls</description>
+      <urgent>false</urgent>
     </task>
   </tasks>
   <categories>

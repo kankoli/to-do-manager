@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 import control.ControllerInterface;
 import control.ControllerInterface.DateFormat;
 import exceptions.InvalidCategoryException;
-import exceptions.InvalidDateException;
 
 import utility.GlobalValues;
 import view.custom_components.DatePicker;
@@ -46,7 +45,6 @@ public class EditPanel extends JPanel implements Observer,
 	private JTextField nameTextField;
 	private JTextArea descrTextArea;
 	private JScrollPane descScrollPane;
-	private JTextField dateTextField;
 	private DatePicker datePicker;
 
 	private JComboBox<String> categoryComboBox;
@@ -78,7 +76,6 @@ public class EditPanel extends JPanel implements Observer,
 	private void addTaskSelectedComponents() {
 		addNameTextField();
 		addDescrTextArea();
-		addDateTextField();
 
 		addDatePicker();
 
@@ -151,9 +148,9 @@ public class EditPanel extends JPanel implements Observer,
 		add(descScrollPane, constr);
 	}
 
-	private void addDateTextField() {
+	private void addDatePicker() {
+
 		GridBagConstraints constr = new GridBagConstraints();
-		dateTextField = new JTextField();
 
 		constr.gridx = 0;
 		constr.gridy = 2;
@@ -161,23 +158,6 @@ public class EditPanel extends JPanel implements Observer,
 		constr.gridwidth = 1;
 		constr.weightx = 1;
 		constr.weighty = 0;
-		constr.anchor = GridBagConstraints.NORTHWEST;
-
-		dateTextField.setVisible(false);
-		add(dateTextField, constr);
-	}
-
-	private void addDatePicker() {
-		// TODO Auto-generated method stub
-
-		GridBagConstraints constr = new GridBagConstraints();
-
-		constr.gridx = 0;
-		constr.gridy = 3;
-		constr.gridheight = 1;
-		constr.gridwidth = 1;
-		constr.weightx = 1;
-		constr.weighty = 1;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
 		datePicker = new DatePicker();
@@ -192,7 +172,7 @@ public class EditPanel extends JPanel implements Observer,
 		categoryComboBox = new JComboBox<String>();
 
 		constr.gridx = 0;
-		constr.gridy = 4;
+		constr.gridy = 3;
 		constr.gridheight = 1;
 		constr.gridwidth = 1;
 		constr.weightx = 1;
@@ -255,7 +235,7 @@ public class EditPanel extends JPanel implements Observer,
 		prioBar = new PriorityBar(Task.Priority.NOT_SET);
 
 		constr.gridx = 0;
-		constr.gridy = 5;
+		constr.gridy = 4;
 		constr.gridheight = 1;
 		constr.gridwidth = 1;
 		constr.weightx = 1;
@@ -277,7 +257,7 @@ public class EditPanel extends JPanel implements Observer,
 		updateButton = new JButton();
 
 		constr.gridx = 0;
-		constr.gridy = 6;
+		constr.gridy = 5;
 		constr.gridheight = 1;
 		constr.gridwidth = 1;
 		constr.weightx = 1;
@@ -309,14 +289,7 @@ public class EditPanel extends JPanel implements Observer,
 					JOptionPane.showMessageDialog(null, e.getMessage(),
 							"Category Problem", JOptionPane.WARNING_MESSAGE);
 
-				} catch (InvalidDateException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							"Date problem", JOptionPane.WARNING_MESSAGE);
-
-					dateTextField.setText(ControllerInterface.getDateFormat()
-							.format(selectedTask.getDate()));
-
-				}
+				} 
 			}
 
 		});
@@ -337,7 +310,6 @@ public class EditPanel extends JPanel implements Observer,
 	private void setTaskPresentationVisible(boolean visible) {
 		nameTextField.setVisible(visible);
 		descScrollPane.setVisible(visible);
-		dateTextField.setVisible(visible);
 		datePicker.setVisible(visible);
 		categoryComboBox.setVisible(visible);
 		prioBar.setVisible(visible);
@@ -353,8 +325,6 @@ public class EditPanel extends JPanel implements Observer,
 		nameTextField.setText(task.getName());
 
 		descrTextArea.setText(task.getDescription());
-		dateTextField.setText(ControllerInterface.getDateFormat().format(
-				task.getDate()));
 
 		datePicker.updateDate(task.getDate());
 
@@ -396,8 +366,6 @@ public class EditPanel extends JPanel implements Observer,
 				.getString("task.taskInput.name")));
 		descrTextArea.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.desc")));
-		dateTextField.setBorder(BorderFactory.createTitledBorder(languageBundle
-				.getString("task.taskInput.date")));
 
 		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.date")

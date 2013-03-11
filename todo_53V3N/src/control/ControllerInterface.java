@@ -201,7 +201,7 @@ public final class ControllerInterface {
 	 */
 	public static void editTask(Task task, String name, Date date, Priority priority, Boolean completed,
 			String categoryName, String description)
-			throws InvalidCategoryException, InvalidDateException {
+			throws InvalidCategoryException {
 		dc.editTask(task, name, date, priority, completed, categoryName,
 				description);
 	}

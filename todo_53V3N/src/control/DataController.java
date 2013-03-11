@@ -165,7 +165,7 @@ public final class DataController {
 	public final void editTask(Task task, String name,
 			Date date, Priority priority, Boolean completed,
 			String categoryName, String description)
-			throws InvalidCategoryException, InvalidDateException {
+			throws InvalidCategoryException {
 
 
 		Category c = dataModel.getCategories().get(categoryName);
