@@ -1,8 +1,6 @@
 package control;
 
 import java.awt.Color;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +154,6 @@ public final class DataController {
 	 * 
 	 * @param task
 	 * @param name
-	 * @param sdf
 	 * @param date
 	 * @param priority
 	 * @param completed
@@ -165,25 +162,10 @@ public final class DataController {
 	 * @throws InvalidCategoryException
 	 * @throws InvalidDateException
 	 */
-	public final void editTask(Task task, String name, SimpleDateFormat sdf,
-			String date, Priority priority, Boolean completed,
+	public final void editTask(Task task, String name,
+			Date date, Priority priority, Boolean completed,
 			String categoryName, String description)
 			throws InvalidCategoryException, InvalidDateException {
-
-		// TODO
-		// may do some checkings?? throw exceptions???
-		// also qui fa la validazione della data???
-		// TODO deve ricevere anche il dateformat???
-
-		Date d = null;
-		try {
-			d = sdf.parse(date);
-
-		} catch (ParseException e) {
-
-			d = task.getDate();
-			throw new InvalidDateException("Invalid date!");
-		}
 
 
 		Category c = dataModel.getCategories().get(categoryName);
@@ -194,7 +176,7 @@ public final class DataController {
 		// TODO maybe before calling datamodel method it can verify
 		// if ANY data has changed with respect to old values
 		// this will avoid useless notifications
-		dataModel.editTask(task, name, d, priority, completed, c, description);
+		dataModel.editTask(task, name, date, priority, completed, c, description);
 	}
 
 	/**

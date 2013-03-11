@@ -191,7 +191,6 @@ public final class ControllerInterface {
 	 * 
 	 * @param task
 	 * @param name
-	 * @param sdf
 	 * @param date
 	 * @param priority
 	 * @param completed
@@ -200,11 +199,10 @@ public final class ControllerInterface {
 	 * @throws InvalidCategoryException
 	 * @throws InvalidDateException
 	 */
-	public static void editTask(Task task, String name, SimpleDateFormat sdf,
-			String date, Priority priority, Boolean completed,
+	public static void editTask(Task task, String name, Date date, Priority priority, Boolean completed,
 			String categoryName, String description)
 			throws InvalidCategoryException, InvalidDateException {
-		dc.editTask(task, name, sdf, date, priority, completed, categoryName,
+		dc.editTask(task, name, date, priority, completed, categoryName,
 				description);
 	}
 

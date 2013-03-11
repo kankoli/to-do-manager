@@ -47,7 +47,10 @@ public final class PropertiesController {
 	 */
 	public final void setProperty(String key, String value,
 			boolean notifyObservers) {
-		dataModel.setProperty(key, value, notifyObservers);
+
+		// Check if we can avoid a dataModel change
+		if (!dataModel.getProperty(key).equals(value))
+			dataModel.setProperty(key, value, notifyObservers);
 	}
 
 	/**
@@ -76,12 +79,13 @@ public final class PropertiesController {
 	 * This method is called when new theme is selected
 	 * 
 	 * @param index
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
-	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
-			
-			dataModel.setTheme(theme);
+	public final void setTheme(Themes theme) throws FileNotFoundException,
+			IOException {
+
+		dataModel.setTheme(theme);
 	}
 
 }
