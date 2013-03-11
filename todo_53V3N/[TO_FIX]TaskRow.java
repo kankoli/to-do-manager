@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
@@ -102,8 +103,14 @@ public final class TaskRow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				ControllerInterface.deleteTask(task);
+				if (JOptionPane.showOptionDialog(null,
+						"Are you sure you want to delete \"" + task.getName()
+								+ "\"", "Confirm task deletion",
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+						null, null, null) == JOptionPane.YES_OPTION) {
 
+				ControllerInterface.deleteTask(task);
+				}
 			}
 		});
 
