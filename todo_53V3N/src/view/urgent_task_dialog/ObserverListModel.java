@@ -10,6 +10,11 @@ import control.ControllerInterface;
 
 import model.Task;
 
+/**
+ * This class take care of the action in the urgent task dialog   
+ * @author Kadir & Madelen 
+ *
+ */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class ObserverListModel<T> extends DefaultListModel implements Observer {
 
