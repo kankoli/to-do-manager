@@ -11,7 +11,7 @@ import control.ControllerInterface;
 import model.Task;
 
 /**
- * This class take care of the action in the urgent task dialog   
+ * This class takes care of the data model for the JList used in the urgent tasks dialog
  * @author Kadir & Madelen 
  *
  */
@@ -21,6 +21,7 @@ public class ObserverListModel<T> extends DefaultListModel implements Observer {
 	@SuppressWarnings("unchecked")
 	public ObserverListModel() {
 		super();
+		// get urgent tasks from the controller and add them
 		List<Task> tasks = ControllerInterface.getTaskListUrgent(true);
 		for (Task t : tasks)
 			addElement(t);
@@ -32,6 +33,7 @@ public class ObserverListModel<T> extends DefaultListModel implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
 
+		// if urgent tasks are changed, reset and update the data model 
 		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) {
 			removeAllElements();
 			List<Task> tasks = ControllerInterface.getTaskListUrgent(true);
