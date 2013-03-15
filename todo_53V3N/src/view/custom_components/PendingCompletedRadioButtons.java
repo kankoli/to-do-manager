@@ -15,14 +15,19 @@ import javax.swing.JRadioButton;
 
 import control.ControllerInterface;
 
+/**
+ * Class for pending/completed radio buttons used to filter the task table.
+ * Code adopted from:
+ *  http://docs.oracle.com/javase/tutorial/uiswing/examples/components/RadioButtonDemoProject/src/components/RadioButtonDemo.java
+ * @author Kadir & Madelen
+ *
+ */
 @SuppressWarnings("serial")
 public class PendingCompletedRadioButtons extends JPanel implements
 		ActionListener, Observer {
 
 	private JRadioButton btnPending;
 	private JRadioButton btnIncomplete;
-	
-	// http://docs.oracle.com/javase/tutorial/uiswing/examples/components/RadioButtonDemoProject/src/components/RadioButtonDemo.java
 	public PendingCompletedRadioButtons () {
 		super(new BorderLayout());
 		

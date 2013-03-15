@@ -9,6 +9,11 @@ import control.ControllerInterface;
 
 import model.Task;
 
+/**
+ * Implements the priority bars for tasks.
+ * @author Kadir & Madelen
+ *
+ */
 @SuppressWarnings("serial")
 public class PriorityBar extends JPanel {
 
@@ -44,6 +49,7 @@ public class PriorityBar extends JPanel {
 
 		this.prio = prio;
 
+		// The buttons are created with corresponding images.
 		btn1 = new PriorityButton(this, Task.Priority.LOW, def, hover1,
 				pressed1, clicked1);
 		btn2 = new PriorityButton(this, Task.Priority.NORMAL, def, hover2,
@@ -61,7 +67,10 @@ public class PriorityBar extends JPanel {
 
 		setButtons();
 	}
-
+	
+	/**
+	 * Sets the button images according to the selected priority.
+	 */
 	public void setButtons() {
 
 		if (!isEnabled())
@@ -105,8 +114,11 @@ public class PriorityBar extends JPanel {
 			break;
 		}
 	}
-
-	protected void setButtons(Task.Priority tp) {
+	
+	/**
+	 * Sets the hover button images according to the given priority.
+	 */
+	protected void setHoverButtons(Task.Priority tp) {
 		if (!isEnabled())
 			return;
 

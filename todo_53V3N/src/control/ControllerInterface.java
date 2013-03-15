@@ -28,10 +28,8 @@ import model.DataModel;
 import model.Task.Priority;
 
 /**
- * This class will implement the controller part of our application. It will
- * receive call from view part through GUI usage. This class is responsible to
- * check values and look for problems, will raise exceptions if needed. After
- * this, it will operate on dataModel by editing/ retrieving data.
+ * Implements the controller part of MVC architecture. Responsible to
+ * check values and look for problems, will raise exceptions if needed. Operates on the data model.
  * 
  * @author Marco Dondio
  * 
@@ -39,23 +37,22 @@ import model.Task.Priority;
 
 public final class ControllerInterface {
 
-	public final static int AUTOSAVE_INTERVAL = 300000; // Time interval (5
-														// minutes) to perform
-														// one autosave
+	// Time interval (5 minutes) to perform one auto-save.
+	public final static int AUTOSAVE_INTERVAL = 300000; 
 
 	public static enum SortType {
 		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
-
+	
+	// Shared action names.
 	public static enum ActionName {
 		CHANGELANG, EXIT, NEWTASK, NEWCAT, SORT, TIMER
 	};
 
+	// Messages for notifying relevant observer classes.
 	public static enum ChangeMessage {
 		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
 	};
-
-	// TODO move other enum here?
 
 	public static enum DateFormat {
 		ITALIAN, SWEDISH
@@ -78,7 +75,12 @@ public final class ControllerInterface {
 	private static ActionsController ac;
 	private static PropertiesController pc;
 	private static ObserverController oc;
-
+	
+	/***
+	 * Initialize the static variables of the class. 
+	 * Subcontrollers are initialized and auto-save timer is started.  
+	 * @param db
+	 */
 	public static void init(DataModel db) {
 		dataModel = db;
 
@@ -121,7 +123,7 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This method will be called to add a new Category to data model
+	 * Adds a new Category to data model
 	 * 
 	 * @param categoryName
 	 * @param categoryColor
@@ -133,46 +135,45 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This method sort Task List
+	 * Sorts the internal task list
 	 * 
 	 * @param ordering
 	 *            type of ordering
-	 * @return
 	 */
 	public static void sortTasks(SortType ordering) {
 		dc.sortTasks(ordering);
 	}
 
 	/**
-	 * This methods retrieves tasks list form data controller
+	 * Retrieves the tasks list form data controller
 	 * 
-	 * @return
+	 * @return The whole list of tasks
+	 * @deprecated
 	 */
 	public final List<Task> getTaskList() {
 		return dc.getTaskList();
 	}
 
 	/**
-	 * This methods retrieves complete/incomplete tasks list form data
-	 * controller
-	 * 
-	 * @return
+	 * Retrieves complete/incomplete tasks list.
+	 * Wired to pending/completed selection in the View
+	 * @return A list of tasks
 	 */
 	public static List<Task> getFilteredTaskList() {
 		return dc.getFilteredTaskList();
 	}
 
 	/**
-	 * This methods retrieves urgent/non-urgent tasks list form data controller
-	 * 
-	 * @return
+	 * Retrieves urgent/non-urgent tasks list.
+	 * @param b	- true for urgent tasks
+	 * @return A list of tasks
 	 */
 	public static List<Task> getTaskListUrgent(boolean b) {
 		return dc.getTaskListUrgent(b);
 	}
 
 	/**
-	 * This method will be called to add a new Task to data model
+	 * Adds a new Task to data model
 	 * 
 	 * @param name
 	 * @param date
@@ -187,7 +188,7 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This method is called with a task and new modified values
+	 * Edits a given task with given values
 	 * 
 	 * @param task
 	 * @param name
@@ -205,9 +206,8 @@ public final class ControllerInterface {
 		dc.editTask(task, name, date, priority, completed, categoryName,
 				description);
 	}
-
 	/**
-	 * Remove a task from the data model
+	 * Removes a task from the data model.
 	 * 
 	 * @param task
 	 */
@@ -216,7 +216,7 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * Set a task as urgent
+	 * Sets a task as urgent.
 	 * 
 	 * @param task
 	 */
@@ -225,42 +225,40 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * Retrieves category map from datamodel
+	 * Retrieves category map.
 	 * 
-	 * @return
+	 * @return Categories mapped with their names
 	 */
 	public static Map<String, Category> getCategories() {
 		return dc.getCategories();
 	}
 
 	/**
-	 * Retrieves an action from the Controller
+	 * Retrieves the action with given name.
 	 * 
 	 * @param actionName
-	 * @return
+	 * @return An action
 	 */
 	public static Action getAction(ActionName actionName) {
 		return ac.getAction(actionName);
 	}
 
 	/**
-	 * * This method retrieves the property from the dataModel
+	 * Retrieves the property with given key.
 	 * 
 	 * @param key
-	 * @return
+	 * @return The value of the property
 	 */
 	public static String getProperty(String key) {
 		return pc.getProperty(key);
 	}
 
 	/**
-	 * * This method sets a property on the dataModel
+	 * Sets a property of the data model
 	 * 
 	 * @param key
 	 * @param value
-	 * @param notifyObservers
-	 *            indicates wheter the property change should fire an event
-	 * @return
+	 * @param notifyObservers - indicates whether the property change should fire an event
 	 */
 	public static void setProperty(String key, String value,
 			boolean notifyObservers) {
@@ -268,9 +266,9 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * Retrieves current dateFormat
+	 * Retrieves current date format.
 	 * 
-	 * @return
+	 * @return A SimpleDateFormat object
 	 */
 	public static SimpleDateFormat getDateFormat() {
 		return dateFormats[Integer
@@ -278,9 +276,9 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * Set a new dateFormat for displaying date
+	 * Sets date format.
 	 * 
-	 * @param df
+	 * @param df - DateFormat object
 	 */
 	public static void setDateFormat(DateFormat df) {
 
@@ -289,22 +287,21 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This method retrieves the current setted languageBundle from dataModel
+	 * Retrieves the current language bundle from data model.
 	 * 
-	 * @return
+	 * @return A ResourceBundle object
 	 */
 	public static ResourceBundle getLanguageBundle() {
 		return pc.getLanguageBundle();
 	}
 
 	/**
-	 * This method is called when new language is selected
+	 * Sets language of the application.
 	 * 
-	 * @param index
+	 * @param language
 	 */
 	public static void setLanguage(Languages language) {
 
-		// System.out.println(language);
 		pc.setLanguage(language);
 
 		// XXX should i call the setlanguage on the actioncontroller as well?
@@ -314,16 +311,17 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This method is called to retrieve current theme
+	 * Retrieves the current theme.
+	 * @return A Properties object
 	 */
 	public static Properties getThemeBundle() {
 		return curTheme;
 	}
 
 	/**
-	 * This method is called when new theme is selected
+	 * Sets the current theme
 	 * 
-	 * @param index
+	 * @param theme
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
@@ -340,12 +338,16 @@ public final class ControllerInterface {
 		}
 	}
 
+	/***
+	 * Sets task viewing flag for {@link ControllerInterface#getFilteredTaskList()}}
+	 * @param b - true for viewing completed tasks, false for viewing pending tasks.
+	 */
 	public static void setIsViewingCompletedTasks(boolean b) {
 		dc.setIsViewingCompletedTasks(b);
 	}
 
 	/**
-	 * This method is called to register as an observer on the datamodel
+	 * Registers as an observer on the data model
 	 * 
 	 * @param o
 	 */
@@ -354,19 +356,10 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * This method is called to delete an observer from the datamodel
-	 * 
-	 * @param o
-	 */
-	public final void deleteObserver(Observer o) {
-		oc.registerAsObserver(o);
-	}
-
-	/**
-	 * This function is called to retrieve a resource at runtime
+	 * Retrieves a resource through a ClassLoader object.
 	 * 
 	 * @param name
-	 * @return
+	 * @return URL
 	 */
 	public static URL getResource(String name) {
 		return cl.getResource(name);
@@ -374,7 +367,7 @@ public final class ControllerInterface {
 
 	// TODO fix exceptions
 	/**
-	 * This method is called to save into files the application state.
+	 * Saves the application state (tasks, properties, etc.) into files.
 	 */
 	public static void saveDB() {
 		try {
@@ -388,8 +381,11 @@ public final class ControllerInterface {
 		}
 	}
 
+	/***
+	 * Toggles the pending/completed flag of the given task
+	 * @param t
+	 */
 	public static void toggleCompleted(Task t) {
 		dc.toggleCompleted(t);
-
 	}
 }

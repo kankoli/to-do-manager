@@ -15,11 +15,13 @@ import shared_actions.TimerAction;
 import model.DataModel;
 
 /**
- * This class will implement the actions controller part.
+ * Actions controller class. Holds the action classes for 
+ * {@linkplain ControllerInterface} to access.
  * 
  * @author Marco Dondio
  * 
  */
+
 
 public final class ActionsController {
 
