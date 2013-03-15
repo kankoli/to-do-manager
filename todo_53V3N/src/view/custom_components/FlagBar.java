@@ -11,6 +11,11 @@ import utility.GlobalValues;
 
 import control.ControllerInterface;
 
+/**
+ * Implements the language bar of flags.  
+ * @author Kadir & Madelen
+ *
+ */
 @SuppressWarnings("serial")
 public class FlagBar extends JPanel implements Observer {
 
@@ -30,10 +35,7 @@ public class FlagBar extends JPanel implements Observer {
 	public FlagBar() {
 		this.language = GlobalValues.Languages.valueOf(ControllerInterface.getProperty(GlobalValues.LANGUAGEKEY));
 		
-		// XXX Marco: why not a FlagButton[] btns = new FlagButton[3];
-		// and then btns[0] = new...
-		// ...
-//		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set);
+		// buttons are created with images and action names.
 		btn1 = new FlagButton(this, GlobalValues.Languages.EN, f_en_def, f_en_def, f_en_set, f_en_set, 
 				ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
 		btn2 = new FlagButton(this, GlobalValues.Languages.SWE, f_swe_def, f_swe_def, f_swe_set, f_swe_set, 
@@ -41,6 +43,7 @@ public class FlagBar extends JPanel implements Observer {
 		btn3 = new FlagButton(this, GlobalValues.Languages.IT, f_it_def, f_it_def, f_it_set, f_it_set, 
 				ControllerInterface.getAction(ControllerInterface.ActionName.CHANGELANG));
 		
+		// the horizontal flow layout is used 
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setHgap(0);
 		setLayout(flowLayout);
@@ -54,6 +57,9 @@ public class FlagBar extends JPanel implements Observer {
 		ControllerInterface.registerAsObserver(this);
 	}
 	
+	/**
+	 * Sets the button images according to the selected language.
+	 */
 	protected void setButtons() {
 		if (!isEnabled())
 			return;

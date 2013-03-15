@@ -50,12 +50,10 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		//Load for language support 
 		languageBundle = ControllerInterface.getLanguageBundle();
 
-		// setTitle("Urgent Tasks");
 		setTitle(languageBundle.getString("urgentTaskDialog.title"));
 
-		// TODO should be in globalvalues?
-		int minHeight = 400;
-		int minWidth = 300;
+		int minHeight = GlobalValues.URGENT_MINYSIZE;
+		int minWidth = GlobalValues.URGENT_MINXSIZE;
 
 	
 		JPanel pane = (JPanel) getContentPane();
@@ -84,11 +82,8 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		btn.setMinimumSize(new Dimension(45, 45));
 		btn.setPreferredSize(new Dimension(45, 45));
 		btn.setBorder(null);
-		// btn.setBackground(Color.WHITE);
+		btn.setBackground(Color.WHITE);
 		btn.setOpaque(true);
-		btn.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.darkGray));
-
 		btn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -124,12 +119,13 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 
 		ObserverListModel<Task> dlm = new ObserverListModel<Task>(); //Creatig a list model to fill in lst, 
 		lst.setModel(dlm); 											// in other words the actual data is find here
-		lst.setCellRenderer(new UrgentCellRenderer());  
+		lst.setCellRenderer(new UrgentCellRenderer());  // the custom cell renderer is used
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		lst.addMouseListener(new MouseAdapter() {
 
+			// Both pressed and released actions are handled the same.
 			public void mousePressed(MouseEvent e) {
 				handle(e);
 			}
@@ -140,6 +136,7 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 
 			public void handle(MouseEvent e) {				// Function for right clicking and deleting task from urgent task list
 				if (SwingUtilities.isRightMouseButton(e)) {
+					// The item is set as selected
 					lst.setSelectedIndex(lst.locationToIndex(e.getPoint()));
 					// show context menu
 					JPopupMenu menu = new JPopupMenu();
@@ -152,21 +149,14 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 						}
 					});
 					menu.add(item);						
-					menu.show(e.getComponent(), e.getX(), e.getY());
+					menu.show(e.getComponent(), e.getX(), e.getY()); // show menu at the click point
 				}
 			}
 		});
 
-		 JScrollPane scrollPane = new JScrollPane(lst);
-	
-
+		JScrollPane scrollPane = new JScrollPane(lst);
 		pane.add(scrollPane, c);
 
-		// minWidth += nameField.getWidth();
-		// minWidth *= 1.2;
-
-		// setPreferredSize(new Dimension(minWidth,minHeight));
-		// setMinimumSize(new Dimension(minWidth,minHeight));
 		setPreferredSize(new Dimension(minWidth, minHeight));
 		setMinimumSize(new Dimension(minWidth, minHeight));
 
@@ -182,7 +172,7 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		double posY = Double.parseDouble(ControllerInterface
 				.getProperty(GlobalValues.WINYPOSKEY));
 
-		setLocation((int) (posX + ((sizeX - minWidth) / 2)), // Set location to the pop up windoe "urgent Task" 
+		setLocation((int) (posX + ((sizeX - minWidth) / 2)), // Set location to the pop up window "urgent Task" 
 		(int) (posY + ((sizeY - minHeight) / 2)));//middle of task window
 
 		pack();

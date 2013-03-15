@@ -12,7 +12,11 @@ import control.ControllerInterface;
 
 import utility.GlobalValues;
 
-
+/***
+ * A single flag button used in FlagBar class.
+ * @author Kadir & Madelen
+ *
+ */
 @SuppressWarnings("serial")
 public class FlagButton extends ImageButton {
 
@@ -20,25 +24,24 @@ public class FlagButton extends ImageButton {
 	private FlagBar parent;
 	
 	FlagButton(FlagBar p, GlobalValues.Languages l, ImageIcon p_def, ImageIcon p_hover, ImageIcon p_pressed, ImageIcon p_clicked, final Action action) {
+
 		this.def = p_def;
 		this.hover = p_hover;
 		this.pressed = p_pressed;
 		this.clicked = p_clicked;
-		this.isClicked = false;
+		this.isClicked = false; // clicked bool is initialized.
 
-		this.language = l;
-		this.parent = p;
+		this.language = l; // The language this button represents.
+		this.parent = p;	// The parent object
 		
 		setIcon(this.def);
 		
-		// XXX Marco: instead of MouseListener, why not MouseAdapter? So you dont need to override
-		// useless methods, MouseAdapter does that automatically u just override what needed
 		addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				if (!isClicked) {
+				if (!isClicked) { // If the button is not already clicked.
 					isClicked = true;
+					// parent language is changed and buttons are updated with setButtons().
 					parent.language = language;
 					parent.setButtons();
 
@@ -48,33 +51,22 @@ public class FlagButton extends ImageButton {
 							"mainFrame.menubar.language.english",
 							"mainFrame.menubar.language.italian"};
 
+					// The language change action is fired.
 					action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, lang.getString(names[language.ordinal()])));
 				}
-				
-				
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
+			public void mouseEntered(MouseEvent arg0) { }
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
+			public void mouseExited(MouseEvent arg0) { }
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mousePressed(MouseEvent arg0) {	}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseReleased(MouseEvent arg0) { }
 		});
 	}
 

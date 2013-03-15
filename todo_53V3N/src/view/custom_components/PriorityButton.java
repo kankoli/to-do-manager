@@ -7,7 +7,11 @@ import javax.swing.ImageIcon;
 
 import model.Task;
 
-
+/**
+ * A single priority button used in PriorityBar class.
+ * @author Kadir & Madelen
+ *
+ */
 @SuppressWarnings("serial")
 public class PriorityButton extends ImageButton {
 
@@ -21,54 +25,44 @@ public class PriorityButton extends ImageButton {
 		this.clicked = p_clicked;
 		this.isClicked = false;
 
-		this.prio = tp;
-		this.parent = p;
+		this.prio = tp; // The priority value of the button is set.
+		this.parent = p; // The parent object is kept.
 		
 		setOpaque(false);
 		setIcon(this.def);
 		addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				if (isClicked) {
-					isClicked = false;
-
-					parent.prio = Task.Priority.NOT_SET;
-					parent.setButtons();
-					
-					
-					
-				}
-				else {
+				if (!isClicked) { // If the button is not already clicked
 					isClicked = true;
+					// set parent priority and update buttons.
 					parent.prio = prio;
+					parent.setButtons();
+				}
+				else { // If it was clicked before
+					isClicked = false;
+					
+					// Un-set the parent priority and update buttons.
+					parent.prio = Task.Priority.NOT_SET;
 					parent.setButtons();
 				}
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				parent.setButtons(prio);
+				parent.setHoverButtons(prio);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				parent.setButtons();
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mousePressed(MouseEvent arg0) { }
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseReleased(MouseEvent arg0) { }
 		});
 	}
 

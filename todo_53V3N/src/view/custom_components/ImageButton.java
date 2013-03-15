@@ -6,6 +6,13 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+/***
+ * Implements an image button extending a JLabel. An image button gets four images for four implemented states:
+ * Default, Hover, Pressed, Clicked.
+ * 
+ * @author Kadir & Madelen
+ *
+ */
 @SuppressWarnings("serial")
 public class ImageButton extends JLabel {
 	protected ImageIcon def;
@@ -17,12 +24,21 @@ public class ImageButton extends JLabel {
 
 	ImageButton() {};
 	
-	public ImageButton(String p_def, String p_hover, String p_pressed, String p_clicked) {
-		this.def = new ImageIcon(p_def);
-		this.hover = new ImageIcon(p_hover);
-		this.pressed = new ImageIcon(p_pressed);
-		this.clicked = new ImageIcon(p_clicked);
-		this.isClicked = false;
+	/**
+	 * Constructor.
+	 * The images are stored and an action listener to change through images is added.
+	 * 
+	 * @param p_def - Default image
+	 * @param p_hover - Hover image
+	 * @param p_pressed - Pressed image
+	 * @param p_clicked - Clicked image
+	 */
+	public ImageButton(ImageIcon p_def, ImageIcon p_hover, ImageIcon p_pressed, ImageIcon p_clicked) {
+		this.def = p_def;
+		this.hover = p_hover;
+		this.pressed = p_pressed;
+		this.clicked = p_clicked;
+		this.isClicked = false; // clicked bool is initialized.
 		
 		setIcon(this.def);
 		addMouseListener(new MouseListener() {

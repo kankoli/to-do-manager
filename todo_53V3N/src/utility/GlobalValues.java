@@ -11,6 +11,9 @@ public class GlobalValues {
 	/* Graphical preferences */
 	public static final int MINXSIZE = 1120;
 	public static final int MINYSIZE = 600;
+	
+	public static final int URGENT_MINXSIZE = 300;
+	public static final int URGENT_MINYSIZE = 400;
 
 	public static final int TASKROW_DESC_ROWS = 4;
 	public static final int TASKROW_DESC_COLS = 20;

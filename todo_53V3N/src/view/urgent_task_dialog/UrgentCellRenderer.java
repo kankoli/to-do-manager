@@ -15,10 +15,22 @@ import control.ControllerInterface;
 
 import model.Task;
 
+/***
+ * Custom Cell Renderer class for Urgent Tasks Dialog. 
+ * @author Kadir & Madelen
+ *
+ */
 public class UrgentCellRenderer implements ListCellRenderer<Object> {
 	
 	public UrgentCellRenderer() {}
 	
+	
+
+	/***
+	 * Creates and returns a panel of name and date of the task.
+	 * @return A JPanel
+	 *
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Component getListCellRendererComponent(JList arg0, Object obj,
@@ -38,6 +50,7 @@ public class UrgentCellRenderer implements ListCellRenderer<Object> {
 		lbl.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.darkGray));
 		panel.add(lbl);
 		
+		// set the background color if the item is selected.
 		if (isSelected)
 			panel.setBackground(Color.cyan);
 		
