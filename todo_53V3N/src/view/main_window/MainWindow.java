@@ -235,6 +235,9 @@ public class MainWindow extends JFrame implements Observer {
 
 		menu.addSeparator();
 
+		
+		
+		
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.EXIT));
