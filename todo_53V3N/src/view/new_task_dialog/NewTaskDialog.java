@@ -56,7 +56,7 @@ public class NewTaskDialog extends JDialog implements Observer {
 		pane.setBackground(Color.WHITE);
 
 		pane.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints(); //GridbagConstraints uses together with the item
+		GridBagConstraints c = new GridBagConstraints(); //GridbagConstraints contain information about how items i placed
 		c.fill = GridBagConstraints.HORIZONTAL; // fill the whole Jpanel horizontal 
 
 		nameField = new JTextField();
@@ -98,9 +98,13 @@ public class NewTaskDialog extends JDialog implements Observer {
 		//Creating and list the categories 
 		cmbCategory = new JComboBox<String>();
 		
-		for (Category ca : ControllerInterface.getCategories().values())
-			cmbCategory.addItem(ca.getName());
+		// we retrieve the hashtable (containing key - value pair).
+		// then we retrieve the keyset (all stored categories name)
+		// we add them as item in combobox
+		for (String catName : ControllerInterface.getCategories().keySet())
+			cmbCategory.addItem(catName);
 
+		
 		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.category")));
 		c.gridx = 0;
@@ -131,7 +135,7 @@ public class NewTaskDialog extends JDialog implements Observer {
 		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
 		c.insets = new Insets(10, 0, 0, 0); // top padding
 		c.gridx = 0; // aligned with button 2
-		c.gridy = 5; // third row
+		c.gridy = 5; // sixth row
 		c.gridwidth = 1;
 		pane.add(butCanc, c);
 
@@ -205,10 +209,12 @@ public class NewTaskDialog extends JDialog implements Observer {
 		setLocation((int) (posX + ((sizeX - minWidth) / 2)),
 				(int) (posY + ((sizeY - minHeight) / 2)));
 
-		
-		ControllerInterface.registerAsObserver(this);
+		// Here the object is register as an observer,
+		//added to the observer list of theobservarble 
+		ControllerInterface.registerAsObserver(this); 
 	}
 	
+	//Update dialog by reload the text of components with the current language
 	
 	private void updateLanguagePresentation() {
 
@@ -243,14 +249,13 @@ public class NewTaskDialog extends JDialog implements Observer {
 	}
 
 	
-	// 
+	// Behaviour of the NewtaskDialog when it receives a language change
 	@Override 
 	public void update(Observable o, Object arg) { 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			
-//			System.out.println("I am update in newtaskdialog");			
 			updateLanguagePresentation();
 			revalidate();
 			repaint();
