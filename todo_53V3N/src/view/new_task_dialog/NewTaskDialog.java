@@ -24,6 +24,7 @@ import view.custom_components.DatePicker;
 import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
+import control.ControllerInterface.DateFormat;
 
 /**
  * 
@@ -36,16 +37,18 @@ import control.ControllerInterface;
 @SuppressWarnings("serial")
 public class NewTaskDialog extends JDialog implements Observer {
 
-	private ResourceBundle languageBundle;
 	private JTextField nameField;
 	private JTextArea descriptionField;
 	private DatePicker datePicker;
 	private JComboBox<String> cmbCategory;
 	private PriorityBar bar; //the custom made "stop/redlight" priority bar
 
+	private JButton butOk;
+	private JButton butCanc;
+	
 	public NewTaskDialog() {
 		super(); //Initialize the superclass J Diaolog  
-		languageBundle = ControllerInterface.getLanguageBundle(); //language suppport
+		ResourceBundle languageBundle = ControllerInterface.getLanguageBundle(); //language suppport
 
 		setTitle(languageBundle.getString("newTaskDialog.title"));
 
@@ -79,8 +82,14 @@ public class NewTaskDialog extends JDialog implements Observer {
 		pane.add(descriptionField, c);
 
 		datePicker = new DatePicker();
+		
 		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle
-				.getString("task.taskInput.date")));
+				.getString("task.taskInput.date")
+				+ " "
+				+ ControllerInterface.getDateFormat().toPattern()));
+
+		
+		
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -109,9 +118,9 @@ public class NewTaskDialog extends JDialog implements Observer {
 		bar.setBackground(Color.WHITE);
 		pane.add(bar, c);
 
-		JButton button = new JButton(
+		butCanc = new JButton(
 				languageBundle.getString("newTaskDialog.cancel"));
-		button.addActionListener(new ActionListener() {
+		butCanc.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -124,12 +133,12 @@ public class NewTaskDialog extends JDialog implements Observer {
 		c.gridx = 0; // aligned with button 2
 		c.gridy = 5; // third row
 		c.gridwidth = 1;
-		pane.add(button, c);
+		pane.add(butCanc, c);
 
-		button = new JButton(languageBundle.getString("newTaskDialog.ok"));
+		butOk = new JButton(languageBundle.getString("newTaskDialog.ok"));
 
 		// This action saves the new task 
-		button.addActionListener(new ActionListener() {
+		butOk.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 
@@ -158,7 +167,7 @@ public class NewTaskDialog extends JDialog implements Observer {
 		c.gridx = 1; 
 		c.gridy = 5; 
 		c.gridwidth = 1;
-		pane.add(button, c);
+		pane.add(butOk, c);
 
 		pack();
 		setVisible(true);
@@ -170,7 +179,7 @@ public class NewTaskDialog extends JDialog implements Observer {
 		minHeight += datePicker.getHeight();
 
 		minHeight += cmbCategory.getHeight();
-		minHeight += button.getHeight();
+		minHeight += butOk.getHeight();
 		minHeight *= 1.2;
 
 		int minWidth = 0;
@@ -196,14 +205,53 @@ public class NewTaskDialog extends JDialog implements Observer {
 		setLocation((int) (posX + ((sizeX - minWidth) / 2)),
 				(int) (posY + ((sizeY - minHeight) / 2)));
 
+		
+		ControllerInterface.registerAsObserver(this);
+	}
+	
+	
+	private void updateLanguagePresentation() {
+
+		
+		ResourceBundle languageBundle = ControllerInterface.getLanguageBundle();
+		
+		setTitle(languageBundle.getString("newTaskDialog.title"));
+
+		nameField.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.name")));
+
+		descriptionField.setBorder(BorderFactory
+				.createTitledBorder(languageBundle
+						.getString("task.taskInput.desc")));
+
+		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.date")
+				+ " "
+				+ ControllerInterface.getDateFormat().toPattern()));
+
+		datePicker.switchDateFormat(DateFormat.values()[Integer
+				.parseInt(ControllerInterface
+						.getProperty(GlobalValues.DATEFORMATKEY))]);
+
+		
+		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.category")));
+
+		butOk.setText(languageBundle.getString("newTaskDialog.ok"));
+		butCanc.setText(languageBundle.getString("newTaskDialog.cancel"));
+
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
+	
+	// 
+	@Override 
+	public void update(Observable o, Object arg) { 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			languageBundle = ControllerInterface.getLanguageBundle();
+			
+//			System.out.println("I am update in newtaskdialog");			
+			updateLanguagePresentation();
 			revalidate();
 			repaint();
 		}

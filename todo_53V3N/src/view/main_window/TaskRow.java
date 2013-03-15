@@ -146,7 +146,7 @@ public final class TaskRow extends JPanel {
 	// XXX We r using our own painting behaviour...
 	private void refreshRendering() {
 		
-		System.out.println("[Task: "+ task.getName()+"] refreshRendering " + isSelected);
+	//	System.out.println("[Task: "+ task.getName()+"] refreshRendering " + isSelected);
 		Dimension sizes = doneBtn.getPreferredSize();
 		doneBtn.setBounds(0, 0, sizes.width, sizes.height);
 

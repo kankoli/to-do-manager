@@ -76,12 +76,12 @@
   </tasks>
   <categories>
     <category>
-      <name>NEW</name>
-      <color>-16777216</color>
-    </category>
-    <category>
       <name>Fun</name>
       <color>-9916485</color>
+    </category>
+    <category>
+      <name>NEW</name>
+      <color>-16777216</color>
     </category>
     <category>
       <name>Test</name>
