@@ -57,6 +57,9 @@ public class ObserverComboBox extends JComboBox<Object> implements Observer {
 		}
 		else if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
 			languageBundle = ControllerInterface.getLanguageBundle();
+			removeItemAt(0);
+			insertItemAt(languageBundle.getString("task.taskInput.selectTask"), 0);	
+			setSelectedIndex(0);
 			revalidate();
 			repaint();
 			}

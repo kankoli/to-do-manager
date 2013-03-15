@@ -454,7 +454,7 @@ public class MainWindow extends JFrame implements Observer {
 		JPanel pnlTop = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		JLabel lblClock = new JLabel("ClOcK");
+		JLabel lblClock = new JLabel("");
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 1;
