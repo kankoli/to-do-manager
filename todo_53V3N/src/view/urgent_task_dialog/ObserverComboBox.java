@@ -26,27 +26,26 @@ public class ObserverComboBox extends JComboBox<Object> implements Observer {
 	public ObserverComboBox() {
 		super();
 		
-		// TODO need to retrieve language bundle!!!!
-		
+	
 		languageBundle = ControllerInterface.getLanguageBundle();
 
-	
+
 	
 		insertItemAt(languageBundle.getString("task.taskInput.selectTask"), 0);	
-		List<Task> nonUrgentTasks = ControllerInterface.getTaskListUrgent(false);
+		List<Task> nonUrgentTasks = ControllerInterface.getTaskListUrgent(false); 
 		for (int i = 0; i < nonUrgentTasks.size(); i++) {
-			addItem(nonUrgentTasks.get(i));
+			addItem(nonUrgentTasks.get(i)); // Non urgent task are gather together
 		}
 		setSelectedIndex(0);
 		
 		ControllerInterface.registerAsObserver(this);
 	}
 	
-	@Override
+	@Override 
 	public void update(Observable arg0, Object arg1) {
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
 
-		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) {
+		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) { // If all items are changed remove items
 			removeAllItems();
 			insertItemAt("Select task to add...", 0);
 			List<Task> nonUrgentTasks = ControllerInterface.getTaskListUrgent(false);
