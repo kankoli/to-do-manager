@@ -39,6 +39,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -58,8 +61,10 @@ import view.custom_components.PriorityBar;
 import control.ControllerInterface;
 
 @SuppressWarnings("serial")
-public class NewTaskDialog extends JDialog {
+public class NewTaskDialog extends JDialog implements Observer {
 
+	private ResourceBundle languageBundle;
+	
 	private JTextField nameField;
 	private JTextArea descriptionField;
 //	private JTextField dateField;
@@ -69,7 +74,9 @@ public class NewTaskDialog extends JDialog {
 
 	public NewTaskDialog() {
 		super();
-		setTitle("New Task");
+		languageBundle = ControllerInterface.getLanguageBundle();
+
+		setTitle(languageBundle.getString("newTaskDialog.title"));
 		
 		JPanel pane = (JPanel) getContentPane();
 		pane.setBackground(Color.WHITE);
@@ -79,14 +86,14 @@ public class NewTaskDialog extends JDialog {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
 		nameField = new JTextField();
-		nameField.setBorder(BorderFactory.createTitledBorder("Name"));
+		nameField.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.name")));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		pane.add(nameField, c);
 
 		descriptionField = new JTextArea();
-		descriptionField.setBorder(BorderFactory.createTitledBorder("Description"));
+		descriptionField.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.desc")));
 		descriptionField.setRows(3);
 		c.gridx = 0;
 		c.gridy = 1;
@@ -105,7 +112,7 @@ public class NewTaskDialog extends JDialog {
 //		pane.add(dateField, c);
 
 		datePicker = new DatePicker();
-		datePicker.setBorder(BorderFactory.createTitledBorder("Date"));
+		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.date")));
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -118,7 +125,7 @@ public class NewTaskDialog extends JDialog {
 		for (Category ca : ControllerInterface.getCategories().values())
 			cmbCategory.addItem(ca.getName());
 
-		cmbCategory.setBorder(BorderFactory.createTitledBorder("Category")); 
+		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.category"))); 
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
@@ -126,14 +133,14 @@ public class NewTaskDialog extends JDialog {
 		pane.add(cmbCategory, c);
 
 		bar = new PriorityBar(Task.Priority.NOT_SET);
-		bar.setBorder(BorderFactory.createTitledBorder("Priority"));
+		bar.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.priority")));
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2;
 		bar.setBackground(Color.WHITE);
 		pane.add(bar, c);
 
-		JButton button = new JButton("Cancel");
+		JButton button = new JButton(languageBundle.getString("newTaskDialog.cancel"));
 		button.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +156,7 @@ public class NewTaskDialog extends JDialog {
 		c.gridwidth = 1;
 		pane.add(button, c);
 
-		button = new JButton("Ok");
+		button = new JButton(languageBundle.getString("newTaskDialog.ok"));
 
 		button.addActionListener(new ActionListener() {
 
@@ -227,5 +234,16 @@ public class NewTaskDialog extends JDialog {
 		
 		setLocation((int) (posX + ((sizeX - minWidth) / 2)), (int) (posY + ((sizeY - minHeight) / 2)));
 		
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+
+		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+			languageBundle = ControllerInterface.getLanguageBundle();
+			revalidate();
+			repaint();
+		}
 	}
 }
