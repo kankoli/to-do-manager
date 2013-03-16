@@ -61,7 +61,6 @@ public final class ActionsController {
 				lang.getString("shared_actions.newtaskaction.desc"),
 				KeyEvent.VK_T);
 
-
 		newCategory = new NewCategoryAction(
 				lang.getString("shared_actions.newcategoryaction.text"), null,
 				lang.getString("shared_actions.newcategoryaction.desc"),

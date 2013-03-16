@@ -4,9 +4,9 @@
     <task>
       <name>prova</name>
       <date>2012-01-01T02:05:14.464+01:00</date>
-      <priority>NOT_SET</priority>
+      <priority>NORMAL</priority>
       <completed>false</completed>
-      <category>NEW</category>
+      <category>Meeting</category>
       <description>asda</description>
       <urgent>false</urgent>
     </task>
@@ -20,19 +20,10 @@
       <urgent>false</urgent>
     </task>
     <task>
-      <name>Hi</name>
-      <date>2013-02-17T12:30:00.000+01:00</date>
-      <priority>HIGH</priority>
-      <completed>true</completed>
-      <category>Fun</category>
-      <description>this is new!</description>
-      <urgent>false</urgent>
-    </task>
-    <task>
       <name>Hi 3</name>
       <date>2013-02-20T12:37:00.000+01:00</date>
       <priority>NORMAL</priority>
-      <completed>false</completed>
+      <completed>true</completed>
       <category>Meeting</category>
       <description>this is new!</description>
       <urgent>false</urgent>
@@ -41,7 +32,7 @@
       <name>Hi2</name>
       <date>2013-02-21T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
-      <completed>true</completed>
+      <completed>false</completed>
       <category>Fun</category>
       <description>this is new!</description>
       <urgent>true</urgent>
@@ -50,8 +41,8 @@
       <name>H4i</name>
       <date>2013-02-23T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>NEW</category>
+      <completed>true</completed>
+      <category>Sport</category>
       <description>this is new!</description>
       <urgent>false</urgent>
     </task>
@@ -64,15 +55,24 @@
       <description>this is new!</description>
       <urgent>true</urgent>
     </task>
+    <task>
+      <name>Hi</name>
+      <date>2014-02-17T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
+      <completed>false</completed>
+      <category>Fun</category>
+      <description>this is new!</description>
+      <urgent>true</urgent>
+    </task>
   </tasks>
   <categories>
     <category>
-      <name>Fun</name>
-      <color>-9916485</color>
-    </category>
-    <category>
       <name>NEW</name>
       <color>-16777216</color>
+    </category>
+    <category>
+      <name>Fun</name>
+      <color>-9916485</color>
     </category>
     <category>
       <name>Test</name>

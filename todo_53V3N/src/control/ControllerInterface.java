@@ -28,8 +28,9 @@ import model.DataModel;
 import model.Task.Priority;
 
 /**
- * Implements the controller part of MVC architecture. Responsible to
- * check values and look for problems, will raise exceptions if needed. Operates on the data model.
+ * Implements the controller part of MVC architecture. Responsible to check
+ * values and look for problems, will raise exceptions if needed. Operates on
+ * the data model.
  * 
  * @author Marco Dondio
  * 
@@ -38,12 +39,12 @@ import model.Task.Priority;
 public final class ControllerInterface {
 
 	// Time interval (5 minutes) to perform one auto-save.
-	public final static int AUTOSAVE_INTERVAL = 300000; 
+	public final static int AUTOSAVE_INTERVAL = 300000;
 
 	public static enum SortType {
 		DATE, CATEGORY, PRIORITY, NAME, NONE
 	};
-	
+
 	// Shared action names.
 	public static enum ActionName {
 		CHANGELANG, EXIT, NEWTASK, NEWCAT, SORT, TIMER
@@ -75,10 +76,11 @@ public final class ControllerInterface {
 	private static ActionsController ac;
 	private static PropertiesController pc;
 	private static ObserverController oc;
-	
+
 	/***
-	 * Initialize the static variables of the class. 
-	 * Subcontrollers are initialized and auto-save timer is started.  
+	 * Initialize the static variables of the class. Subcontrollers are
+	 * initialized and auto-save timer is started.
+	 * 
 	 * @param db
 	 */
 	public static void init(DataModel db) {
@@ -155,8 +157,9 @@ public final class ControllerInterface {
 	}
 
 	/**
-	 * Retrieves complete/incomplete tasks list.
-	 * Wired to pending/completed selection in the View
+	 * Retrieves complete/incomplete tasks list. Wired to pending/completed
+	 * selection in the View
+	 * 
 	 * @return A list of tasks
 	 */
 	public static List<Task> getFilteredTaskList() {
@@ -165,7 +168,9 @@ public final class ControllerInterface {
 
 	/**
 	 * Retrieves urgent/non-urgent tasks list.
-	 * @param b	- true for urgent tasks
+	 * 
+	 * @param b
+	 *            - true for urgent tasks
 	 * @return A list of tasks
 	 */
 	public static List<Task> getTaskListUrgent(boolean b) {
@@ -200,12 +205,13 @@ public final class ControllerInterface {
 	 * @throws InvalidCategoryException
 	 * @throws InvalidDateException
 	 */
-	public static void editTask(Task task, String name, Date date, Priority priority, Boolean completed,
-			String categoryName, String description)
-			throws InvalidCategoryException {
+	public static void editTask(Task task, String name, Date date,
+			Priority priority, Boolean completed, String categoryName,
+			String description) throws InvalidCategoryException {
 		dc.editTask(task, name, date, priority, completed, categoryName,
 				description);
 	}
+
 	/**
 	 * Removes a task from the data model.
 	 * 
@@ -258,7 +264,8 @@ public final class ControllerInterface {
 	 * 
 	 * @param key
 	 * @param value
-	 * @param notifyObservers - indicates whether the property change should fire an event
+	 * @param notifyObservers
+	 *            - indicates whether the property change should fire an event
 	 */
 	public static void setProperty(String key, String value,
 			boolean notifyObservers) {
@@ -278,7 +285,8 @@ public final class ControllerInterface {
 	/**
 	 * Sets date format.
 	 * 
-	 * @param df - DateFormat object
+	 * @param df
+	 *            - DateFormat object
 	 */
 	public static void setDateFormat(DateFormat df) {
 
@@ -312,6 +320,7 @@ public final class ControllerInterface {
 
 	/**
 	 * Retrieves the current theme.
+	 * 
 	 * @return A Properties object
 	 */
 	public static Properties getThemeBundle() {
@@ -339,8 +348,12 @@ public final class ControllerInterface {
 	}
 
 	/***
-	 * Sets task viewing flag for {@link ControllerInterface#getFilteredTaskList()}}
-	 * @param b - true for viewing completed tasks, false for viewing pending tasks.
+	 * Sets task viewing flag for
+	 * {@link ControllerInterface#getFilteredTaskList()}
+	 * 
+	 * @param b
+	 *            - true for viewing completed tasks, false for viewing pending
+	 *            tasks.
 	 */
 	public static void setIsViewingCompletedTasks(boolean b) {
 		dc.setIsViewingCompletedTasks(b);
@@ -383,6 +396,7 @@ public final class ControllerInterface {
 
 	/***
 	 * Toggles the pending/completed flag of the given task
+	 * 
 	 * @param t
 	 */
 	public static void toggleCompleted(Task t) {
