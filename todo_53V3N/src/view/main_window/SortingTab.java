@@ -32,28 +32,10 @@ public class SortingTab {
 	
 	//Add checkers for values
 	public SortingTab(String name, int width, int height, int xPos, int yPos, boolean inFocus) {
-		this.name = name;
-		this.width = width;
-		this.height = height;
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.inFocus = inFocus;
-		
-		minimumWidth = 20;
-		fixedLeftEdge = false;
-		fixedRightEdge = false;
-		
-		if (width == minimumWidth) {
-			isMinimumWidth = true;
-		} {
-			isMinimumWidth = false;
-		}
-		
-		inFocusColor = Color.WHITE;
-		outOfFocusColor = Color.LIGHT_GRAY;
+		this(name, width, height, xPos, yPos, inFocus, 20, false, false);
 	}
 	
-	//Add checkers for values
+	//Add checkers for values FIX DEFENSIVE MEASUREMENTS
 	public SortingTab(String name, int width, int height, int xPos, int yPos, boolean inFocus, int minimumWidth, boolean fixedLeftEdge, boolean fixedRightEdge) {
 		this.name = name;
 		this.width = width;

@@ -61,9 +61,14 @@ public class MainWindow extends JFrame implements Observer {
 			ControllerInterface.getResource("assets/Icons/I_Exclamation.png"));
 	private static DataModel db;
 
+	private ResourceBundle languageBundle;
+
+	
 	private int sizes[] = { 70, 300, 500, 620 }; // TODO Temporary offset
 													// values.. no time...
 
+	
+	
 	public static void main(String[] args) {
 		new MainWindow();
 	}
@@ -82,6 +87,8 @@ public class MainWindow extends JFrame implements Observer {
 			e.printStackTrace();
 		}
 		ControllerInterface.init(db);
+
+		languageBundle = ControllerInterface.getLanguageBundle();
 
 		addMenu();
 
@@ -215,20 +222,19 @@ public class MainWindow extends JFrame implements Observer {
 	// This method creates and initializes menu
 	private void addMenu() {
 
-		ResourceBundle lang = ControllerInterface.getLanguageBundle();
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
 
-		JMenu menu = new JMenu(lang.getString("mainFrame.menubar.file"));
+		JMenu menu = new JMenu(languageBundle.getString("mainFrame.menubar.file"));
 		menu.setMnemonic(KeyEvent.VK_F);
 		getJMenuBar().add(menu);
 
 		JMenuItem menuItem = new JMenuItem(
-				lang.getString("mainFrame.menubar.import"));
+				languageBundle.getString("mainFrame.menubar.import"));
 		menuItem.setMnemonic(KeyEvent.VK_M);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.export"));
+		menuItem = new JMenuItem(languageBundle.getString("mainFrame.menubar.export"));
 		menuItem.setMnemonic(KeyEvent.VK_X);
 		menu.add(menuItem);
 
@@ -242,11 +248,11 @@ public class MainWindow extends JFrame implements Observer {
 				.getAction(ControllerInterface.ActionName.EXIT));
 		menu.add(menuItem);
 
-		menu = new JMenu(lang.getString("mainFrame.menubar.edit"));
+		menu = new JMenu(languageBundle.getString("mainFrame.menubar.edit"));
 		menu.setMnemonic(KeyEvent.VK_E);
 		getJMenuBar().add(menu);
 
-		JMenu subMenu = new JMenu(lang.getString("mainFrame.menubar.add"));
+		JMenu subMenu = new JMenu(languageBundle.getString("mainFrame.menubar.add"));
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
 		menuItem = new JMenuItem();
@@ -262,7 +268,7 @@ public class MainWindow extends JFrame implements Observer {
 		subMenu.add(menuItem);
 		menu.add(subMenu);
 
-		subMenu = new JMenu(lang.getString("mainFrame.menubar.language"));
+		subMenu = new JMenu(languageBundle.getString("mainFrame.menubar.language"));
 		subMenu.setMnemonic(KeyEvent.VK_L);
 		menu.add(subMenu);
 
@@ -270,58 +276,58 @@ public class MainWindow extends JFrame implements Observer {
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
-		menuItem.setText(lang.getString("mainFrame.menubar.language.english"));
+		menuItem.setText(languageBundle.getString("mainFrame.menubar.language.english"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
-		menuItem.setText(lang.getString("mainFrame.menubar.language.swedish"));
+		menuItem.setText(languageBundle.getString("mainFrame.menubar.language.swedish"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.CHANGELANG));
-		menuItem.setText(lang.getString("mainFrame.menubar.language.italian"));
+		menuItem.setText(languageBundle.getString("mainFrame.menubar.language.italian"));
 		subMenu.add(menuItem);
 
-		subMenu = new JMenu(lang.getString("mainFrame.menubar.sort"));
+		subMenu = new JMenu(languageBundle.getString("mainFrame.menubar.sort"));
 		subMenu.setMnemonic(KeyEvent.VK_L);
 		menu.add(subMenu);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(lang
+		menuItem.setText(languageBundle
 				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(lang
+		menuItem.setText(languageBundle
 				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(lang
+		menuItem.setText(languageBundle
 				.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.SORT));
-		menuItem.setText(lang
+		menuItem.setText(languageBundle
 				.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
 		subMenu.add(menuItem);
 
-		subMenu = new JMenu(lang.getString("mainFrame.menubar.dateformat"));
+		subMenu = new JMenu(languageBundle.getString("mainFrame.menubar.dateformat"));
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
 		menuItem = new JMenuItem(
-				lang.getString("mainFrame.menubar.dateformat.italian"));
+				languageBundle.getString("mainFrame.menubar.dateformat.italian"));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControllerInterface
@@ -332,7 +338,7 @@ public class MainWindow extends JFrame implements Observer {
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem(
-				lang.getString("mainFrame.menubar.dateformat.swedish"));
+				languageBundle.getString("mainFrame.menubar.dateformat.swedish"));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControllerInterface
@@ -347,11 +353,11 @@ public class MainWindow extends JFrame implements Observer {
 		// TODO
 		// Themes are not implemented correctly, we didnt have time to finish on
 		// time..
-		subMenu = new JMenu(lang.getString("mainFrame.menubar.theme.name"));
+		subMenu = new JMenu(languageBundle.getString("mainFrame.menubar.theme.name"));
 		subMenu.setMnemonic(KeyEvent.VK_A);
 
 		menuItem = new JMenuItem(
-				lang.getString("mainFrame.menubar.theme.default.name"));
+				languageBundle.getString("mainFrame.menubar.theme.default.name"));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -380,7 +386,7 @@ public class MainWindow extends JFrame implements Observer {
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem(
-				lang.getString("mainFrame.menubar.theme.another.name"));
+				languageBundle.getString("mainFrame.menubar.theme.another.name"));
 		menuItem.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -396,7 +402,7 @@ public class MainWindow extends JFrame implements Observer {
 		subMenu.add(menuItem);
 
 		menuItem = new JMenuItem(
-				lang.getString("mainFrame.menubar.theme.another1.name"));
+				languageBundle.getString("mainFrame.menubar.theme.another1.name"));
 		menuItem.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -434,11 +440,11 @@ public class MainWindow extends JFrame implements Observer {
 
 		menu.add(subMenu);
 
-		menu = new JMenu(lang.getString("mainFrame.menubar.help"));
+		menu = new JMenu(languageBundle.getString("mainFrame.menubar.help"));
 		menu.setMnemonic(KeyEvent.VK_H);
 		getJMenuBar().add(menu);
 
-		menuItem = new JMenuItem(lang.getString("mainFrame.menubar.help.about"));
+		menuItem = new JMenuItem(languageBundle.getString("mainFrame.menubar.help.about"));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -540,7 +546,15 @@ public class MainWindow extends JFrame implements Observer {
 	}
 
 	private JPanel getSortBarPanel() {
-		SortingBar pnlSortBar = new SortingBar(sizes);
+
+		String[] tabNames = {languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.title.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.date.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.category.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.priority.name")};
+		int[] tabWidths = {100, 100, 100, 100};
+		int[] minTabWidths = {20, 20, 20, 20};
+		int tabHeights = 20;
+		Color selectedColor = Color.WHITE; //Retreive from theme
+		Color notSelectedColor = Color.GRAY; //See above
+		
+		CustomSortingBar pnlSortBar = new CustomSortingBar(tabNames, tabWidths, minTabWidths, tabHeights, selectedColor, notSelectedColor, languageBundle);
 		// pnlSortBar.setBackground(Color.yellow);
 		return pnlSortBar;
 	}

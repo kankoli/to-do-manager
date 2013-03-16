@@ -1,5 +1,6 @@
 package view.main_window;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -27,23 +28,19 @@ import control.ControllerInterface.ActionName;
  * clicking on tab sections.
  * 
  * Please note... it's not working yet
+ * 
+ * Will be extended for flexibility to add tabs after creation (and delete)
  * @author Magnus Larsson
  * 
  */
 @SuppressWarnings("serial")
-public class SortingBar extends JPanel implements Observer {
+public class SortingBar extends JPanel {
 
 	private SortingTab activeTab;
 
 	// TODO Marco: make this List an array instead, we have fixed structure
 	private List<SortingTab> sortingTabs;
 	private SortingBarMouseListener mouseListener;
-
-	// XXX this is just for testing, will be an array
-	// SortingTab tab1;
-	// SortingTab tab2;
-	// SortingTab tab3;
-	// SortingTab tab4;
 
 	private class SortingBarMouseListener implements MouseListener,
 			MouseMotionListener {
@@ -53,12 +50,12 @@ public class SortingBar extends JPanel implements Observer {
 		private boolean rightEdgeInFocus = false;
 		private int mouseDraggedPosX;
 
-		// TODO testing
+		/*// TODO testing
 		private SortingBar sb;
 
 		public SortingBarMouseListener(SortingBar sb) {
 			this.sb = sb;
-		}
+		}*/
 
 		@Override
 		// This listener will set the current selected tab as active
@@ -66,7 +63,7 @@ public class SortingBar extends JPanel implements Observer {
 
 			// XXX Marco: Magnus, im using this way to simulate an event..
 			// check code, it's temporary solution, works well
-			ResourceBundle lang = ControllerInterface.getLanguageBundle();
+			ResourceBundle lang = ControllerInterface.getLanguageBundle(); //Create method for changing lang.
 			String[] names = {
 					"mainFrame.middlePanel.sortingBar.tab.title.name",
 					"mainFrame.middlePanel.sortingBar.tab.date.name",
@@ -202,7 +199,7 @@ public class SortingBar extends JPanel implements Observer {
 						+ t.getWidth());
 			}
 
-			sb.firePropertyChange("offsets", null, sb.getTabOffsets());
+			//sb.firePropertyChange("offsets", null, sb.getTabOffsets());
 
 		}
 
@@ -288,69 +285,26 @@ public class SortingBar extends JPanel implements Observer {
 
 	}
 
-	public SortingBar(int[] sizes) {
-
-		mouseListener = new SortingBarMouseListener(this);
-
-		ResourceBundle lang = ControllerInterface.getLanguageBundle();
-
-		// XXX Marco modificiations
-
+	
+	//TODO DEFENSE!
+	public SortingBar(String[] tabNames, int[] tabWidths, int[] minTabWidths, int tabHeights, Color selectedTabColor, Color notSelectedTabColor) throws IllegalArgumentException {
+		
+		checkArguments(tabNames, tabWidths, minTabWidths);
+		
+		//mouseListener = new SortingBarMouseListener(this);
+		mouseListener = new SortingBarMouseListener();
 		sortingTabs = new ArrayList<SortingTab>();
-
-		sortingTabs.add(new SortingTab(lang
-				.getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
-				230, 30, sizes[0], 0, true, 20, true, false));
-		sortingTabs.add(new SortingTab(lang
-				.getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
-				200, 30, sizes[1], 0, false));
-		sortingTabs
-				.add(new SortingTab(
-						lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
-						120, 30, sizes[2], 0, false));
-		sortingTabs
-				.add(new SortingTab(
-						lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
-						123, 30, sizes[3], 0, false, 20, false, true));
-
-		//
-		// sortingTabs = new ArrayList<SortingTab>();
-		//
-		// sortingTabs.add(new SortingTab(lang
-		// .getString("mainFrame.middlePanel.sortingBar.tab.title.name"),
-		// sizes[0], 30, 0, 0, true, 20, true, false));
-		// sortingTabs.add(new SortingTab(lang
-		// .getString("mainFrame.middlePanel.sortingBar.tab.date.name"),
-		// sizes[1], 30, sizes[0], 0, false));
-		// sortingTabs
-		// .add(new SortingTab(
-		// lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
-		// sizes[2], 30, sizes[0]+sizes[1], 0, false));
-		// sortingTabs
-		// .add(new SortingTab(
-		// lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"),
-		// sizes[3], 30, sizes[0]+sizes[1]+sizes[2], 0, false, 20, false,
-		// true));
-		//
-		//
-
+		
+		addSortingTabs(tabNames, tabWidths, minTabWidths, tabHeights, selectedTabColor, notSelectedTabColor);
+		
+		setBarSize(tabHeights);
+		
 		activeTab = sortingTabs.get(0);
-
-		// TODO sotto va fixato con la somma delle sizes!
-		int size_x = 0;
-
-		for (int i = 0; i < sizes.length; i++)
-			size_x += sizes[i];
-		this.setPreferredSize(new Dimension(size_x + 1, 32));
-
-		this.setMinimumSize(new Dimension(size_x + 1, 32));
-		// this.setBackground(Color.WHITE);
+		sortingTabs.get(0).setFocus(true);
 
 		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-		ControllerInterface.registerAsObserver(this);
 	}
 
 	/**
@@ -366,7 +320,49 @@ public class SortingBar extends JPanel implements Observer {
 
 		return offsets;
 	}
+	
+	public List<SortingTab> getSortingTabs() {
+		return sortingTabs;
+	}
+	
+	//DEFENSIVE
+	public void setTabName(int index, String newName) {
+		sortingTabs.get(index).setName(newName);
+	}
+	
+	private void addSortingTabs(String[] tabNames, int[] tabWidths, int[] minTabWidths, int tabHeights, Color selectedTabColor, Color notSelectedTabColor) throws IllegalArgumentException {
+		
+		int offSet = 0;
+		for (int k = 0; k < tabNames.length; k++) {
+			sortingTabs.add(new SortingTab(tabNames[k], tabWidths[k], tabHeights, offSet, 0, false, minTabWidths[k], false, false));
+			offSet += tabWidths[k];
+		}
+		
+		if (sortingTabs.size() > 0) {
+			sortingTabs.get(0).setFixedLeftEdge(true);
+			sortingTabs.get(sortingTabs.size() - 1).setFixedRightEdge(true);
+		}
+	}
+	
+	private void setBarSize(int barHeight) {
+		int barWidth = 0;
 
+		for (SortingTab tab: sortingTabs) {
+			barWidth += tab.getWidth();
+		}
+			
+		this.setPreferredSize(new Dimension(barWidth + 1, barHeight));
+		this.setMinimumSize(new Dimension(barWidth + 1, barHeight));
+	}
+	
+	private void checkArguments(String[] tabNames, int[] tabWidths, int[] minTabWidths) throws IllegalArgumentException {
+		int len = tabNames.length;
+		
+		if	(len == 0 || tabWidths.length != len || minTabWidths.length != len) {
+			throw new IllegalArgumentException("Arrays of different sizes provided!");
+		}
+		
+	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (SortingTab tab : sortingTabs) {
@@ -374,31 +370,5 @@ public class SortingBar extends JPanel implements Observer {
 		}
 	}
 
-	// This is needed to observe the language changings, to change the labels on
-	// the tabs
-	public void update(Observable o, Object arg) {
-		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
-
-		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
-			ResourceBundle lang = ControllerInterface.getLanguageBundle();
-			sortingTabs
-					.get(0)
-					.setName(
-							lang.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));
-			sortingTabs
-					.get(1)
-					.setName(
-							lang.getString("mainFrame.middlePanel.sortingBar.tab.date.name"));
-			sortingTabs
-					.get(2)
-					.setName(
-							lang.getString("mainFrame.middlePanel.sortingBar.tab.category.name"));
-			sortingTabs
-					.get(3)
-					.setName(
-							lang.getString("mainFrame.middlePanel.sortingBar.tab.priority.name"));
-			revalidate();
-			repaint();
-		}
-	}
+	
 }
