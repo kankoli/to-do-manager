@@ -1,39 +1,4 @@
-/*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *
- *   - Neither the name of Oracle or the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package view.new_task_dialog;
-
-/*
- * GridBagLayoutDemo.java requires no other files.
- */
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -59,73 +24,89 @@ import view.custom_components.DatePicker;
 import view.custom_components.PriorityBar;
 
 import control.ControllerInterface;
+import control.ControllerInterface.DateFormat;
 
+/**
+ * 
+ * This class represents the add new task window with the
+ *function to add information to the new task.
+ * 
+ * @author Madde & Kadir
+ * 
+ */
 @SuppressWarnings("serial")
 public class NewTaskDialog extends JDialog implements Observer {
 
-	private ResourceBundle languageBundle;
-	
 	private JTextField nameField;
 	private JTextArea descriptionField;
-//	private JTextField dateField;
 	private DatePicker datePicker;
 	private JComboBox<String> cmbCategory;
-	private PriorityBar bar;
+	private PriorityBar bar; //the custom made "stop/redlight" priority bar
 
+	private JButton butOk;
+	private JButton butCanc;
+	
 	public NewTaskDialog() {
-		super();
-		languageBundle = ControllerInterface.getLanguageBundle();
+		super(); //Initialize the superclass J Diaolog  
+		ResourceBundle languageBundle = ControllerInterface.getLanguageBundle(); //language suppport
 
 		setTitle(languageBundle.getString("newTaskDialog.title"));
-		
+
 		JPanel pane = (JPanel) getContentPane();
 		pane.setBackground(Color.WHITE);
-		
+
 		pane.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		
+		GridBagConstraints c = new GridBagConstraints(); //GridbagConstraints contain information about how items i placed
+		c.fill = GridBagConstraints.HORIZONTAL; // fill the whole Jpanel horizontal 
+
 		nameField = new JTextField();
-		nameField.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.name")));
+		nameField.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.name")));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		pane.add(nameField, c);
 
 		descriptionField = new JTextArea();
-		descriptionField.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.desc")));
+		descriptionField.setBorder(BorderFactory
+				.createTitledBorder(languageBundle
+						.getString("task.taskInput.desc")));
 		descriptionField.setRows(3);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
-
-		descriptionField.setLineWrap(true);
+		
+		// Line wrapping for usability to see the whole description 
+		descriptionField.setLineWrap(true); 
 		descriptionField.setWrapStyleWord(true);
 		pane.add(descriptionField, c);
 
-//		dateField = new JTextField();
-//		dateField.setBorder(BorderFactory.createTitledBorder("Date"));
-//		dateField.setText(ControllerInterface.getDateFormat().toPattern());
-//		c.gridx = 0;
-//		c.gridy = 2;
-//		c.gridwidth = 2;
-//		pane.add(dateField, c);
-
 		datePicker = new DatePicker();
-		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.date")));
+		
+		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.date")
+				+ " "
+				+ ControllerInterface.getDateFormat().toPattern()));
+
+		
+		
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		pane.add(datePicker, c);
-
 		
-		
+		//Creating and list the categories 
 		cmbCategory = new JComboBox<String>();
+		
+		// we retrieve the hashtable (containing key - value pair).
+		// then we retrieve the keyset (all stored categories name)
+		// we add them as item in combobox
+		for (String catName : ControllerInterface.getCategories().keySet())
+			cmbCategory.addItem(catName);
 
-		for (Category ca : ControllerInterface.getCategories().values())
-			cmbCategory.addItem(ca.getName());
-
-		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.category"))); 
+		
+		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.category")));
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
@@ -133,15 +114,17 @@ public class NewTaskDialog extends JDialog implements Observer {
 		pane.add(cmbCategory, c);
 
 		bar = new PriorityBar(Task.Priority.NOT_SET);
-		bar.setBorder(BorderFactory.createTitledBorder(languageBundle.getString("task.taskInput.priority")));
+		bar.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.priority")));
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2;
 		bar.setBackground(Color.WHITE);
 		pane.add(bar, c);
 
-		JButton button = new JButton(languageBundle.getString("newTaskDialog.cancel"));
-		button.addActionListener(new ActionListener() {
+		butCanc = new JButton(
+				languageBundle.getString("newTaskDialog.cancel"));
+		butCanc.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -152,33 +135,23 @@ public class NewTaskDialog extends JDialog implements Observer {
 		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
 		c.insets = new Insets(10, 0, 0, 0); // top padding
 		c.gridx = 0; // aligned with button 2
-		c.gridy = 5; // third row
+		c.gridy = 5; // sixth row
 		c.gridwidth = 1;
-		pane.add(button, c);
+		pane.add(butCanc, c);
 
-		button = new JButton(languageBundle.getString("newTaskDialog.ok"));
+		butOk = new JButton(languageBundle.getString("newTaskDialog.ok"));
 
-		button.addActionListener(new ActionListener() {
+		// This action saves the new task 
+		butOk.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
 
 				String name = nameField.getText();
 
 				String description = descriptionField.getText();
 
-//				// TODO date picker
-//				Date date = null;
-//				try {
-//					date = ControllerInterface.getDateFormat()
-//							.parse(dateField.getText());
-//				} catch (ParseException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-
 				Date date = datePicker.getDate();
-				
+
 				Task.Priority priority = bar.getPriority();
 
 				boolean completed = false;
@@ -192,56 +165,98 @@ public class NewTaskDialog extends JDialog implements Observer {
 			}
 		});
 
+		//Position for OK button 
 		c.weighty = 1.0; // request any extra vertical space
-		c.anchor = GridBagConstraints.PAGE_END; // bottom of space
 		c.insets = new Insets(10, 0, 0, 0); // top padding
-		c.gridx = 1; // aligned with button 2
-		c.gridy = 5; // third row
+		c.gridx = 1; 
+		c.gridy = 5; 
 		c.gridwidth = 1;
-		pane.add(button, c);
+		pane.add(butOk, c);
 
 		pack();
 		setVisible(true);
-		
+		// The minimum height and width are approximated dynamically 
 		int minHeight = 0;
 		minHeight += nameField.getHeight();
 		minHeight += descriptionField.getHeight();
 		minHeight += nameField.getHeight();
-//		minHeight += dateField.getHeight();
 		minHeight += datePicker.getHeight();
 
 		minHeight += cmbCategory.getHeight();
-		minHeight += button.getHeight();
+		minHeight += butOk.getHeight();
 		minHeight *= 1.2;
 
 		int minWidth = 0;
 		minWidth += nameField.getWidth();
 		minWidth *= 1.2;
-		
-		setPreferredSize(new Dimension(minWidth,minHeight));
-		setMinimumSize(new Dimension(minWidth,minHeight));
+
+		setPreferredSize(new Dimension(minWidth, minHeight));
+		setMinimumSize(new Dimension(minWidth, minHeight));
 		setResizable(false);
-		
+
 		// Retrieve last (main frame) size from state
-		double sizeX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXSIZEKEY));
-		double sizeY = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINYSIZEKEY));
+		double sizeX = Double.parseDouble(ControllerInterface
+				.getProperty(GlobalValues.WINXSIZEKEY));
+		double sizeY = Double.parseDouble(ControllerInterface
+				.getProperty(GlobalValues.WINYSIZEKEY));
 
 		// retrieve last (main frame) location from state
-		double posX = Double.parseDouble(ControllerInterface.getProperty(GlobalValues.WINXPOSKEY));
+		double posX = Double.parseDouble(ControllerInterface
+				.getProperty(GlobalValues.WINXPOSKEY));
 		double posY = Double.parseDouble(ControllerInterface
 				.getProperty(GlobalValues.WINYPOSKEY));
-		
-		
-		setLocation((int) (posX + ((sizeX - minWidth) / 2)), (int) (posY + ((sizeY - minHeight) / 2)));
-		
+		// location is set to the centre of the main frame
+		setLocation((int) (posX + ((sizeX - minWidth) / 2)),
+				(int) (posY + ((sizeY - minHeight) / 2)));
+
+		// Here the object is register as an observer,
+		//added to the observer list of theobservarble 
+		ControllerInterface.registerAsObserver(this); 
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
+	//Update dialog by reload the text of components with the current language
+	
+	private void updateLanguagePresentation() {
+
+		
+		ResourceBundle languageBundle = ControllerInterface.getLanguageBundle();
+		
+		setTitle(languageBundle.getString("newTaskDialog.title"));
+
+		nameField.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.name")));
+
+		descriptionField.setBorder(BorderFactory
+				.createTitledBorder(languageBundle
+						.getString("task.taskInput.desc")));
+
+		datePicker.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.date")
+				+ " "
+				+ ControllerInterface.getDateFormat().toPattern()));
+
+		datePicker.switchDateFormat(DateFormat.values()[Integer
+				.parseInt(ControllerInterface
+						.getProperty(GlobalValues.DATEFORMATKEY))]);
+
+		
+		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle
+				.getString("task.taskInput.category")));
+
+		butOk.setText(languageBundle.getString("newTaskDialog.ok"));
+		butCanc.setText(languageBundle.getString("newTaskDialog.cancel"));
+
+	}
+
+	
+	// Behaviour of the NewtaskDialog when it receives a language change
+	@Override 
+	public void update(Observable o, Object arg) { 
 		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
 
 		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
-			languageBundle = ControllerInterface.getLanguageBundle();
+			
+			updateLanguagePresentation();
 			revalidate();
 			repaint();
 		}

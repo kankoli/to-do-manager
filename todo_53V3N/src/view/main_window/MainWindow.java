@@ -51,7 +51,7 @@ import control.ControllerInterface;
 @SuppressWarnings("serial")
 /**
  * This class is the main class of the project.
- * Many things need to be implemented, we didn't have time...
+ * It constitutes the main window of the application, holds all other components in JPanels inside a GridBagLayout.
  * @author Kadir
  *
  */
@@ -212,8 +212,7 @@ public class MainWindow extends JFrame implements Observer {
 		ControllerInterface.registerAsObserver(this);
 	}
 
-	// This methods creates and initializes menu
-
+	// This method creates and initializes menu
 	private void addMenu() {
 
 		ResourceBundle lang = ControllerInterface.getLanguageBundle();
@@ -235,6 +234,9 @@ public class MainWindow extends JFrame implements Observer {
 
 		menu.addSeparator();
 
+		
+		
+		
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
 				.getAction(ControllerInterface.ActionName.EXIT));

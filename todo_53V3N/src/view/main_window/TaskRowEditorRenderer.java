@@ -38,7 +38,7 @@ public class TaskRowEditorRenderer extends AbstractCellEditor implements
 
 	public Object getCellEditorValue() {
 
-		System.out.println("[Editor - getCellEditorValue]");
+//		System.out.println("[Editor - getCellEditorValue]");
 
 //		 curEditedTaskRow.setSelected(false);
 

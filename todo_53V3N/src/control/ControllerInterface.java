@@ -97,6 +97,9 @@ public final class ControllerInterface {
 				getAction(ControllerInterface.ActionName.TIMER));
 		autosaveTimer.start();
 
+		
+		
+		
 		// This makes a date like "31-13-2013 17:45"
 		// not valid!
 		for (SimpleDateFormat sdf : dateFormats)

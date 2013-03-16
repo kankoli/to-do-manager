@@ -4,29 +4,38 @@
     <task>
       <name>prova</name>
       <date>2012-01-01T02:05:14.464+01:00</date>
+<<<<<<< HEAD
       <priority>NORMAL</priority>
       <completed>false</completed>
       <category>Meeting</category>
+=======
+      <priority>LOW</priority>
+      <completed>true</completed>
+      <category>Amore!!&lt;3</category>
+>>>>>>> branch 'master' of https://github.com/kankoli/to-do-manager.git
       <description>asda</description>
-      <urgent>false</urgent>
+      <urgent>true</urgent>
     </task>
     <task>
-      <name>ciao</name>
-      <date>2013-01-27T12:30:00.000+01:00</date>
+<<<<<<< HEAD
+=======
+      <name>Hi</name>
+      <date>2013-02-17T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
-      <completed>false</completed>
-      <category>Sport</category>
+      <completed>true</completed>
+      <category>Fun</category>
       <description>this is new!</description>
-      <urgent>false</urgent>
+      <urgent>true</urgent>
     </task>
     <task>
+>>>>>>> branch 'master' of https://github.com/kankoli/to-do-manager.git
       <name>Hi 3</name>
       <date>2013-02-20T12:37:00.000+01:00</date>
       <priority>NORMAL</priority>
       <completed>true</completed>
       <category>Meeting</category>
       <description>this is new!</description>
-      <urgent>false</urgent>
+      <urgent>true</urgent>
     </task>
     <task>
       <name>Hi2</name>
@@ -38,6 +47,7 @@
       <urgent>true</urgent>
     </task>
     <task>
+<<<<<<< HEAD
       <name>H4i</name>
       <date>2013-02-23T12:30:00.000+01:00</date>
       <priority>HIGH</priority>
@@ -49,10 +59,41 @@
     <task>
       <name>Hi</name>
       <date>2013-02-27T12:30:00.000+01:00</date>
+=======
+      <name>hdjdh</name>
+      <date>2013-03-15T18:38:08.268+01:00</date>
+>>>>>>> branch 'master' of https://github.com/kankoli/to-do-manager.git
       <priority>LOW</priority>
       <completed>false</completed>
       <category>Fun</category>
-      <description>this is new!</description>
+      <description>hdhd</description>
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>hsg</name>
+      <date>2013-03-15T18:38:20.830+01:00</date>
+      <priority>NOT_SET</priority>
+      <completed>false</completed>
+      <category>Fun</category>
+      <description>kd</description>
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>jd</name>
+      <date>2013-03-15T18:38:37.960+01:00</date>
+      <priority>NOT_SET</priority>
+      <completed>false</completed>
+      <category>Fun</category>
+      <description />
+      <urgent>true</urgent>
+    </task>
+    <task>
+      <name>TentaP</name>
+      <date>2013-03-18T08:00:15.143+01:00</date>
+      <priority>NORMAL</priority>
+      <completed>false</completed>
+      <category>Skola</category>
+      <description>Plugg!!!</description>
       <urgent>true</urgent>
     </task>
     <task>
@@ -79,12 +120,20 @@
       <color>-1104603</color>
     </category>
     <category>
+      <name>Amore!!&lt;3</name>
+      <color>-65536</color>
+    </category>
+    <category>
       <name>Meeting</name>
       <color>-7283286</color>
     </category>
     <category>
       <name>Sport</name>
       <color>-14752099</color>
+    </category>
+    <category>
+      <name>Skola</name>
+      <color>-65536</color>
     </category>
   </categories>
 </todoManagerData>
