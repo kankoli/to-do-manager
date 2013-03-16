@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
+import model.DataModel;
+
 import control.ControllerInterface;
 
 @SuppressWarnings("serial")
@@ -302,9 +304,9 @@ public class ToDoSortingBar extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			tab1.setName(lang
 					.getString("mainFrame.middlePanel.sortingBar.tab.title.name"));

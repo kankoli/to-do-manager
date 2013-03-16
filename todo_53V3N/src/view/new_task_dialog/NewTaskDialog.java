@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import model.DataModel;
 import model.Task;
 
 import utility.GlobalValues;
@@ -251,9 +252,9 @@ public class NewTaskDialog extends JDialog implements Observer {
 	// Behaviour of the NewtaskDialog when it receives a language change
 	@Override 
 	public void update(Observable o, Object arg) { 
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			
 			updateLanguagePresentation();
 			revalidate();

@@ -15,14 +15,12 @@ import shared_actions.TimerAction;
 import model.DataModel;
 
 /**
- * Actions controller class. Holds the action classes for 
+ * Actions controller class. Holds the action classes for
  * {@linkplain ControllerInterface} to access.
  * 
  * @author Marco Dondio
  * 
  */
-
-
 public final class ActionsController {
 
 	private DataModel dataModel;
@@ -37,7 +35,7 @@ public final class ActionsController {
 
 	private static ImageIcon addtask = new ImageIcon(
 			ControllerInterface.getResource("assets/Icons/I_Plus.png"));
-	
+
 	public ActionsController(DataModel dataModel) {
 
 		this.dataModel = dataModel;
@@ -53,8 +51,7 @@ public final class ActionsController {
 
 		exitAction = new ExitAction(
 				lang.getString("shared_actions.exitaction.text"), null,
-				lang.getString("shared_actions.exitaction.desc"),
-				KeyEvent.VK_Q);
+				lang.getString("shared_actions.exitaction.desc"), KeyEvent.VK_Q);
 
 		newTask = new NewTaskAction(
 				lang.getString("shared_actions.newtaskaction.text"), addtask,
@@ -70,18 +67,17 @@ public final class ActionsController {
 				lang.getString("shared_actions.sorttaskaction.text"), null,
 				lang.getString("shared_actions.sorttaskaction.desc"),
 				KeyEvent.VK_O);
-		
-		timerAction = new TimerAction(); 
+
+		timerAction = new TimerAction();
 
 	}
 
 	/**
 	 * Retrieves an action from the Controller
 	 * 
-	 * @param actionName
+	 * @param actionName The ActionName constant indicating which action to retrieve
 	 * @return
 	 */
-
 	public final Action getAction(ActionName actionName) {
 
 		switch (actionName) {
@@ -110,11 +106,6 @@ public final class ActionsController {
 
 		ResourceBundle lang = dataModel.getLanguageBundle();
 
-//		changeLanguage.putValue(Action.NAME,
-//				lang.getString("shared_actions.changelanguageaction.text"));
-//		changeLanguage.putValue(Action.SHORT_DESCRIPTION,
-//				lang.getString("shared_actions.changelanguageaction.desc"));
-
 		exitAction.putValue(Action.NAME,
 				lang.getString("shared_actions.exitaction.text"));
 		exitAction.putValue(Action.SHORT_DESCRIPTION,
@@ -129,11 +120,5 @@ public final class ActionsController {
 				lang.getString("shared_actions.newcategoryaction.text"));
 		newCategory.putValue(Action.SHORT_DESCRIPTION,
 				lang.getString("shared_actions.newcategoryaction.desc"));
-
-//		sortTasks.putValue(Action.NAME,
-//				lang.getString("shared_actions.sorttaskaction.text"));
-//		sortTasks.putValue(Action.SHORT_DESCRIPTION,
-//				lang.getString("shared_actions.sorttaskaction.desc"));
-
 	}
 }

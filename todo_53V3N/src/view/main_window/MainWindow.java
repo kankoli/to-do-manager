@@ -647,16 +647,16 @@ public class MainWindow extends JFrame implements Observer {
 
 	public void update(Observable o, Object arg) {
 
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 
 			addMenu();
 			revalidate();
 			repaint();
 		}
 
-		else if (msg == ControllerInterface.ChangeMessage.CHANGED_THEME) {
+		else if (msg == DataModel.ChangeMessage.CHANGED_THEME) {
 			loadTheme();
 		}
 

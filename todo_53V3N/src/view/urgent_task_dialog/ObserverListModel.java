@@ -8,6 +8,7 @@ import javax.swing.DefaultListModel;
 
 import control.ControllerInterface;
 
+import model.DataModel;
 import model.Task;
 
 /**
@@ -31,10 +32,10 @@ public class ObserverListModel<T> extends DefaultListModel implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg1;
 
 		// if urgent tasks are changed, reset and update the data model 
-		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) {
+		if (msg == DataModel.ChangeMessage.EDIT_URGENT) {
 			removeAllElements();
 			List<Task> tasks = ControllerInterface.getTaskListUrgent(true);
 			for (Task t : tasks)

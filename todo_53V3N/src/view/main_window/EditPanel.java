@@ -30,6 +30,7 @@ import view.custom_components.DatePicker;
 import view.custom_components.PriorityBar;
 
 import model.Category;
+import model.DataModel;
 import model.Task;
 
 /**
@@ -335,23 +336,23 @@ public class EditPanel extends JPanel implements Observer,
 
 	public void update(Observable o, Object arg) {
 
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			languageBundle = ControllerInterface.getLanguageBundle();
 			updateLanguagePresentation();
 			revalidate();
 			repaint();
 		}
 		// TODO to be fixed.. temporary behaviour
-		if (msg == ControllerInterface.ChangeMessage.DELETED_TASK) {
+		if (msg == DataModel.ChangeMessage.DELETED_TASK) {
 			showingTask = false;
 			setTaskPresentationVisible(false);
 		}
 
 		// XXX Marco: i added this
 		// Force reload of side panel, to refresh with new category
-		if (msg == ControllerInterface.ChangeMessage.NEW_CATEGORY) {
+		if (msg == DataModel.ChangeMessage.NEW_CATEGORY) {
 			updateCategoryComboBox();
 		}
 

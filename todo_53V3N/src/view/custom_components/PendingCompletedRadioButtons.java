@@ -13,6 +13,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import model.DataModel;
+
 import control.ControllerInterface;
 
 /**
@@ -64,9 +66,9 @@ public class PendingCompletedRadioButtons extends JPanel implements
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg1;
 		
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			btnPending.setText(lang
 					.getString("mainFrame.middlePanel.button.completed.name"));

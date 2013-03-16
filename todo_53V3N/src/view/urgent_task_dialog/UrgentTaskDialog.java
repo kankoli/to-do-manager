@@ -27,18 +27,21 @@ import javax.swing.SwingUtilities;
 import utility.GlobalResources;
 import utility.GlobalValues;
 
+import model.DataModel;
 import model.Task;
 
 import control.ControllerInterface;
+
 /**
- * This class represent the urgent task dialog, 
- *  it's possible to add and delete task to urgent list.   
- * @author Kadir & Madelen 
- *
+ * This class represent the urgent task dialog, it's possible to add and delete
+ * task to urgent list.
+ * 
+ * @author Kadir & Madelen
+ * 
  */
 @SuppressWarnings("serial")
 public class UrgentTaskDialog extends JDialog implements Observer {
-	
+
 	private ResourceBundle languageBundle;
 	private JLabel lblName;
 	private JLabel lblDate;
@@ -47,7 +50,7 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 	public UrgentTaskDialog() {
 		super();
 
-		//Load for language support 
+		// Load for language support
 		languageBundle = ControllerInterface.getLanguageBundle();
 
 		setTitle(languageBundle.getString("urgentTaskDialog.title"));
@@ -55,7 +58,6 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		int minHeight = GlobalValues.URGENT_MINYSIZE;
 		int minWidth = GlobalValues.URGENT_MINXSIZE;
 
-	
 		JPanel pane = (JPanel) getContentPane();
 
 		// pane.setBackground(Color.WHITE);
@@ -75,8 +77,8 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		c.gridy = 0;
 		c.gridwidth = 1;
 		pane.add(cmbTasks, c);
-        
-		//create the addUrgentTask button 
+
+		// create the addUrgentTask button
 		JButton btn = new JButton();
 		btn.setIcon(GlobalResources.addUrgentIcon);
 		btn.setMinimumSize(new Dimension(45, 45));
@@ -90,23 +92,24 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 				cmbTasks.setUrgent();
 			}
 		});
-		//The position for addUrgentButton
+		// The position for addUrgentButton
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		pane.add(btn, c);
-        
 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		//Adding the name to the name column in the urgent task table
+		// Adding the name to the name column in the urgent task table
 		lblName = new JLabel(
-				languageBundle.getString("urgentTaskDialog.labelName")); // Language support
+				languageBundle.getString("urgentTaskDialog.labelName")); // Language
+																			// support
 		lblName.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				Color.darkGray));
 		pnlHeader.add(lblName);
-        //adding the date to the date column in the urgent task table
+		// adding the date to the date column in the urgent task table
 		lblDate = new JLabel(
-				languageBundle.getString("urgentTaskDialog.labelDate")); // Language support
+				languageBundle.getString("urgentTaskDialog.labelDate")); // Language
+																			// support
 		lblDate.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 				Color.darkGray));
 		pnlHeader.add(lblDate);
@@ -115,11 +118,20 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		c.gridwidth = 2;
 		pane.add(pnlHeader, c);
 
-		final JList<Task> lst = new JList<Task>(); // Creating the Urgent task list
+		final JList<Task> lst = new JList<Task>(); // Creating the Urgent task
+													// list
 
-		ObserverListModel<Task> dlm = new ObserverListModel<Task>(); //Creatig a list model to fill in lst, 
-		lst.setModel(dlm); 											// in other words the actual data is find here
-		lst.setCellRenderer(new UrgentCellRenderer());  // the custom cell renderer is used
+		ObserverListModel<Task> dlm = new ObserverListModel<Task>(); // Creatig
+																		// a
+																		// list
+																		// model
+																		// to
+																		// fill
+																		// in
+																		// lst,
+		lst.setModel(dlm); // in other words the actual data is find here
+		lst.setCellRenderer(new UrgentCellRenderer()); // the custom cell
+														// renderer is used
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -134,7 +146,9 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 				handle(e);
 			}
 
-			public void handle(MouseEvent e) {				// Function for right clicking and deleting task from urgent task list
+			public void handle(MouseEvent e) { // Function for right clicking
+												// and deleting task from urgent
+												// task list
 				if (SwingUtilities.isRightMouseButton(e)) {
 					// The item is set as selected
 					lst.setSelectedIndex(lst.locationToIndex(e.getPoint()));
@@ -148,8 +162,13 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 									lst.getSelectedValue(), false);
 						}
 					});
-					menu.add(item);						
-					menu.show(e.getComponent(), e.getX(), e.getY()); // show menu at the click point
+					menu.add(item);
+					menu.show(e.getComponent(), e.getX(), e.getY()); // show
+																		// menu
+																		// at
+																		// the
+																		// click
+																		// point
 				}
 			}
 		});
@@ -172,8 +191,12 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 		double posY = Double.parseDouble(ControllerInterface
 				.getProperty(GlobalValues.WINYPOSKEY));
 
-		setLocation((int) (posX + ((sizeX - minWidth) / 2)), // Set location to the pop up window "urgent Task" 
-		(int) (posY + ((sizeY - minHeight) / 2)));//middle of task window
+		setLocation((int) (posX + ((sizeX - minWidth) / 2)), // Set location to
+																// the pop up
+																// window
+																// "urgent Task"
+				(int) (posY + ((sizeY - minHeight) / 2)));// middle of task
+															// window
 
 		pack();
 		setVisible(true);
@@ -183,9 +206,9 @@ public class UrgentTaskDialog extends JDialog implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			languageBundle = ControllerInterface.getLanguageBundle();
 			updateLanguagePresentation();
 			revalidate();

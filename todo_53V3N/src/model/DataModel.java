@@ -31,7 +31,6 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import control.ControllerInterface.ChangeMessage;
 
 import utility.GeneralFunctions;
 import utility.GlobalValues;
@@ -58,6 +57,12 @@ public final class DataModel extends Observable {
 	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
 	private static final SimpleDateFormat RFC822DATETIME = new SimpleDateFormat(
 			"yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	
+	// Messages for notifying relevant observer classes.
+	public static enum ChangeMessage {
+		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
+	};
+
 
 	// Internal data structures
 	private List<Task> taskList;

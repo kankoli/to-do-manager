@@ -7,6 +7,8 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import model.DataModel;
+
 import utility.GlobalValues;
 
 import control.ControllerInterface;
@@ -97,9 +99,9 @@ public class FlagBar extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			this.language = GlobalValues.Languages.valueOf(ControllerInterface.getProperty(GlobalValues.LANGUAGEKEY));
 			setButtons();
 		}

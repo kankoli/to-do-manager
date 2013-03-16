@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 
+import model.DataModel;
 import model.Task;
 
 import control.ControllerInterface;
@@ -43,9 +44,9 @@ public class ObserverComboBox extends JComboBox<Object> implements Observer {
 	
 	@Override 
 	public void update(Observable arg0, Object arg1) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg1;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg1;
 
-		if (msg == ControllerInterface.ChangeMessage.EDIT_URGENT) { // If all items are changed remove items
+		if (msg == DataModel.ChangeMessage.EDIT_URGENT) { // If all items are changed remove items
 			removeAllItems();
 			insertItemAt("Select task to add...", 0);
 			List<Task> nonUrgentTasks = ControllerInterface.getTaskListUrgent(false);
@@ -54,7 +55,7 @@ public class ObserverComboBox extends JComboBox<Object> implements Observer {
 			}
 			setSelectedIndex(0);
 		}
-		else if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		else if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			languageBundle = ControllerInterface.getLanguageBundle();
 			removeItemAt(0);
 			insertItemAt(languageBundle.getString("task.taskInput.selectTask"), 0);	

@@ -50,10 +50,6 @@ public final class ControllerInterface {
 		CHANGELANG, EXIT, NEWTASK, NEWCAT, SORT, TIMER
 	};
 
-	// Messages for notifying relevant observer classes.
-	public static enum ChangeMessage {
-		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
-	};
 
 	public static enum DateFormat {
 		ITALIAN, SWEDISH
@@ -83,7 +79,7 @@ public final class ControllerInterface {
 	 * 
 	 * @param db
 	 */
-	public static void init(DataModel db) {
+	public static final void init(DataModel db) {
 		dataModel = db;
 
 		dc = new DataController(dataModel);
@@ -96,9 +92,6 @@ public final class ControllerInterface {
 		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL,
 				getAction(ControllerInterface.ActionName.TIMER));
 		autosaveTimer.start();
-
-		
-		
 		
 		// This makes a date like "31-13-2013 17:45"
 		// not valid!
@@ -134,7 +127,7 @@ public final class ControllerInterface {
 	 * @param categoryColor
 	 * @throws InvalidCategoryException
 	 */
-	public static void addCategory(String categoryName, Color categoryColor)
+	public static final void addCategory(String categoryName, Color categoryColor)
 			throws InvalidCategoryException {
 		dc.addCategory(categoryName, categoryColor);
 	}
@@ -145,7 +138,7 @@ public final class ControllerInterface {
 	 * @param ordering
 	 *            type of ordering
 	 */
-	public static void sortTasks(SortType ordering) {
+	public static final void sortTasks(SortType ordering) {
 		dc.sortTasks(ordering);
 	}
 
@@ -155,7 +148,7 @@ public final class ControllerInterface {
 	 * @return The whole list of tasks
 	 * @deprecated
 	 */
-	public final List<Task> getTaskList() {
+	public static final List<Task> getTaskList() {
 		return dc.getTaskList();
 	}
 
@@ -165,7 +158,7 @@ public final class ControllerInterface {
 	 * 
 	 * @return A list of tasks
 	 */
-	public static List<Task> getFilteredTaskList() {
+	public static final List<Task> getFilteredTaskList() {
 		return dc.getFilteredTaskList();
 	}
 
@@ -176,7 +169,7 @@ public final class ControllerInterface {
 	 *            - true for urgent tasks
 	 * @return A list of tasks
 	 */
-	public static List<Task> getTaskListUrgent(boolean b) {
+	public static final List<Task> getTaskListUrgent(boolean b) {
 		return dc.getTaskListUrgent(b);
 	}
 
@@ -190,7 +183,7 @@ public final class ControllerInterface {
 	 * @param categoryName
 	 * @param description
 	 */
-	public static void addTask(String name, Date date, Task.Priority priority,
+	public static final void addTask(String name, Date date, Task.Priority priority,
 			Boolean completed, String categoryName, String description) {
 		dc.addTask(name, date, priority, completed, categoryName, description);
 	}
@@ -208,7 +201,7 @@ public final class ControllerInterface {
 	 * @throws InvalidCategoryException
 	 * @throws InvalidDateException
 	 */
-	public static void editTask(Task task, String name, Date date,
+	public static final void editTask(Task task, String name, Date date,
 			Priority priority, Boolean completed, String categoryName,
 			String description) throws InvalidCategoryException {
 		dc.editTask(task, name, date, priority, completed, categoryName,
@@ -220,7 +213,7 @@ public final class ControllerInterface {
 	 * 
 	 * @param task
 	 */
-	public static void deleteTask(Task task) {
+	public static final void deleteTask(Task task) {
 		dc.deleteTask(task);
 	}
 
@@ -229,7 +222,7 @@ public final class ControllerInterface {
 	 * 
 	 * @param task
 	 */
-	public static void setUrgent(Task task, boolean b) {
+	public static final void setUrgent(Task task, boolean b) {
 		dc.setUrgent(task, b);
 	}
 
@@ -238,7 +231,7 @@ public final class ControllerInterface {
 	 * 
 	 * @return Categories mapped with their names
 	 */
-	public static Map<String, Category> getCategories() {
+	public static final Map<String, Category> getCategories() {
 		return dc.getCategories();
 	}
 
@@ -248,7 +241,7 @@ public final class ControllerInterface {
 	 * @param actionName
 	 * @return An action
 	 */
-	public static Action getAction(ActionName actionName) {
+	public static final Action getAction(ActionName actionName) {
 		return ac.getAction(actionName);
 	}
 
@@ -258,7 +251,7 @@ public final class ControllerInterface {
 	 * @param key
 	 * @return The value of the property
 	 */
-	public static String getProperty(String key) {
+	public static final String getProperty(String key) {
 		return pc.getProperty(key);
 	}
 
@@ -270,7 +263,7 @@ public final class ControllerInterface {
 	 * @param notifyObservers
 	 *            - indicates whether the property change should fire an event
 	 */
-	public static void setProperty(String key, String value,
+	public static final void setProperty(String key, String value,
 			boolean notifyObservers) {
 		pc.setProperty(key, value, notifyObservers);
 	}
@@ -280,7 +273,7 @@ public final class ControllerInterface {
 	 * 
 	 * @return A SimpleDateFormat object
 	 */
-	public static SimpleDateFormat getDateFormat() {
+	public static final SimpleDateFormat getDateFormat() {
 		return dateFormats[Integer
 				.parseInt(getProperty(GlobalValues.DATEFORMATKEY))];
 	}
@@ -291,7 +284,7 @@ public final class ControllerInterface {
 	 * @param df
 	 *            - DateFormat object
 	 */
-	public static void setDateFormat(DateFormat df) {
+	public static final void setDateFormat(DateFormat df) {
 
 		setProperty(GlobalValues.DATEFORMATKEY, Integer.toString(df.ordinal()),
 				true);
@@ -302,7 +295,7 @@ public final class ControllerInterface {
 	 * 
 	 * @return A ResourceBundle object
 	 */
-	public static ResourceBundle getLanguageBundle() {
+	public static final ResourceBundle getLanguageBundle() {
 		return pc.getLanguageBundle();
 	}
 
@@ -311,7 +304,7 @@ public final class ControllerInterface {
 	 * 
 	 * @param language
 	 */
-	public static void setLanguage(Languages language) {
+	public static final void setLanguage(Languages language) {
 
 		pc.setLanguage(language);
 
@@ -326,7 +319,7 @@ public final class ControllerInterface {
 	 * 
 	 * @return A Properties object
 	 */
-	public static Properties getThemeBundle() {
+	public static final Properties getThemeBundle() {
 		return curTheme;
 	}
 
@@ -337,7 +330,7 @@ public final class ControllerInterface {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public static void setTheme(Themes theme) throws FileNotFoundException,
+	public static final void setTheme(Themes theme) throws FileNotFoundException,
 			IOException {
 		// XXX Marco: im managing theme at this level, you think it's good?
 		// i still want to use the classloader
@@ -358,7 +351,7 @@ public final class ControllerInterface {
 	 *            - true for viewing completed tasks, false for viewing pending
 	 *            tasks.
 	 */
-	public static void setIsViewingCompletedTasks(boolean b) {
+	public static final void setIsViewingCompletedTasks(boolean b) {
 		dc.setIsViewingCompletedTasks(b);
 	}
 
@@ -367,7 +360,7 @@ public final class ControllerInterface {
 	 * 
 	 * @param o
 	 */
-	public static void registerAsObserver(Observer o) {
+	public static final void registerAsObserver(Observer o) {
 		oc.registerAsObserver(o);
 	}
 
@@ -377,7 +370,7 @@ public final class ControllerInterface {
 	 * @param name
 	 * @return URL
 	 */
-	public static URL getResource(String name) {
+	public static final URL getResource(String name) {
 		return cl.getResource(name);
 	}
 
@@ -385,7 +378,7 @@ public final class ControllerInterface {
 	/**
 	 * Saves the application state (tasks, properties, etc.) into files.
 	 */
-	public static void saveDB() {
+	public static final void saveDB() {
 		try {
 			dataModel.saveDB();
 		} catch (FileNotFoundException e) {
@@ -402,7 +395,7 @@ public final class ControllerInterface {
 	 * 
 	 * @param t
 	 */
-	public static void toggleCompleted(Task t) {
+	public static final void toggleCompleted(Task t) {
 		dc.toggleCompleted(t);
 	}
 }

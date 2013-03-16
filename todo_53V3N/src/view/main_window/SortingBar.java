@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 import javax.swing.Action;
 import javax.swing.JPanel;
 
+import model.DataModel;
+
 import control.ControllerInterface;
 import control.ControllerInterface.ActionName;
 
@@ -375,9 +377,9 @@ public class SortingBar extends JPanel implements Observer {
 	// This is needed to observe the language changings, to change the labels on
 	// the tabs
 	public void update(Observable o, Object arg) {
-		ControllerInterface.ChangeMessage msg = (ControllerInterface.ChangeMessage) arg;
+		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
-		if (msg == ControllerInterface.ChangeMessage.CHANGED_PROPERTY) {
+		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
 			ResourceBundle lang = ControllerInterface.getLanguageBundle();
 			sortingTabs
 					.get(0)
