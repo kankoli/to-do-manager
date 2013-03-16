@@ -103,13 +103,13 @@ public final class DatePicker extends JPanel implements ActionListener {
 	private final void addDateBoxes(DateFormat dateFormat) {
 
 		switch (dateFormat) {
-		case ITALIAN:
+		case DDMMYYY:
 			add(combos[DatePart.DAY.ordinal()]);
 			add(combos[DatePart.MONTH.ordinal()]);
 			add(combos[DatePart.YEAR.ordinal()]);
 			break;
 
-		case SWEDISH:
+		case YYYYMMDD:
 			add(combos[DatePart.YEAR.ordinal()]);
 			add(combos[DatePart.MONTH.ordinal()]);
 			add(combos[DatePart.DAY.ordinal()]);

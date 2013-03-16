@@ -20,7 +20,6 @@ import utility.GlobalValues.Languages;
 import utility.GlobalValues.Themes;
 
 import exceptions.InvalidCategoryException;
-import exceptions.InvalidDateException;
 
 import model.Category;
 import model.Task;
@@ -52,7 +51,7 @@ public final class ControllerInterface {
 
 
 	public static enum DateFormat {
-		ITALIAN, SWEDISH
+		DDMMYYY, YYYYMMDD
 	};
 
 	private static SimpleDateFormat[] dateFormats = {
@@ -199,7 +198,6 @@ public final class ControllerInterface {
 	 * @param categoryName
 	 * @param description
 	 * @throws InvalidCategoryException
-	 * @throws InvalidDateException
 	 */
 	public static final void editTask(Task task, String name, Date date,
 			Priority priority, Boolean completed, String categoryName,
@@ -382,10 +380,8 @@ public final class ControllerInterface {
 		try {
 			dataModel.saveDB();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

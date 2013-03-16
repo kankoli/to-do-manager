@@ -13,12 +13,12 @@ import model.Task;
  */
 public final class DateComparator implements Comparator<Task> {
 
-	public int compare(Task arg0, Task arg1) {
+	// now im using default Java date comparison
+	public final int compare(Task arg0, Task arg1) {
 
 		Date val0 = arg0.getDate();
 		Date val1 = arg1.getDate();
 
-		// now im using default Java date comparison
 		return val0.compareTo(val1);
 	}
 }

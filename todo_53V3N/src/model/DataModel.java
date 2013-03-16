@@ -444,7 +444,7 @@ public final class DataModel extends Observable {
 	/**
 	 * This method is called to add a new task to the data Model
 	 * 
-	 * @param task
+	 * @param task The task to be added 
 	 */
 	public final void addTask(Task task) {
 		taskList.add(task);
@@ -452,7 +452,14 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * This method is called to edit an existing task
+	 * This method will be called to edit an existing task with the passed values
+	 * @param task
+	 * @param name
+	 * @param date
+	 * @param prio
+	 * @param completed
+	 * @param c
+	 * @param description
 	 */
 	public final void editTask(Task task, String name, Date date,
 			Priority prio, Boolean completed, Category c, String description) {
@@ -512,8 +519,12 @@ public final class DataModel extends Observable {
 		hasChanged(ChangeMessage.DELETED_CATEGORY);
 	}
 
-	public void setIsViewingCompletedTasks(boolean b) {
-		this.isViewingCompletedTasks = b;
+	/**
+	 * This method sets the viewing mode of completed task to viewMode
+	 * @param viewMode The boolean indicating wheter we want completed or not task to be displayed
+	 */
+	public final void setIsViewingCompletedTasks(boolean viewMode) {
+		this.isViewingCompletedTasks = viewMode;
 		hasChanged(ChangeMessage.CHANGED_FILTER);
 	}
 
@@ -531,12 +542,21 @@ public final class DataModel extends Observable {
 		notifyObservers(msg);
 	}
 
-	public void setUrgent(Task task, boolean b) {
-		task.setUrgent(b);
+	/**
+	 * This method marks urgentStatus of task as urgentStatus
+	 * @param task
+	 * @param b
+	 */
+	public final void setUrgent(Task task, boolean urgentStatus) {
+		task.setUrgent(urgentStatus);
 		hasChanged(ChangeMessage.EDIT_URGENT);
 	}
 
-	public void toggleCompleted(Task task) {
+	/**
+	 * This method will switch completed status of a task.
+	 * @param task The task to be switched
+	 */
+	public final void toggleCompleted(Task task) {
 		task.setCompleted(!task.getCompleted());
 		hasChanged(ChangeMessage.EDIT_TASK);
 	}

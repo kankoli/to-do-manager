@@ -12,8 +12,9 @@ import model.Task;
  */
 public final class CategoryComparator implements Comparator<Task> {
 
-	public int compare(Task arg0, Task arg1) {		
-		// default alphabetical sorting
-		return arg0.getCategory().getName().compareTo(arg1.getCategory().getName());
+	// default alphabetical sorting
+	public final int compare(Task arg0, Task arg1) {
+		return arg0.getCategory().getName()
+				.compareTo(arg1.getCategory().getName());
 	}
 }

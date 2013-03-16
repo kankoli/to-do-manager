@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-
 import control.ControllerInterface.SortType;
 
 import exceptions.InvalidCategoryException;
-import exceptions.InvalidDateException;
 
 import model.Category;
 import model.Task;
@@ -102,8 +100,8 @@ public final class DataController {
 	}
 
 	/**
-	 * This methods retrieves completed (true) or
-	 * uncompleted tasks list form data model
+	 * This methods retrieves completed (true) or uncompleted tasks list form
+	 * data model
 	 * 
 	 * @return
 	 */
@@ -165,13 +163,10 @@ public final class DataController {
 	 * @param categoryName
 	 * @param description
 	 * @throws InvalidCategoryException
-	 * @throws InvalidDateException
 	 */
-	public final void editTask(Task task, String name,
-			Date date, Priority priority, Boolean completed,
-			String categoryName, String description)
-			throws InvalidCategoryException {
-
+	public final void editTask(Task task, String name, Date date,
+			Priority priority, Boolean completed, String categoryName,
+			String description) throws InvalidCategoryException {
 
 		Category c = dataModel.getCategories().get(categoryName);
 
@@ -181,7 +176,8 @@ public final class DataController {
 		// TODO maybe before calling datamodel method it can verify
 		// if ANY data has changed with respect to old values
 		// this will avoid useless notifications
-		dataModel.editTask(task, name, date, priority, completed, c, description);
+		dataModel.editTask(task, name, date, priority, completed, c,
+				description);
 	}
 
 	/**
@@ -202,15 +198,15 @@ public final class DataController {
 		return dataModel.getCategories();
 	}
 
-	public void setIsViewingCompletedTasks(boolean b) {
+	public final void setIsViewingCompletedTasks(boolean b) {
 		dataModel.setIsViewingCompletedTasks(b);
 	}
 
-	public void setUrgent(Task task, boolean b) {
+	public final void setUrgent(Task task, boolean b) {
 		dataModel.setUrgent(task, b);
 	}
 
-	public void toggleCompleted(Task t) {
-		dataModel.toggleCompleted(t);		
+	public final void toggleCompleted(Task t) {
+		dataModel.toggleCompleted(t);
 	}
 }

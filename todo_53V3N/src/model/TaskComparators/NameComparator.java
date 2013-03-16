@@ -12,9 +12,8 @@ import model.Task;
  */
 public final class NameComparator implements Comparator<Task> {
 
-	public int compare(Task arg0, Task arg1) {		
-		// default alphabetical sorting
-		
+	// we compare using default alphabetical sorting
+	public final int compare(Task arg0, Task arg1) {
 		return arg1.getName().compareTo(arg0.getName());
 	}
 }

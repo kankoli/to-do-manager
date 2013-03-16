@@ -12,7 +12,8 @@ import model.Task;
  */
 public final class PriorityComparator implements Comparator<Task> {
 
-	public int compare(Task arg0, Task arg1) {		
+	// We compare using priority level.
+	public final int compare(Task arg0, Task arg1) {
 		int val0 = arg0.getPrio().ordinal();
 		int val1 = arg1.getPrio().ordinal();
 

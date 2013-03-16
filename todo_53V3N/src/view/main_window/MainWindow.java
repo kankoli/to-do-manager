@@ -325,7 +325,7 @@ public class MainWindow extends JFrame implements Observer {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControllerInterface
-						.setDateFormat(ControllerInterface.DateFormat.ITALIAN);
+						.setDateFormat(ControllerInterface.DateFormat.DDMMYYY);
 
 			}
 		});
@@ -336,7 +336,7 @@ public class MainWindow extends JFrame implements Observer {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControllerInterface
-						.setDateFormat(ControllerInterface.DateFormat.SWEDISH);
+						.setDateFormat(ControllerInterface.DateFormat.YYYYMMDD);
 
 			}
 		});
