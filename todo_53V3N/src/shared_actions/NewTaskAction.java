@@ -7,6 +7,11 @@ import javax.swing.ImageIcon;
 
 import view.new_task_dialog.NewTaskDialog;
 
+/**
+ * This task represents the opening of new task dialog.
+ * @author Marco Dondio
+ *
+ */
 @SuppressWarnings("serial")
 public final class NewTaskAction extends AbstractAction {
 	

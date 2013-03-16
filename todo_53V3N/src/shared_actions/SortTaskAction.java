@@ -9,6 +9,11 @@ import javax.swing.ImageIcon;
 import control.ControllerInterface;
 import control.ControllerInterface.SortType;
 
+/**
+ * This class represent the sorting action.
+ * @author Marco Dondio
+ *
+ */
 @SuppressWarnings("serial")
 public final class SortTaskAction extends AbstractAction {
 

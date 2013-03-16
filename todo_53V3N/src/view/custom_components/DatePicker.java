@@ -26,7 +26,6 @@ import control.ControllerInterface.DateFormat;
  * @author Marco Dondio
  * 
  */
-
 @SuppressWarnings("serial")
 public final class DatePicker extends JPanel implements ActionListener {
 
@@ -164,7 +163,6 @@ public final class DatePicker extends JPanel implements ActionListener {
 		// Finally add action listeners to handle user events
 		for (JComboBox<String> c : combos)
 			c.addActionListener(this);
-
 	}
 
 	/**
@@ -190,7 +188,7 @@ public final class DatePicker extends JPanel implements ActionListener {
 
 
 	// Action listener refreshes data
-	public void actionPerformed(ActionEvent e) {
+	public final void actionPerformed(ActionEvent e) {
 		// This method stores data from combobox inside date field
 
 		Calendar calendar = GregorianCalendar.getInstance();

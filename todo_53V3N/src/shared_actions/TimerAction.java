@@ -6,9 +6,7 @@ import javax.swing.AbstractAction;
 
 import control.ControllerInterface;
 
-
-// TODO: NOT A PRIORITY!!!!
-
+// TODO
 // XXX: Marco & Magnus:we agreed on defining an action useful for storing database but NOT properties
 // we think that state should be saved only once (for example thw windows size)
 

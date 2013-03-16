@@ -1,6 +1,12 @@
 package utility;
 
 
+/**
+ * This small class contains some useful method. For example we have two small methods
+ * to manage dateformat for writing/reading an xs:date used in XSD validation.
+ * @author Marco Dondio
+ *
+ */
 public final class GeneralFunctions {
 
 	// This small function adds :, to have a valid ISO8601

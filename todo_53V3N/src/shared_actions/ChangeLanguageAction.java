@@ -10,6 +10,11 @@ import utility.GlobalValues;
 import utility.GlobalValues.Languages;
 import control.ControllerInterface;
 
+/**
+ * This action represents a ChangeLanguage action.
+ * @author Marco Dondio
+ *
+ */
 @SuppressWarnings("serial")
 public final class ChangeLanguageAction extends AbstractAction {
 

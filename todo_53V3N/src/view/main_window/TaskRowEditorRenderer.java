@@ -7,11 +7,16 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+/**
+ * This class implements the TaskRow Editor and Renderer.
+ * 
+ * @author Marco Dondio
+ *
+ */
 @SuppressWarnings("serial")
 public class TaskRowEditorRenderer extends AbstractCellEditor implements
 		TableCellEditor, TableCellRenderer {
 
-	// private TaskRow curEditedTaskRow;
 	private TaskRow curEditedTaskRow;
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -38,11 +43,6 @@ public class TaskRowEditorRenderer extends AbstractCellEditor implements
 
 	public Object getCellEditorValue() {
 
-//		System.out.println("[Editor - getCellEditorValue]");
-
-//		 curEditedTaskRow.setSelected(false);
-
-//		return null;
 		return curEditedTaskRow;
 	}
 

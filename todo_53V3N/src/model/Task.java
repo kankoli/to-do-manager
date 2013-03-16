@@ -30,6 +30,14 @@ public final class Task {
 		
 	}
 	
+	/**
+	 * Constructor for a task.
+	 * @param name The name of task
+	 * @param date The date of task
+	 * @param category The category of task
+	 * @param prio The priority level
+	 * @param description The description
+	 */
 	public Task(String name, Date date, Category category, Priority prio, String description) {
 		this.name = name;
 		this.date = date;
@@ -97,7 +105,7 @@ public final class Task {
 		this.urgent = b;
 	}
 	
-	public String toString() {
+	public final String toString() {
 		return getName();
 	}
 }

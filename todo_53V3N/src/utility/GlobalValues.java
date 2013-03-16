@@ -2,7 +2,12 @@ package utility;
 
 import java.util.Locale;
 
-public class GlobalValues {
+/**
+ * This class is needed to store some global values accessed by different class
+ * @author Marco Dondio
+ *
+ */
+public final class GlobalValues {
 
 	/* General DB preferences */
 	public static final String DBFILE = "todoManagerData.xml";
@@ -18,7 +23,6 @@ public class GlobalValues {
 	public static final int TASKROW_DESC_ROWS = 4;
 	public static final int TASKROW_DESC_COLS = 20;
 
-	// TODO we will need icons? Like mac cool small icons?
 	/* Supported language */
 
 	/* Default locale file */

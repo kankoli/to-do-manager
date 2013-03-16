@@ -21,11 +21,7 @@ public class ExitAction extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
-		// TODO here coded needed at closing
-
 		ControllerInterface.saveDB();
 		System.exit(0);
 	}
-
 }

@@ -63,7 +63,6 @@ public final class DataModel extends Observable {
 		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
 	};
 
-
 	// Internal data structures
 	private List<Task> taskList;
 	private Map<String, Category> categories;
