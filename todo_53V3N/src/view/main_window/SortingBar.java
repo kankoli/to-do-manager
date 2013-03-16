@@ -4,23 +4,17 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
 
 import javax.swing.Action;
 import javax.swing.JPanel;
 
-import model.DataModel;
-
-import control.ControllerInterface;
-import control.ControllerInterface.ActionName;
 
 /**
  * This class (UNDER DEVELOPMENT!!!) will represent the custom made sorting bar
@@ -37,7 +31,10 @@ import control.ControllerInterface.ActionName;
 public class SortingBar extends JPanel {
 
 	private SortingTab activeTab;
-
+	private int barWidth;
+	
+	private int inset = 0;
+	
 	// TODO Marco: make this List an array instead, we have fixed structure
 	private List<SortingTab> sortingTabs;
 	private SortingBarMouseListener mouseListener;
@@ -61,31 +58,13 @@ public class SortingBar extends JPanel {
 		// This listener will set the current selected tab as active
 		public void mouseClicked(MouseEvent me) {
 
-			// XXX Marco: Magnus, im using this way to simulate an event..
-			// check code, it's temporary solution, works well
-			ResourceBundle lang = ControllerInterface.getLanguageBundle(); //Create method for changing lang.
-			String[] names = {
-					"mainFrame.middlePanel.sortingBar.tab.title.name",
-					"mainFrame.middlePanel.sortingBar.tab.date.name",
-					"mainFrame.middlePanel.sortingBar.tab.category.name",
-					"mainFrame.middlePanel.sortingBar.tab.priority.name" };
-
-			// for (SortingTab tab : sortingTabs) {
-			for (int i = 0; i < sortingTabs.size(); i++) {
-
-				SortingTab tab = sortingTabs.get(i);
-
+			 for (SortingTab tab : sortingTabs) {
+				
 				if (tab.contains(me.getX(), me.getY())) {
 					activeTab.setFocus(false);
 					tab.setFocus(true);
-
-					// We create an actionevent using correct name...
-					Action a = ControllerInterface.getAction(ActionName.SORT);
-					a.actionPerformed(new ActionEvent(this,
-							ActionEvent.ACTION_PERFORMED, lang
-									.getString(names[i])));
-
 					activeTab = tab;
+					tab.performClickAction();
 					repaint();
 					break;
 				}
@@ -186,6 +165,9 @@ public class SortingBar extends JPanel {
 			mouseDraggedPosX = me.getX();
 			repaint();
 
+			
+			
+			
 			System.out.println("dragging done:");
 
 			// TODO Marco:
@@ -199,9 +181,11 @@ public class SortingBar extends JPanel {
 						+ t.getWidth());
 			}
 
-			//sb.firePropertyChange("offsets", null, sb.getTabOffsets());
+			//Notify listeners for a change of offsets
+			firePropertyChange("offsets", null, getTabOffsets());
 
 		}
+		
 
 		// Calculate how much we can move this tab to the left
 		private int distanceAbleToMoveLeft(int currentTabIndex,
@@ -304,6 +288,18 @@ public class SortingBar extends JPanel {
 
 		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
+		this.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+
+				if (getSize().width == 0) {
+					return;
+				}
+				recalculateTabSpace();
+			}
+		});
+		
+		
+		
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
@@ -313,10 +309,14 @@ public class SortingBar extends JPanel {
 	 * @return
 	 */
 	public int[] getTabOffsets() {
-		int[] offsets = new int[4];
-
-		for (int i = 0; i < offsets.length; i++)
-			offsets[i] = sortingTabs.get(i).getWidth();
+		int[] offsets = new int[sortingTabs.size()];
+		
+		int offSet = 0;
+		for (int i = 0; i < offsets.length; i++) {
+			int curtTabWidth = sortingTabs.get(i).getWidth();
+			offsets[i] = curtTabWidth + offSet;
+			offSet += curtTabWidth;
+		}
 
 		return offsets;
 	}
@@ -330,6 +330,11 @@ public class SortingBar extends JPanel {
 		sortingTabs.get(index).setName(newName);
 	}
 	
+	//DEFENSIVE
+	public void setTabAction(int index, Action action) {
+		sortingTabs.get(index).setAction(action);
+	}
+	
 	private void addSortingTabs(String[] tabNames, int[] tabWidths, int[] minTabWidths, int tabHeights, Color selectedTabColor, Color notSelectedTabColor) throws IllegalArgumentException {
 		
 		int offSet = 0;
@@ -337,11 +342,11 @@ public class SortingBar extends JPanel {
 			sortingTabs.add(new SortingTab(tabNames[k], tabWidths[k], tabHeights, offSet, 0, false, minTabWidths[k], false, false));
 			offSet += tabWidths[k];
 		}
+
+		barWidth = offSet;
 		
-		if (sortingTabs.size() > 0) {
-			sortingTabs.get(0).setFixedLeftEdge(true);
-			sortingTabs.get(sortingTabs.size() - 1).setFixedRightEdge(true);
-		}
+		sortingTabs.get(0).setFixedLeftEdge(true);
+		sortingTabs.get(sortingTabs.size() - 1).setFixedRightEdge(true);
 	}
 	
 	private void setBarSize(int barHeight) {
@@ -353,6 +358,37 @@ public class SortingBar extends JPanel {
 			
 		this.setPreferredSize(new Dimension(barWidth + 1, barHeight));
 		this.setMinimumSize(new Dimension(barWidth + 1, barHeight));
+	}
+	
+	private void recalculateTabSpace() {
+
+		int panelWidth = getWidth();
+		if(inset == 0)
+			inset  = panelWidth - barWidth;
+
+		int newBarWidth = panelWidth - inset;
+		int spaceDifference = newBarWidth - barWidth;
+		barWidth = newBarWidth;
+
+
+		//		// moving and resizing tabs
+		int tabDifference = Math.round(spaceDifference / sortingTabs.size());
+		int offSet = 0;
+		
+		for (int k = 0; k < sortingTabs.size(); k++) {
+			SortingTab curTab = sortingTabs.get(k);
+			curTab.moveXPos(offSet);
+			curTab.resizeWidth(tabDifference);
+			offSet += curTab.getWidth();
+		}
+		
+		//Because of integer division and casting we add the lost/excessive pixels to the last bar
+		sortingTabs.get(sortingTabs.size() - 1).resizeWidth(newBarWidth - offSet);  
+		
+		firePropertyChange("offsets", null, getTabOffsets()); //Notify listeners on new offsets
+		repaint();
+		
+		System.out.println("HI  " +( sortingTabs.get(0).getWidth() + sortingTabs.get(1).getWidth() + sortingTabs.get(2).getWidth() + sortingTabs.get(3).getWidth()));
 	}
 	
 	private void checkArguments(String[] tabNames, int[] tabWidths, int[] minTabWidths) throws IllegalArgumentException {

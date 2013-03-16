@@ -3,6 +3,9 @@ package view.main_window;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+
+import javax.swing.Action;
 
 /**
  * This class is used to represent a tab used by the class SortingBar.
@@ -28,6 +31,8 @@ public class SortingTab {
 	private boolean fixedLeftEdge;
 	private boolean fixedRightEdge;
 	private boolean isMinimumWidth;
+	
+	private Action action;
 	
 	
 	//Add checkers for values
@@ -55,6 +60,17 @@ public class SortingTab {
 		
 		inFocusColor = Color.WHITE;
 		outOfFocusColor = Color.LIGHT_GRAY;
+	}
+	
+	public void setAction(Action action) {
+		this.action = action;
+	}
+	
+	public void performClickAction() {
+		if (action != null) {
+			action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, getName()));
+		}
+		
 	}
 	
 	public void setName(String name) {
@@ -162,8 +178,8 @@ public class SortingTab {
 		return fixedLeftEdge;
 	}
 	
-	public void setFixedRightEdge(boolean fixedLeftEdge) {
-		this.fixedLeftEdge = fixedLeftEdge;
+	public void setFixedRightEdge(boolean fixedRightEdge) {
+		this.fixedRightEdge = fixedRightEdge;
 	}
 	
 	public boolean hasFixedRightEdge() {

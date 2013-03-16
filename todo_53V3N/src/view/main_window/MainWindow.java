@@ -47,6 +47,7 @@ import view.custom_components.FlagBar;
 import view.custom_components.PendingCompletedRadioButtons;
 import view.urgent_task_dialog.UrgentTaskDialog;
 import control.ControllerInterface;
+import control.ControllerInterface.ActionName;
 
 @SuppressWarnings("serial")
 /**
@@ -548,13 +549,18 @@ public class MainWindow extends JFrame implements Observer {
 	private JPanel getSortBarPanel() {
 
 		String[] tabNames = {languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.title.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.date.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.category.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.priority.name")};
-		int[] tabWidths = {100, 100, 100, 100};
+		int[] tabWidths = {100, 200, 200, 100};
 		int[] minTabWidths = {20, 20, 20, 20};
 		int tabHeights = 20;
 		Color selectedColor = Color.WHITE; //Retreive from theme
 		Color notSelectedColor = Color.GRAY; //See above
 		
 		CustomSortingBar pnlSortBar = new CustomSortingBar(tabNames, tabWidths, minTabWidths, tabHeights, selectedColor, notSelectedColor, languageBundle);
+		
+		for (int k = 0; k < tabNames.length; k++) {
+			pnlSortBar.setTabAction(k, ControllerInterface.getAction(ActionName.SORT));
+		}
+		
 		// pnlSortBar.setBackground(Color.yellow);
 		return pnlSortBar;
 	}
@@ -598,29 +604,12 @@ public class MainWindow extends JFrame implements Observer {
 			e.printStackTrace();
 		}
 
-		// TODO this is table of default values for THIS theme
-
-		// http://tips4java.wordpress.com/2008/10/09/uimanager-defaults/
-		// http://home.tiscali.nl/bmc88/java/sbook/061.html
-
-		// lista
-		// http://alvinalexander.com/java/java-uimanager-color-keys-list
-
-		// TODO now list all default values
-		// UIDefaults defaults = UIManager.getLookAndFeelDefaults();
-		//
-		// for (Object v : defaults.keySet()) {
-		// System.out.println(v);
-		// }
-
 		// Now get my theme.. collection of key - value pair
 		Properties theme = ControllerInterface.getThemeBundle();
 
 		// UIDefaults defaults = UIManager.getLookAndFeel().getDefaults();
 		// System.out.println("[DEFAULT] "
 		// + defaults.getColor("Button.background"));
-
-		// TODO now we have a list of properties taken from theme
 
 		String s = null;
 
@@ -629,34 +618,9 @@ public class MainWindow extends JFrame implements Observer {
 					+ new ColorUIResource(new Color(Integer.parseInt(s))));
 
 			UIManager.put("Button.background", new Color(Integer.parseInt(s)));
-
-			// UIManager.put("Button.background", new
-			// Color(Integer.parseInt(s)));
-			//
-
-			// UIManager.put("Button.background", new ColorUIResource (new
-			// Color(Integer.parseInt(s))));
-			// UIManager.getLookAndFeelDefaults().put("Button.background", new
-			// Color(Integer.parseInt(s)));
-
-			// defaults.put("Button.background", new
-			// Color(Integer.parseInt(s)));
-
 		} else {
-			// TODO imponi la default
 			System.out.println("default button background");
 		}
-
-		// TODO problema???? runtime non va!
-		// SwingUtilities.updateComponentTreeUI(this);
-		// revalidate();
-		// repaint();
-
-		// SwingUtilities.updateComponentTreeUI(topPanel);
-		// SwingUtilities.updateComponentTreeUI(middlePanel);
-		// SwingUtilities.updateComponentTreeUI(bottomPanel);
-
-		// pack();
 	}
 
 	public void update(Observable o, Object arg) {
