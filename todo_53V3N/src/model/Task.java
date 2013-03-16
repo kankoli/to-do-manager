@@ -20,7 +20,7 @@ public final class Task {
 
 	private String name;
 	private Date date;
-	private Category category;		// XXX perch� non direttamente reference a category???
+	private Category category;
 	private Priority prio;
 	private boolean completed;
 	private String description;
@@ -97,7 +97,6 @@ public final class Task {
 		this.urgent = b;
 	}
 	
-	@Override
 	public String toString() {
 		return getName();
 	}

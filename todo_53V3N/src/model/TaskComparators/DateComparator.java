@@ -6,8 +6,7 @@ import java.util.Date;
 import model.Task;
 
 /**
- * This is a date comparator for Task class, i put this in a separate file for
- * reading purposes and to show it as an example.
+ * This is a date comparator for Task class.
  * 
  * @author Marco Dondio
  * 

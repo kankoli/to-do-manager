@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import model.Category;
 import model.Task;
 
 import utility.GlobalValues;

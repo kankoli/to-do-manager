@@ -69,6 +69,11 @@ public final class DataController {
 	 */
 	public final void sortTasks(SortType ordering) {
 
+		// TODO Note by Marco: this method should be changed
+		// the sorthing behaviour controller should be moved in
+		// datamodel because controller is not supposed to know
+		// anything about comparators. they are part of model
+		// i will change it as soon as i have time
 		switch (ordering) {
 		case NAME:
 			dataModel.sortTasks(new NameComparator());

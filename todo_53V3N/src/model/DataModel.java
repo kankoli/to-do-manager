@@ -20,6 +20,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import model.Task.Priority;
+import model.TaskComparators.DateComparator;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -53,7 +54,6 @@ import utility.GlobalValues.Themes;
 public final class DataModel extends Observable {
 
 	// datetime formate used in xs:datetime format
-
 	// NOTE: im using two small private function below to handle this..
 	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
 	private static final SimpleDateFormat RFC822DATETIME = new SimpleDateFormat(
@@ -71,7 +71,6 @@ public final class DataModel extends Observable {
 
 	private boolean isViewingCompletedTasks;
 
-
 	/**
 	 * Constructor initializes our DB connector by reading data and storing them
 	 * into local state, in a more conveniente representation using our classes.
@@ -87,34 +86,8 @@ public final class DataModel extends Observable {
 		// Load database from XML file
 		loadDB();
 
-		// load preferences, if not use default values defined in GlobalValues
-		props = new Properties();
-
-		try {
-			// XXX: Marco: attention to this!!! This file goes NOT in src folder
-			// like languages, but in main folder...
-			props.load(new FileInputStream(GlobalValues.PROPSFILE));
-
-		} catch (Exception e) {
-			System.out.println("where is properties???");
-
-			props.setProperty(GlobalValues.LANGUAGEKEY,
-					GlobalValues.LANGUAGEVAL);
-			props.setProperty(GlobalValues.WINXSIZEKEY,
-					GlobalValues.WINXSIZEVAL);
-			props.setProperty(GlobalValues.WINYSIZEKEY,
-					GlobalValues.WINYSIZEVAL);
-			props.setProperty(GlobalValues.WINXPOSKEY, GlobalValues.WINXPOSVAL);
-			props.setProperty(GlobalValues.WINYPOSKEY, GlobalValues.WINYPOSVAL);
-
-			props.setProperty(GlobalValues.DATEFORMATKEY,
-					GlobalValues.DATEFORMATVAL);
-
-			props.setProperty(GlobalValues.THEMEKEY, GlobalValues.THEMEVAL);
-		}
-
-		// XXX: Marco: attention to this!!! where put properties files???
-		// https://blogs.oracle.com/chengfang/entry/p_java_util_missingresourceexception_can
+		// load properties
+		props = loadProperties();
 
 		// Now load language using the properties: retrieve index
 		int i = GlobalValues.Languages.valueOf(
@@ -123,22 +96,41 @@ public final class DataModel extends Observable {
 		languageBundle = ResourceBundle.getBundle(GlobalValues.LANGUAGEFILE,
 				GlobalValues.supportedLocales[i]);
 
+		// Set view to default view: pending
 		isViewingCompletedTasks = false;
-//		System.out.println(props.getProperty(GlobalValues.THEMEKEY));
-//		i = GlobalValues.Themes.valueOf(
-//				props.getProperty(GlobalValues.THEMEKEY)).ordinal();
-
-		
-
-
-		// debug
-		// String value = languageBundle
-		// .getString("mainFrame.topPanel.button.urgentTasks.name");
-		//
-		// System.out.println(value);
-
 		// Signal the view part we finished loading all internal structure
+
 		hasChanged(ChangeMessage.INIT);
+	}
+
+	/**
+	 * This This method loads properties from the property file. If properties
+	 * cannot be read from file we retrieve a default properties object.
+	 * 
+	 * @return a properties object.
+	 */
+	private final Properties loadProperties() {
+
+		Properties p = new Properties();
+
+		try { // try to load from file
+			p.load(new FileInputStream(GlobalValues.PROPSFILE));
+
+		} catch (Exception e) { // Some error occurred, use default values
+
+			p.setProperty(GlobalValues.LANGUAGEKEY, GlobalValues.LANGUAGEVAL);
+			p.setProperty(GlobalValues.WINXSIZEKEY, GlobalValues.WINXSIZEVAL);
+			p.setProperty(GlobalValues.WINYSIZEKEY, GlobalValues.WINYSIZEVAL);
+			p.setProperty(GlobalValues.WINXPOSKEY, GlobalValues.WINXPOSVAL);
+			p.setProperty(GlobalValues.WINYPOSKEY, GlobalValues.WINYPOSVAL);
+
+			p.setProperty(GlobalValues.DATEFORMATKEY,
+					GlobalValues.DATEFORMATVAL);
+
+			p.setProperty(GlobalValues.THEMEKEY, GlobalValues.THEMEVAL);
+		}
+
+		return p;
 	}
 
 	/**
@@ -164,6 +156,14 @@ public final class DataModel extends Observable {
 		taskList = retrieveTaskList(root.getChild("tasks"));
 	}
 
+	/**
+	 * This method retrieves the taskList from a JDOM element
+	 * 
+	 * @param tasksNode
+	 *            containing task elements
+	 * @return
+	 * @throws ParseException
+	 */
 	private final List<Task> retrieveTaskList(Element tasksNode)
 			throws ParseException {
 
@@ -180,7 +180,7 @@ public final class DataModel extends Observable {
 					.getChildText("completed")));
 
 			// if a category is new, add it with default color
-			// XXX it makes program more flexible!
+			// it makes program more flexible!
 			Category c;
 			String cat = taskNode.getChildText("category");
 			if ((c = categories.get(cat)) == null) {
@@ -195,8 +195,7 @@ public final class DataModel extends Observable {
 			// System.out.println(c);
 			t.setCategory(c);
 			t.setDescription(taskNode.getChildText("description"));
-			t.setUrgent(Boolean.parseBoolean(taskNode
-					.getChildText("urgent")));
+			t.setUrgent(Boolean.parseBoolean(taskNode.getChildText("urgent")));
 			// System.out.println()
 
 			tl.add(t);
@@ -208,6 +207,14 @@ public final class DataModel extends Observable {
 		return tl;
 	}
 
+	/**
+	 * This method retrieves the categories from a JDOM element
+	 * 
+	 * @param categoriesNode
+	 *            containing categories elements
+	 * @return
+	 * @throws ParseException
+	 */
 	private final Map<String, Category> retrieveCategories(
 			Element categoriesNode) {
 
@@ -225,7 +232,8 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * This method stores into the XML file the actual internal state.
+	 * This method stores into the XML file the actual internal state of the
+	 * DataModel.
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -249,49 +257,21 @@ public final class DataModel extends Observable {
 		// Now create all tasks...
 		Element tasks = new Element("tasks");
 
-		// Sort in date order, may be useful (default sorting)
-		Collections.sort(taskList, new Comparator<Task>() {
-			public int compare(Task arg0, Task arg1) {
+		// Sort in date order before storing (default ordering)
+		sortTasks(new DateComparator());
 
-				// now im using default Java date comparison
-				Date val0 = arg0.getDate();
-				Date val1 = arg1.getDate();
-				return val0.compareTo(val1);
-			}
-		});
+		// now for each task in the sorted tasklist, create a task element node
+		for (Task t : taskList)
+			tasks.addContent(createTaskElement(t));
 
-		for (Task t : taskList) {
-			Element task = new Element("task");
-			// task.setAttribute("id", "" + task.getId());
-			task.addContent(new Element("name").setText(t.getName()));
-			task.addContent(new Element("date").setText(GeneralFunctions
-					.RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
-			task.addContent(new Element("priority").setText(t.getPrio().name()));
-			task.addContent(new Element("completed").setText(Boolean.toString(t
-					.getCompleted())));
-			task.addContent(new Element("category").setText(t.getCategory()
-					.getName()));
-			task.addContent(new Element("description").setText(t
-					.getDescription()));
-			task.addContent(new Element("urgent").setText(Boolean.toString(t
-					.getUrgent())));
-			tasks.addContent(task);
-		}
-
+		// Add tasks element to the root element
 		doc.getRootElement().addContent(tasks);
 
-		// Now write all categories
+		// Now write all categories in same way
 		Element categoriesNode = new Element("categories");
 
-		for (Category c : categories.values()) {
-			Element category = new Element("category");
-
-			category.addContent(new Element("name").setText(c.getName()));
-			category.addContent(new Element("color").setText(Integer.toString(c
-					.getColor().getRGB())));
-
-			categoriesNode.addContent(category);
-		}
+		for (Category c : categories.values())
+			categoriesNode.addContent(createCategoryElement(c));
 
 		doc.getRootElement().addContent(categoriesNode);
 
@@ -301,6 +281,49 @@ public final class DataModel extends Observable {
 
 		// save also properties
 		props.store(new FileOutputStream(GlobalValues.PROPSFILE), null);
+	}
+
+	/**
+	 * This method builds a Task Element from a given Task
+	 * 
+	 * @param t
+	 *            the task to represent
+	 * @return
+	 */
+	private final Element createTaskElement(Task t) {
+
+		Element task = new Element("task");
+		task.addContent(new Element("name").setText(t.getName()));
+		task.addContent(new Element("date").setText(GeneralFunctions
+				.RFC822toISO8601(RFC822DATETIME.format(t.getDate()))));
+		task.addContent(new Element("priority").setText(t.getPrio().name()));
+		task.addContent(new Element("completed").setText(Boolean.toString(t
+				.getCompleted())));
+		task.addContent(new Element("category").setText(t.getCategory()
+				.getName()));
+		task.addContent(new Element("description").setText(t.getDescription()));
+		task.addContent(new Element("urgent").setText(Boolean.toString(t
+				.getUrgent())));
+
+		return task;
+	}
+
+	/**
+	 * This method builds a Category Element from a given category
+	 * 
+	 * @param c
+	 *            the category to represent
+	 * @return
+	 */
+	private final Element createCategoryElement(Category c) {
+
+		Element category = new Element("category");
+
+		category.addContent(new Element("name").setText(c.getName()));
+		category.addContent(new Element("color").setText(Integer.toString(c
+				.getColor().getRGB())));
+
+		return category;
 	}
 
 	/**
@@ -321,14 +344,13 @@ public final class DataModel extends Observable {
 	public final List<Task> getTaskList() {
 		return taskList;
 	}
-	
+
 	/**
 	 * Retrieves the list of complete/incomplete tasks.
 	 * 
-	 * @return list of filtered tasks, using currently selected
+	 * @return list of filtered tasks, using currently selected display mode
 	 */
 	public final List<Task> getFilteredTaskList() {
-		// TODO Filter tasks (complete/incomplete)
 		List<Task> filteredList = new LinkedList<Task>();
 		for (int i = 0; i < taskList.size(); i++) {
 			if (taskList.get(i).getCompleted() == isViewingCompletedTasks)
@@ -336,7 +358,7 @@ public final class DataModel extends Observable {
 		}
 		return filteredList;
 	}
-	
+
 	/**
 	 * Retrieves the list of urgent tasks.
 	 * 
@@ -404,10 +426,11 @@ public final class DataModel extends Observable {
 	 * This method is called when new theme is selected
 	 * 
 	 * @param index
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
-	public final void setTheme(Themes theme) throws FileNotFoundException, IOException {
+	public final void setTheme(Themes theme) throws FileNotFoundException,
+			IOException {
 
 		setProperty(GlobalValues.THEMEKEY, theme.toString(), false);
 		hasChanged(ChangeMessage.CHANGED_THEME);
@@ -488,7 +511,7 @@ public final class DataModel extends Observable {
 		this.isViewingCompletedTasks = b;
 		hasChanged(ChangeMessage.CHANGED_FILTER);
 	}
-	
+
 	/**
 	 * This method is called by either datamodel or controller, to trigger the
 	 * change process.
