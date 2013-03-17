@@ -550,8 +550,8 @@ public class MainWindow extends JFrame implements Observer {
 
 		String[] tabNames = {languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.title.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.date.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.category.name"), languageBundle.getString("mainFrame.middlePanel.sortingBar.tab.priority.name")};
 		int[] tabWidths = {100, 200, 200, 100};
-		int[] minTabWidths = {20, 20, 20, 20};
-		int tabHeights = 20;
+		int[] minTabWidths = {25, 25, 25, 25};
+		int tabHeights = 30;
 		Color selectedColor = Color.WHITE; //Retreive from theme
 		Color notSelectedColor = Color.GRAY; //See above
 		

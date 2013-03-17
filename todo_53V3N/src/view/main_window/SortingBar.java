@@ -41,7 +41,6 @@ public class SortingBar extends JPanel {
 	
 	private int inset = 0;
 	
-	// TODO Marco: make this List an array instead, we have fixed structure
 	private List<SortingTab> sortingTabs;
 	private SortingBarMouseListener mouseListener;
 
@@ -328,7 +327,7 @@ public class SortingBar extends JPanel {
 		
 		int offSet = 0;
 		for (int k = 0; k < tabNames.length; k++) {
-			sortingTabs.add(new SortingTab(tabNames[k], tabWidths[k], tabHeights, offSet, 0, false, minTabWidths[k], false, false));
+			sortingTabs.add(new SortingTab(tabNames[k], tabWidths[k], tabHeights, offSet, 0, false, minTabWidths[k], false, false, selectedTabColor, notSelectedTabColor));
 			offSet += tabWidths[k];
 		}
 

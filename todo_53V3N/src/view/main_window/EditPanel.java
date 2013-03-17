@@ -1,6 +1,5 @@
 package view.main_window;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -37,6 +36,18 @@ import model.Task;
 import model.Task.Priority;
 
 /**
+ * This class is used to represent a panel which used for showing
+ * and editing the content of a task.
+ * The task is selected in TaskTable.
+ * 
+ * The class implements the Observer interface to be able to
+ * listen for changes in the model.
+ * 
+ * The class implements PropertyChangeListener to be able to
+ * listen for task selection in TaskTable.
+ * 
+ * The class implements TaskValueProvider to be able to provide
+ * methods to a shared action for editing tasks.
  * 
  * @author Magnus Larsson
  * 
@@ -48,18 +59,25 @@ public class EditPanel extends JPanel implements Observer,
 	private JLabel noTaskSelectedLabel;
 	private JTextField nameTextField;
 	private JTextArea descrTextArea;
-	private JScrollPane descScrollPane;
+	private JScrollPane descrScrollPane;
 	private DatePicker datePicker;
 
-	private JComboBox<String> categoryComboBox;
+	private JComboBox<String> categoryComboBox; //For choosing/displaying category
 	private PriorityBar prioBar;
 	private JButton updateButton;
 
 	private boolean showingTask;
 	private Task selectedTask;
 
-	private ResourceBundle languageBundle;
+	private ResourceBundle languageBundle; //Stores key/value pairs for multiple language support
 
+	/**
+	 * Setting layout
+	 * Registering as observer to model
+	 * Retrieving bundle for language support
+	 * Creating and adding all needed visuals
+	 * Updates language to match current language
+	 */
 	public EditPanel() {
 		super();
 		setLayout(new GridBagLayout());
@@ -72,25 +90,25 @@ public class EditPanel extends JPanel implements Observer,
 		addNoTaskSelectedLabel();
 		noTaskSelectedLabel.setVisible(true);
 		addTaskSelectedComponents();
-
-		updateLanguagePresentation();
-
+		updateLanguagePresentation(); //Sets the correct language variables
 	}
 
+	/**
+	 * Adding and creating components used to display task information/interaction
+	 * for when a task is selected
+	 */
 	private void addTaskSelectedComponents() {
 		addNameTextField();
 		addDescrTextArea();
-
 		addDatePicker();
-
 		addCategoryComboBox();
-
 		addPrioBar();
-
 		addUpdateButton();
-
 	}
 
+	/**
+	 * Adding a JLabel to display when no task is selected
+	 */
 	private void addNoTaskSelectedLabel() {
 		GridBagConstraints constr = new GridBagConstraints();
 		noTaskSelectedLabel = new JLabel();
@@ -102,12 +120,15 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weightx = 1;
 		constr.weighty = 1;
 		constr.anchor = GridBagConstraints.NORTHWEST;
-		constr.ipady = 100;
+		constr.ipady = 100; //100 pixels padding above label
 
 		noTaskSelectedLabel.setVisible(false);
 		add(noTaskSelectedLabel, constr);
 	}
 
+	/**
+	 * Adding a text field to be used for displaying/editing a selected task's name
+	 */
 	private void addNameTextField() {
 		GridBagConstraints constr = new GridBagConstraints();
 		nameTextField = new JTextField();
@@ -120,12 +141,15 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 0;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		nameTextField.setColumns(GlobalValues.TASKROW_DESC_COLS);
+		nameTextField.setColumns(GlobalValues.TASKROW_DESC_COLS); //Sets the amount of columns in the field to a standard value
 		nameTextField.setVisible(false);
 		add(nameTextField, constr);
 
 	}
-
+	
+	/**
+	 * Adding a description text area to be used for displaying/editing a selected task's description
+	 */
 	private void addDescrTextArea() {
 		GridBagConstraints constr = new GridBagConstraints();
 		descrTextArea = new JTextArea();
@@ -139,19 +163,21 @@ public class EditPanel extends JPanel implements Observer,
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
 		descrTextArea = new JTextArea(GlobalValues.TASKROW_DESC_ROWS,
-				GlobalValues.TASKROW_DESC_COLS);
+				GlobalValues.TASKROW_DESC_COLS); //Creates a JTextArea with a defined standard amount of rows/columns
 
-		descrTextArea.setLineWrap(true);
-		descrTextArea.setWrapStyleWord(true);
+		descrTextArea.setLineWrap(true); //If lines are too long to fit the width => creates new line.
+		descrTextArea.setWrapStyleWord(true); //Starts new lines for complete words, not single characters.
 
-		// descrTextArea.setAlignmentX(CENTER_ALIGNMENT);
 
-		descScrollPane = new JScrollPane(descrTextArea);
+		descrScrollPane = new JScrollPane(descrTextArea); //Makes area scroll-able
 
-		descScrollPane.setVisible(false);
-		add(descScrollPane, constr);
+		descrScrollPane.setVisible(false);
+		add(descrScrollPane, constr);
 	}
-
+	
+	/**
+	 * Adding a date picker to be used for displaying/editing a selected task's date
+	 */
 	private void addDatePicker() {
 
 		GridBagConstraints constr = new GridBagConstraints();
@@ -171,6 +197,9 @@ public class EditPanel extends JPanel implements Observer,
 
 	}
 
+	/**
+	 * Adding a category combo box to be used for displaying/editing a selected task's category
+	 */
 	private void addCategoryComboBox() {
 		GridBagConstraints constr = new GridBagConstraints();
 		categoryComboBox = new JComboBox<String>();
@@ -183,20 +212,19 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 0;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		//categoryComboBox.setBackground(Color.WHITE);// Let theme handle
-		// categoryBox.setEnabled(false);
-
 		categoryComboBox.setVisible(false);
 
 		updateCategoryComboBox(); // Initialize from controller
 		add(categoryComboBox, constr);
 	}
-
-	// This method is called to refresh combobox content
+	
+	/**
+	 * Called to refresh the combo box's content
+	 */
 	private void updateCategoryComboBox() {
 
-		// If we alrady have a listeners, it means that
-		// we are refreshing list, remove listner and all elements
+		// If we already have a listener, it means that
+		// we are refreshing list, remove listener and all elements
 		if (categoryComboBox.getActionListeners().length > 0) {
 			categoryComboBox.removeActionListener(categoryComboBox
 					.getActionListeners()[0]);
@@ -234,6 +262,9 @@ public class EditPanel extends JPanel implements Observer,
 
 	}
 
+	/**
+	 * Adding a priority bar to be used for displaying/editing a selected task's priority
+	 */
 	private void addPrioBar() {
 		GridBagConstraints constr = new GridBagConstraints();
 		prioBar = new PriorityBar(Task.Priority.NOT_SET);
@@ -246,16 +277,18 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 0;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		prioBar.setBorder(BorderFactory.createTitledBorder("Priority"));// Load
+		prioBar.setBorder(BorderFactory.createTitledBorder("Priority"));// TODO Load
 																		// from
 																		// language
 																		// bundle
-		//prioBar.setBackground(Color.WHITE);// Let theme handle
 		prioBar.setVisible(false);
 
 		add(prioBar, constr);
 	}
-
+	
+	/**
+	 * Adding a update button to be used for performing an update of a selected task's content
+	 */
 	private void addUpdateButton() {
 		GridBagConstraints constr = new GridBagConstraints();
 		updateButton = new JButton();
@@ -269,19 +302,22 @@ public class EditPanel extends JPanel implements Observer,
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
 		updateButton.setText(languageBundle.getString("task.taskInput.update"));
-		// updateButton.setText("Update"); // Load from language bundle
-		// Shared action here?
 		updateButton.setVisible(false);
 
 		Action a = ControllerInterface
-				.getAction(ActionName.EDITTASK);
+				.getAction(ActionName.EDITTASK); //Creating/getting a shared action for editing
 		
-		a.putValue("tpp", this);
+		a.putValue("tpp", this); //Put a reference to this object in the actions properties.
 		
 		updateButton.setAction(a);
 		add(updateButton, constr);
 	}
 
+	/**
+	 * Called to select a task, updates the visuals to display/show interaction
+	 * for the selected task.
+	 * @param task the task to be displayed/interacted with
+	 */
 	private void setSelectedTask(Task task) {
 		selectedTask = task;
 
@@ -291,10 +327,18 @@ public class EditPanel extends JPanel implements Observer,
 
 		updateTaskPresentation(selectedTask);
 	}
-
+	
+	/**
+	 * Called to set the components, which are used to display a task's information/interaction,
+	 * visible.
+	 * 
+	 * Hides the label which is showing when no task is selected.
+	 * 
+	 * @param visible
+	 */
 	private void setTaskPresentationVisible(boolean visible) {
 		nameTextField.setVisible(visible);
-		descScrollPane.setVisible(visible);
+		descrScrollPane.setVisible(visible);
 		datePicker.setVisible(visible);
 		categoryComboBox.setVisible(visible);
 		prioBar.setVisible(visible);
@@ -305,19 +349,31 @@ public class EditPanel extends JPanel implements Observer,
 		showingTask = visible;
 	}
 
+	/**
+	 * Called to set the information about a selected task to
+	 * the visual and editable components.
+	 * @param task the task to display/edit
+	 */
 	private void updateTaskPresentation(Task task) {
-
 		nameTextField.setText(task.getName());
-
 		descrTextArea.setText(task.getDescription());
-
 		datePicker.updateDate(task.getDate());
-
 		categoryComboBox.setSelectedItem(task.getCategory().getName());
-
 		prioBar.setPriority(task.getPrio());
 	}
-
+	
+	/**
+	 * Called when the model has changed.
+	 * 
+	 * Used to take notice of a change of language, and takes action on it
+	 * by updating the presented language.
+	 * 
+	 * Used to take notice when a task has been deleted, and takes action on it
+	 * by not showing a selected task anymore.
+	 * 
+	 * Used to take notice when a new category has been added, and takes action
+	 * on it by updating the category combo box.
+	 */
 	public void update(Observable o, Object arg) {
 
 		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
@@ -334,14 +390,17 @@ public class EditPanel extends JPanel implements Observer,
 			setTaskPresentationVisible(false);
 		}
 
-		// XXX Marco: i added this
 		// Force reload of side panel, to refresh with new category
 		if (msg == DataModel.ChangeMessage.NEW_CATEGORY) {
 			updateCategoryComboBox();
 		}
 
 	}
-
+	
+	/**
+	 * Called to update the language presentation in the visuals,
+	 * will switch language to match the current language.
+	 */
 	private void updateLanguagePresentation() {
 
 		noTaskSelectedLabel.setText(languageBundle
@@ -349,6 +408,7 @@ public class EditPanel extends JPanel implements Observer,
 
 		nameTextField.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.name")));
+		
 		descrTextArea.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.desc")));
 
@@ -364,44 +424,70 @@ public class EditPanel extends JPanel implements Observer,
 		categoryComboBox.setBorder(BorderFactory
 				.createTitledBorder(languageBundle
 						.getString("task.taskInput.category")));
+		
 		prioBar.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.priority")));
 
 		updateButton.setText(languageBundle.getString("task.taskInput.update"));
 	}
-
+	
+	/**
+	 * Called when a property change event is fired in TaskTable (which this object listens to).
+	 * Sets the selected task to the task that was selected in TaskTable.
+	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("tableCellEditor")) {
 			TaskTable tt = (TaskTable) evt.getSource();
-			setSelectedTask(((TaskRow) tt.getEditorComponent()).getTask());
+			setSelectedTask(((TaskRow) tt.getEditorComponent()).getTask()); //Sets selected task
 		}
 
 	}
 
+	/**
+	 * Called to get the selected task.
+	 */
 	public Task getTask() {
 		return selectedTask;
 	}
-
+	
+	/**
+	 * Called to get the selected task's name.
+	 */
 	public String getTaskName() {
 		return nameTextField.getText();
 	}
 
+	/**
+	 * Called to get the selected task's date.
+	 */
 	public Date getDate() {
 		return datePicker.getDate();
 	}
 
+	/**
+	 * Called to get the selected task's priority.
+	 */
 	public Priority getPrio() {
 		return prioBar.getPriority();
 	}
 
+	/**
+	 * Called to get the selected task's completed status.
+	 */
 	public Boolean getCompleted() {
 		return selectedTask.getCompleted();
 	}
 
+	/**
+	 * Called to get the selected task's category name.
+	 */
 	public String getCategoryName() {
 		return (String)categoryComboBox.getSelectedItem();
 	}
 
+	/**
+	 * Called to get the selected task's description.
+	 */
 	public String getDescription() {
 		return descrTextArea.getText();
 	}
