@@ -141,7 +141,8 @@ public final class DataModel extends Observable {
 
 		} catch (Exception e) { // Some error occurred, use default values
 
-			// XXX: these default values should be part of the datamodel, move here
+			// XXX: these default values should be part of the datamodel, move
+			// here
 			p.setProperty(GlobalValues.LANGUAGEKEY, GlobalValues.LANGUAGEVAL);
 			p.setProperty(GlobalValues.WINXSIZEKEY, GlobalValues.WINXSIZEVAL);
 			p.setProperty(GlobalValues.WINYSIZEKEY, GlobalValues.WINYSIZEVAL);
@@ -375,7 +376,7 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * Retrieves the list of stored tasks.
+	 * Retrieves the whole list of stored tasks.
 	 * 
 	 * @return list of tasks
 	 */
@@ -390,24 +391,29 @@ public final class DataModel extends Observable {
 	 */
 	public final List<Task> getFilteredTaskList() {
 		List<Task> filteredList = new LinkedList<Task>();
-		for (int i = 0; i < taskList.size(); i++) {
-			if (taskList.get(i).getCompleted() == isViewingCompletedTasks)
-				filteredList.add(taskList.get(i));
-		}
+
+		for (Task task : taskList)
+			if (task.getCompleted() == isViewingCompletedTasks)
+				filteredList.add(task);
+
 		return filteredList;
 	}
 
 	/**
 	 * Retrieves the list of urgent tasks.
 	 * 
+	 * @param urgentStatus
+	 *            The status of tasks to retrieve
+	 * 
 	 * @return list of tasks
 	 */
-	public final List<Task> getTaskListUrgent(boolean b) {
+	public final List<Task> getTaskListUrgent(boolean urgentStatus) {
 		List<Task> filteredList = new LinkedList<Task>();
-		for (int i = 0; i < taskList.size(); i++) {
-			if (taskList.get(i).getUrgent() == b)
-				filteredList.add(taskList.get(i));
-		}
+
+		for (Task task : taskList)
+			if (task.getUrgent() == urgentStatus)
+				filteredList.add(task);
+
 		return filteredList;
 	}
 
@@ -514,10 +520,35 @@ public final class DataModel extends Observable {
 	 * This method is needed to remove a Task object from data Model
 	 * 
 	 * @param task
+	 *            The task to delete
 	 */
 	public final void deleteTask(Task task) {
 		taskList.remove(task);
 		hasChanged(ChangeMessage.DELETED_TASK);
+	}
+
+	/**
+	 * This method marks urgentStatus of task as urgentStatus
+	 * 
+	 * @param task
+	 *            The task to mark as urgentStatus
+	 * @param urgentStatus
+	 *            The new urgentStatus
+	 */
+	public final void setUrgent(Task task, boolean urgentStatus) {
+		task.setUrgent(urgentStatus);
+		hasChanged(ChangeMessage.EDIT_URGENT);
+	}
+
+	/**
+	 * This method will switch completed status of a task.
+	 * 
+	 * @param task
+	 *            The task to be switched
+	 */
+	public final void toggleCompleted(Task task) {
+		task.setCompleted(!task.getCompleted());
+		hasChanged(ChangeMessage.EDIT_TASK);
 	}
 
 	/**
@@ -572,7 +603,8 @@ public final class DataModel extends Observable {
 	 * change process.
 	 * 
 	 * @param msg
-	 *            the cause
+	 *            The ChangeMessage cause that will be sent to observer the
+	 *            cause
 	 */
 	public final void hasChanged(ChangeMessage msg) {
 
@@ -581,25 +613,4 @@ public final class DataModel extends Observable {
 		notifyObservers(msg);
 	}
 
-	/**
-	 * This method marks urgentStatus of task as urgentStatus
-	 * 
-	 * @param task
-	 * @param b
-	 */
-	public final void setUrgent(Task task, boolean urgentStatus) {
-		task.setUrgent(urgentStatus);
-		hasChanged(ChangeMessage.EDIT_URGENT);
-	}
-
-	/**
-	 * This method will switch completed status of a task.
-	 * 
-	 * @param task
-	 *            The task to be switched
-	 */
-	public final void toggleCompleted(Task task) {
-		task.setCompleted(!task.getCompleted());
-		hasChanged(ChangeMessage.EDIT_TASK);
-	}
 }
