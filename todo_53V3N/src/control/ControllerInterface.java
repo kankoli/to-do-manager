@@ -46,9 +46,8 @@ public final class ControllerInterface {
 
 	// Shared action names.
 	public static enum ActionName {
-		CHANGELANG, EXIT, NEWTASK, NEWCAT, SORT, TIMER
+		CHANGELANG, EXIT, NEWTASK, EDITTASK, NEWCAT, SORT, TIMER
 	};
-
 
 	public static enum DateFormat {
 		DDMMYYY, YYYYMMDD
@@ -91,7 +90,7 @@ public final class ControllerInterface {
 		Timer autosaveTimer = new Timer(AUTOSAVE_INTERVAL,
 				getAction(ControllerInterface.ActionName.TIMER));
 		autosaveTimer.start();
-		
+
 		// This makes a date like "31-13-2013 17:45"
 		// not valid!
 		for (SimpleDateFormat sdf : dateFormats)
@@ -126,8 +125,8 @@ public final class ControllerInterface {
 	 * @param categoryColor
 	 * @throws InvalidCategoryException
 	 */
-	public static final void addCategory(String categoryName, Color categoryColor)
-			throws InvalidCategoryException {
+	public static final void addCategory(String categoryName,
+			Color categoryColor) throws InvalidCategoryException {
 		dc.addCategory(categoryName, categoryColor);
 	}
 
@@ -182,8 +181,9 @@ public final class ControllerInterface {
 	 * @param categoryName
 	 * @param description
 	 */
-	public static final void addTask(String name, Date date, Task.Priority priority,
-			Boolean completed, String categoryName, String description) {
+	public static final void addTask(String name, Date date,
+			Task.Priority priority, Boolean completed, String categoryName,
+			String description) {
 		dc.addTask(name, date, priority, completed, categoryName, description);
 	}
 
@@ -328,8 +328,8 @@ public final class ControllerInterface {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public static final void setTheme(Themes theme) throws FileNotFoundException,
-			IOException {
+	public static final void setTheme(Themes theme)
+			throws FileNotFoundException, IOException {
 		// XXX Marco: im managing theme at this level, you think it's good?
 		// i still want to use the classloader
 		Themes oldTheme = Themes.valueOf(dataModel

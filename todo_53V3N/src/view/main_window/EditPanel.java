@@ -7,24 +7,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import control.ControllerInterface;
+import control.ControllerInterface.ActionName;
 import control.ControllerInterface.DateFormat;
-import exceptions.InvalidCategoryException;
 
+import shared_actions.TaskValueProvider;
 import utility.GlobalValues;
 import view.custom_components.DatePicker;
 import view.custom_components.PriorityBar;
@@ -32,6 +34,7 @@ import view.custom_components.PriorityBar;
 import model.Category;
 import model.DataModel;
 import model.Task;
+import model.Task.Priority;
 
 /**
  * 
@@ -40,7 +43,7 @@ import model.Task;
  */
 @SuppressWarnings("serial")
 public class EditPanel extends JPanel implements Observer,
-		PropertyChangeListener {
+		PropertyChangeListener, TaskValueProvider {
 
 	private JLabel noTaskSelectedLabel;
 	private JTextField nameTextField;
@@ -265,36 +268,17 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 1;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		
 		updateButton.setText(languageBundle.getString("task.taskInput.update"));
-//		updateButton.setText("Update"); // Load from language bundle
+		// updateButton.setText("Update"); // Load from language bundle
 		// Shared action here?
 		updateButton.setVisible(false);
-		updateButton.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent arg0) {
-				String name = nameTextField.getText();
-//				String date = dateTextField.getText();
-
-				Task.Priority priority = prioBar.getPriority();
-				// XXX: category should contain not string, but category
-				String categoryName = (String) categoryComboBox
-						.getSelectedItem();
-				String description = descrTextArea.getText();
-
-				try {
-					ControllerInterface.editTask(selectedTask, name, datePicker.getDate(),
-							priority, selectedTask.getCompleted(),
-							categoryName, description);
-				} catch (InvalidCategoryException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							"Category Problem", JOptionPane.WARNING_MESSAGE);
-
-				} 
-			}
-
-		});
-
+		Action a = ControllerInterface
+				.getAction(ActionName.EDITTASK);
+		
+		a.putValue("tpp", this);
+		
+		updateButton.setAction(a);
 		add(updateButton, constr);
 	}
 
@@ -382,8 +366,8 @@ public class EditPanel extends JPanel implements Observer,
 						.getString("task.taskInput.category")));
 		prioBar.setBorder(BorderFactory.createTitledBorder(languageBundle
 				.getString("task.taskInput.priority")));
-		updateButton.setText(languageBundle.getString("task.taskInput.update"));
 
+		updateButton.setText(languageBundle.getString("task.taskInput.update"));
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -392,5 +376,33 @@ public class EditPanel extends JPanel implements Observer,
 			setSelectedTask(((TaskRow) tt.getEditorComponent()).getTask());
 		}
 
+	}
+
+	public Task getTask() {
+		return selectedTask;
+	}
+
+	public String getTaskName() {
+		return nameTextField.getText();
+	}
+
+	public Date getDate() {
+		return datePicker.getDate();
+	}
+
+	public Priority getPrio() {
+		return prioBar.getPriority();
+	}
+
+	public Boolean getCompleted() {
+		return selectedTask.getCompleted();
+	}
+
+	public String getCategoryName() {
+		return (String)categoryComboBox.getSelectedItem();
+	}
+
+	public String getDescription() {
+		return descrTextArea.getText();
 	}
 }

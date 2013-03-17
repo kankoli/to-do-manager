@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 import control.ControllerInterface.ActionName;
 import shared_actions.ChangeLanguageAction;
+import shared_actions.EditTaskAction;
 import shared_actions.ExitAction;
 import shared_actions.NewCategoryAction;
 import shared_actions.NewTaskAction;
@@ -29,6 +30,7 @@ public final class ActionsController {
 	private Action changeLanguage;
 	private Action exitAction;
 	private Action newTask;
+	private Action editTask;
 	private Action newCategory;
 	private Action sortTasks;
 	private Action timerAction;
@@ -58,6 +60,12 @@ public final class ActionsController {
 				lang.getString("shared_actions.newtaskaction.desc"),
 				KeyEvent.VK_T);
 
+		editTask = new EditTaskAction(
+				lang.getString("shared_actions.edittaskaction.text"), null,
+				lang.getString("shared_actions.edittaskaction.desc"),
+				null);
+		
+		
 		newCategory = new NewCategoryAction(
 				lang.getString("shared_actions.newcategoryaction.text"), null,
 				lang.getString("shared_actions.newcategoryaction.desc"),
@@ -87,6 +95,8 @@ public final class ActionsController {
 			return exitAction;
 		case NEWTASK:
 			return newTask;
+		case EDITTASK:
+			return editTask;
 		case NEWCAT:
 			return newCategory;
 		case SORT:
@@ -115,6 +125,11 @@ public final class ActionsController {
 				lang.getString("shared_actions.newtaskaction.text"));
 		newTask.putValue(Action.SHORT_DESCRIPTION,
 				lang.getString("shared_actions.newtaskaction.desc"));
+
+		editTask.putValue(Action.NAME,
+				lang.getString("shared_actions.edittaskaction.text"));
+		editTask.putValue(Action.SHORT_DESCRIPTION,
+				lang.getString("shared_actions.edittaskaction.desc"));
 
 		newCategory.putValue(Action.NAME,
 				lang.getString("shared_actions.newcategoryaction.text"));

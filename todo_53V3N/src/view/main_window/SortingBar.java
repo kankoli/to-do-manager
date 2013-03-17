@@ -26,6 +26,12 @@ import javax.swing.JPanel;
  * Will be extended for flexibility to add tabs after creation (and delete)
  * @author Magnus Larsson
  * 
+ * 
+ * Things to do:
+ * 
+ *  * Change cursor while hovering the separators
+ *  * Make the recalculateTabSpace() method take notice to tabs minimal sizes
+ * 
  */
 @SuppressWarnings("serial")
 public class SortingBar extends JPanel {
@@ -165,25 +171,8 @@ public class SortingBar extends JPanel {
 			mouseDraggedPosX = me.getX();
 			repaint();
 
-			
-			
-			
-			System.out.println("dragging done:");
-
-			// TODO Marco:
-			// http://docs.oracle.com/javase/tutorial/uiswing/events/propertychangelistener.html
-			// i think is better to use this isntead of change listener, we will
-			// add a property
-			// even when a different tab is clicked! Change is too general,
-			// property is more specific
-			for (SortingTab t : sortingTabs) {
-				System.out.println("tab: POS " + t.getXPos() + " - WIDTH "
-						+ t.getWidth());
-			}
-
 			//Notify listeners for a change of offsets
 			firePropertyChange("offsets", null, getTabOffsets());
-
 		}
 		
 
