@@ -223,6 +223,9 @@ public class MainWindow extends JFrame implements Observer {
 	// This method creates and initializes menu
 	private void addMenu() {
 
+		languageBundle = ControllerInterface.getLanguageBundle();
+
+		
 		JMenuBar mb = new JMenuBar();
 		this.setJMenuBar(mb);
 
@@ -240,9 +243,6 @@ public class MainWindow extends JFrame implements Observer {
 		menu.add(menuItem);
 
 		menu.addSeparator();
-
-		
-		
 		
 		menuItem = new JMenuItem();
 		menuItem.setAction(ControllerInterface
@@ -625,10 +625,11 @@ public class MainWindow extends JFrame implements Observer {
 
 	public void update(Observable o, Object arg) {
 
+		
+		
 		DataModel.ChangeMessage msg = (DataModel.ChangeMessage) arg;
 
 		if (msg == DataModel.ChangeMessage.CHANGED_PROPERTY) {
-
 			addMenu();
 			revalidate();
 			repaint();
