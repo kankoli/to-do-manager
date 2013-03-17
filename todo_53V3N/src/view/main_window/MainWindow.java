@@ -553,7 +553,7 @@ public class MainWindow extends JFrame implements Observer {
 		int[] minTabWidths = {25, 25, 25, 25};
 		int tabHeights = 30;
 		Color selectedColor = Color.WHITE; //Retreive from theme
-		Color notSelectedColor = Color.GRAY; //See above
+		Color notSelectedColor = Color.LIGHT_GRAY; //See above
 		
 		CustomSortingBar pnlSortBar = new CustomSortingBar(tabNames, tabWidths, minTabWidths, tabHeights, selectedColor, notSelectedColor, languageBundle);
 		
