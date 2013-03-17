@@ -2,6 +2,7 @@ package control;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -378,9 +379,9 @@ public final class ControllerInterface {
 	 */
 	public static final void saveDB() {
 		try {
-			dataModel.saveDB();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			dataModel.saveDB(new FileOutputStream(GlobalValues.DBFILE),
+					GlobalValues.DBXSDFILE, new FileOutputStream(
+							GlobalValues.PROPSFILE));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

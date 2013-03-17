@@ -1,4 +1,4 @@
-package view.main_window;
+package view.custom_components;
 
 import java.awt.Color;
 import java.awt.Component;

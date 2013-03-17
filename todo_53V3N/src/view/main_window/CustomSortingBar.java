@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+
+import view.custom_components.SortingBar;
 import model.DataModel;
 import control.ControllerInterface;
 
@@ -16,6 +18,7 @@ import control.ControllerInterface;
  * @author Magnus Larsson
  *
  */
+@SuppressWarnings("serial")
 public class CustomSortingBar extends SortingBar implements Observer {
 	
 	private ResourceBundle languageBundle;

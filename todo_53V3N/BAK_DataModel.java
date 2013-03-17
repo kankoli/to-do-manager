@@ -1,10 +1,11 @@
 package model;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -30,15 +31,16 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+
 import utility.GeneralFunctions;
 import utility.GlobalValues;
 import utility.GlobalValues.Languages;
 import utility.GlobalValues.Themes;
 
 /**
- * This class represent the DataModel of our application. It contains all data
+ * This class represent the dataModel of our application. It contains all data
  * needed. This class manages, in transparent way, the I/O with the DB (wich is
- * a simple XML InputStream). XSD Validation scheme is provided, so XML will be
+ * a simple XML file). XSD Validation scheme is provided, so file will be
  * checked against a valid XSD schema to be sure data is valid. This class
  * builds our internal structures using some defined classes. It offers a clear
  * interface to the controller part
@@ -55,16 +57,11 @@ public final class DataModel extends Observable {
 	// https://www.ibm.com/developerworks/mydeveloperworks/blogs/HermannSW/entry/java_simpledateformat_vs_xs_datetime26?lang=en
 	private static final SimpleDateFormat RFC822DATETIME = new SimpleDateFormat(
 			"yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
+	
 	// Messages for notifying relevant observer classes.
 	public static enum ChangeMessage {
 		INIT, CHANGED_THEME, SORTED_TASK, CHANGED_PROPERTY, NEW_TASK, NEW_CATEGORY, DELETED_TASK, DELETED_CATEGORY, EDIT_TASK, CHANGED_FILTER, EDIT_URGENT
 	};
-
-	// DataModel
-	private InputStream XMLSource;
-	private boolean XSDValidation;
-	private InputStream propSource;
 
 	// Internal data structures
 	private List<Task> taskList;
@@ -73,36 +70,20 @@ public final class DataModel extends Observable {
 	// Properties files: will store options and preferences from last execution
 	private Properties props;
 
-	// For language suppor
+	// For language support
 	private ResourceBundle languageBundle;
 
 	private boolean isViewingCompletedTasks;
 
 	/**
-	 * Constructor that creates a DataModel in a very general way: DataModel can
-	 * receive input from any kind of InputStream. It can be configured to read
-	 * using XSDValidation procedure
-	 * 
-	 * @param XMLSource
-	 *            The input stream where to retrieve the database
-	 * @param XSDValidation
-	 *            The flag indicating wheter we should use XSD validation using
-	 *            XSD scheme specified into XML or not
-	 * @param propSource
-	 *            The input stram where to retrieve property file
+	 * Constructor initializes our DB connector by reading data and storing them
+	 * into local state, in a more conveniente representation using our classes.
 	 * 
 	 * @throws IOException
 	 * @throws JDOMException
 	 * @throws ParseException
 	 */
-	public DataModel(InputStream XMLSource, boolean XSDValidation,
-			InputStream propSource) throws JDOMException, IOException,
-			ParseException {
-
-		this.XMLSource = XMLSource;
-		this.XSDValidation = XSDValidation;
-		this.propSource = propSource;
-
+	public DataModel() throws JDOMException, IOException, ParseException {
 		RFC822DATETIME.setLenient(false); // This makes a date like
 											// "31-13-2013 17:45" not valid!
 
@@ -121,14 +102,14 @@ public final class DataModel extends Observable {
 
 		// Set view to default view: pending
 		isViewingCompletedTasks = false;
+		// Signal the view part we finished loading all internal structure
 
-		// Signal the observers we finished loading all internal structure
 		hasChanged(ChangeMessage.INIT);
 	}
 
 	/**
-	 * This This method loads properties from the property Stream. If properties
-	 * cannot be read, we build and return a default properties object.
+	 * This This method loads properties from the property file. If properties
+	 * cannot be read from file we retrieve a default properties object.
 	 * 
 	 * @return a properties object.
 	 */
@@ -136,12 +117,11 @@ public final class DataModel extends Observable {
 
 		Properties p = new Properties();
 
-		try { // try to load from stream
-			p.load(propSource);
+		try { // try to load from file
+			p.load(new FileInputStream(GlobalValues.PROPSFILE));
 
 		} catch (Exception e) { // Some error occurred, use default values
 
-			// XXX: these default values should be part of the datamodel, move here
 			p.setProperty(GlobalValues.LANGUAGEKEY, GlobalValues.LANGUAGEVAL);
 			p.setProperty(GlobalValues.WINXSIZEKEY, GlobalValues.WINXSIZEVAL);
 			p.setProperty(GlobalValues.WINYSIZEKEY, GlobalValues.WINYSIZEVAL);
@@ -165,14 +145,12 @@ public final class DataModel extends Observable {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public final void loadDB() throws IOException, JDOMException,
+	public final void loadDB() throws JDOMException, IOException,
 			ParseException {
 
-		// Depending on validation flag, build different sources
-		SAXBuilder builder = XSDValidation ? new SAXBuilder(
-				XMLReaders.XSDVALIDATING) : new SAXBuilder();
-
-		Document doc = builder.build(XMLSource);
+		// Read DB file enabling XSD validation
+		SAXBuilder builder = new SAXBuilder(XMLReaders.XSDVALIDATING);
+		Document doc = builder.build(new File(GlobalValues.DBFILE));
 		Element root = doc.getRootElement();
 
 		// Import categories
@@ -257,39 +235,26 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * This method stores into the actual internal state of the DataModel in the
-	 * XMLDest Stream. It will also save properties into propDest Stream. A
-	 * String containing the XSDScheme name can be provided, it will be written
-	 * in the header of XML Output Stream.
+	 * This method stores into the XML file the actual internal state of the
+	 * DataModel.
 	 * 
-	 * @param XMLDest
-	 *            The OutputStream to save database
-	 * @param XSDName
-	 *            The name of XSD scheme to specify in output XML, if null no
-	 *            scheme will be specified in header
-	 * @param propDest
-	 *            The OutputStream to save properties
-	 * 
+	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public final void saveDB(OutputStream XMLDest, String XSDName,
-			OutputStream propDest) throws IOException {
+	public final void saveDB() throws FileNotFoundException, IOException {
 
 		// Now build DOM representation and store it
 		Document doc = new Document();
 
 		Element root = new Element("todoManagerData");
+		// we need xsi namespace and header for validation
+		Namespace xsi = Namespace.getNamespace("xsi",
+				"http://www.w3.org/2001/XMLSchema-instance");
+		root.addNamespaceDeclaration(xsi);
 
-		// If we provide XSDNName, we need xsi namespace and header for
-		// validation
-		if (XSDName != null) {
-			Namespace xsi = Namespace.getNamespace("xsi",
-					"http://www.w3.org/2001/XMLSchema-instance");
-			root.addNamespaceDeclaration(xsi);
+		root.setAttribute("noNamespaceSchemaLocation", GlobalValues.DBXSDFILE,
+				xsi);
 
-			root.setAttribute("noNamespaceSchemaLocation", XSDName, xsi);
-
-		}
 		doc.setRootElement(root);
 
 		// Now create all tasks...
@@ -315,10 +280,10 @@ public final class DataModel extends Observable {
 
 		// Write the JDOM to file
 		XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-		xmlOutputter.output(doc, XMLDest);
+		xmlOutputter.output(doc, new FileOutputStream(GlobalValues.DBFILE));
 
 		// save also properties
-		props.store(propDest, null);
+		props.store(new FileOutputStream(GlobalValues.PROPSFILE), null);
 	}
 
 	/**
@@ -449,7 +414,6 @@ public final class DataModel extends Observable {
 
 	/**
 	 * This method set the new languageBundle
-	 * 
 	 * @param language
 	 */
 	public final void setLanguage(Languages language) {
@@ -462,8 +426,7 @@ public final class DataModel extends Observable {
 
 	/**
 	 * This method is called when new theme is selected
-	 * 
-	 * @param theme
+*	@param theme
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
@@ -477,8 +440,7 @@ public final class DataModel extends Observable {
 	/**
 	 * This method is called to add a new task to the data Model
 	 * 
-	 * @param task
-	 *            The task to be added
+	 * @param task The task to be added 
 	 */
 	public final void addTask(Task task) {
 		taskList.add(task);
@@ -486,9 +448,7 @@ public final class DataModel extends Observable {
 	}
 
 	/**
-	 * This method will be called to edit an existing task with the passed
-	 * values
-	 * 
+	 * This method will be called to edit an existing task with the passed values
 	 * @param task
 	 * @param name
 	 * @param date
@@ -557,10 +517,7 @@ public final class DataModel extends Observable {
 
 	/**
 	 * This method sets the viewing mode of completed task to viewMode
-	 * 
-	 * @param viewMode
-	 *            The boolean indicating wheter we want completed or not task to
-	 *            be displayed
+	 * @param viewMode The boolean indicating wheter we want completed or not task to be displayed
 	 */
 	public final void setIsViewingCompletedTasks(boolean viewMode) {
 		this.isViewingCompletedTasks = viewMode;
@@ -583,7 +540,6 @@ public final class DataModel extends Observable {
 
 	/**
 	 * This method marks urgentStatus of task as urgentStatus
-	 * 
 	 * @param task
 	 * @param b
 	 */
@@ -594,9 +550,7 @@ public final class DataModel extends Observable {
 
 	/**
 	 * This method will switch completed status of a task.
-	 * 
-	 * @param task
-	 *            The task to be switched
+	 * @param task The task to be switched
 	 */
 	public final void toggleCompleted(Task task) {
 		task.setCompleted(!task.getCompleted());

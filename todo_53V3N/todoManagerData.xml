@@ -24,7 +24,7 @@
       <date>2013-02-20T12:30:00.000+01:00</date>
       <priority>NORMAL</priority>
       <completed>false</completed>
-      <category>Sport</category>
+      <category>Meeting</category>
       <description>this is new!</description>
       <urgent>false</urgent>
     </task>
@@ -43,6 +43,15 @@
       <priority>HIGH</priority>
       <completed>false</completed>
       <category>Sport</category>
+      <description>this is new!</description>
+      <urgent>false</urgent>
+    </task>
+    <task>
+      <name>Hi</name>
+      <date>2013-02-27T12:30:00.000+01:00</date>
+      <priority>HIGH</priority>
+      <completed>false</completed>
+      <category>Fun</category>
       <description>this is new!</description>
       <urgent>false</urgent>
     </task>
