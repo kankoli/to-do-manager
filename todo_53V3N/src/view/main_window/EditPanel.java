@@ -183,7 +183,7 @@ public class EditPanel extends JPanel implements Observer,
 		constr.weighty = 0;
 		constr.anchor = GridBagConstraints.NORTHWEST;
 
-		categoryComboBox.setBackground(Color.WHITE);// Let theme handle
+		//categoryComboBox.setBackground(Color.WHITE);// Let theme handle
 		// categoryBox.setEnabled(false);
 
 		categoryComboBox.setVisible(false);
@@ -250,7 +250,7 @@ public class EditPanel extends JPanel implements Observer,
 																		// from
 																		// language
 																		// bundle
-		prioBar.setBackground(Color.WHITE);// Let theme handle
+		//prioBar.setBackground(Color.WHITE);// Let theme handle
 		prioBar.setVisible(false);
 
 		add(prioBar, constr);
