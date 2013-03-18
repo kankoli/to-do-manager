@@ -3,8 +3,8 @@ package model;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -62,9 +62,9 @@ public final class DataModel extends Observable {
 	};
 
 	// DataModel
-	private InputStream XMLSource;
+	private URL XMLSource;
 	private boolean XSDValidation;
-	private InputStream propSource;
+	private URL propSource;
 
 	// Internal data structures
 	private List<Task> taskList;
@@ -84,20 +84,19 @@ public final class DataModel extends Observable {
 	 * using XSDValidation procedure
 	 * 
 	 * @param XMLSource
-	 *            The input stream where to retrieve the database
+	 *            The URL where to retrieve the database
 	 * @param XSDValidation
 	 *            The flag indicating wheter we should use XSD validation using
 	 *            XSD scheme specified into XML or not
 	 * @param propSource
-	 *            The input stram where to retrieve property file
+	 *            The URL where to retrieve property file
 	 * 
 	 * @throws IOException
 	 * @throws JDOMException
 	 * @throws ParseException
 	 */
-	public DataModel(InputStream XMLSource, boolean XSDValidation,
-			InputStream propSource) throws JDOMException, IOException,
-			ParseException {
+	public DataModel(URL XMLSource, boolean XSDValidation, URL propSource)
+			throws JDOMException, IOException, ParseException {
 
 		this.XMLSource = XMLSource;
 		this.XSDValidation = XSDValidation;
@@ -137,7 +136,7 @@ public final class DataModel extends Observable {
 		Properties p = new Properties();
 
 		try { // try to load from stream
-			p.load(propSource);
+			p.load(propSource.openStream());
 
 		} catch (Exception e) { // Some error occurred, use default values
 

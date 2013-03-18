@@ -15,7 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Observable;
@@ -73,13 +73,14 @@ public class MainWindow extends JFrame implements Observer {
 
 	public MainWindow() {
 		super();
-
 		// Now we build DataModel passing some Imput stream values
 		try {
-			db = new DataModel(new FileInputStream(GlobalValues.DBFILE), true,
-					new FileInputStream(GlobalValues.PROPSFILE));
+			// XXX: changed constructor to URL to avoid problem when opening
+			// properties at beginning (if file wasn't existant)
+			db = new DataModel(new File(GlobalValues.DBFILE).toURI().toURL(),
+					true, new File(GlobalValues.PROPSFILE).toURI().toURL());
+
 		} catch (JDOMException | IOException | ParseException e1) {
-			// TODO Handle exception in proper way
 			e1.printStackTrace();
 		}
 
