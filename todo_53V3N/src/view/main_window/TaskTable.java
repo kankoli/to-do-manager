@@ -1,5 +1,6 @@
 package view.main_window;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.beans.PropertyChangeEvent;
@@ -52,6 +53,8 @@ public class TaskTable extends JTable implements Observer,
 
 		this.offsets = offsets;
 
+		this.setBackground(Color.red);
+		
 		// register as observer
 		ControllerInterface.registerAsObserver(this);
 

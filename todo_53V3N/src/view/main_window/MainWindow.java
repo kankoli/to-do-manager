@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -474,15 +473,16 @@ public class MainWindow extends JFrame implements Observer {
 		JPanel pnlTop = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		JLabel lblClock = new JLabel("");
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 1;
-		c.weighty = 0;
-		c.insets = new Insets(10, 10, 10, 10);
-		c.anchor = GridBagConstraints.WEST;
-		pnlTop.add(lblClock, c);
-
+		// TODO here we will place our clock
+		// JLabel lblClock = new JLabel();
+		// c.gridx = 0;
+		// c.gridy = 0;
+		// c.weightx = 1;
+		// c.weighty = 0;
+		// c.insets = new Insets(10, 10, 10, 10);
+		// c.anchor = GridBagConstraints.WEST;
+		// pnlTop.add(lblClock, c);
+		//
 		FlagBar flagBar = new FlagBar();
 		c.gridx = 1;
 		c.gridy = 0;
@@ -568,7 +568,10 @@ public class MainWindow extends JFrame implements Observer {
 						.getString("mainFrame.middlePanel.sortingBar.tab.category.name"),
 				languageBundle
 						.getString("mainFrame.middlePanel.sortingBar.tab.priority.name") };
-		int[] tabWidths = { 100, 200, 200, 100 };
+
+		// TODO temporary we didnt have time to fix it
+		int[] tabWidths = { 300, 200, 120, 120 };
+
 		int[] minTabWidths = { 25, 25, 25, 25 };
 		int tabHeights = 30;
 		Color selectedColor = Color.WHITE; // Retreive from theme

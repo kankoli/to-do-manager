@@ -46,9 +46,11 @@ public class NewTaskDialog extends JDialog implements Observer {
 	private JButton butOk;
 	private JButton butCanc;
 	
+	ResourceBundle languageBundle;
+	
 	public NewTaskDialog() {
 		super(); //Initialize the superclass J Diaolog  
-		ResourceBundle languageBundle = ControllerInterface.getLanguageBundle(); //language suppport
+		languageBundle = ControllerInterface.getLanguageBundle(); //language suppport
 
 		setTitle(languageBundle.getString("newTaskDialog.title"));
 
@@ -98,15 +100,53 @@ public class NewTaskDialog extends JDialog implements Observer {
 		//Creating and list the categories 
 		cmbCategory = new JComboBox<String>();
 		
+		
+		//---------
+
+		// we retrieve the hashtable (containing key - value pair).
+		// then we retrieve the keyset (all stored categories name)
+		// we add them as item in combobox
+//		for (String catName : ControllerInterface.getCategories().keySet())
+//			cmbCategory.addItem(catName);
+//
+//		
+//		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle
+//				.getString("task.taskInput.category")));
+		
+
 		// we retrieve the hashtable (containing key - value pair).
 		// then we retrieve the keyset (all stored categories name)
 		// we add them as item in combobox
 		for (String catName : ControllerInterface.getCategories().keySet())
 			cmbCategory.addItem(catName);
 
+		// Add this special value for adding a task, will register listener
+		cmbCategory.addItem(languageBundle
+				.getString("shared_actions.newcategoryaction.text"));
+
+		cmbCategory.addActionListener(new ActionListener() {
+
+			// If last "special item" is selected, open add category dialog
+			// will be an action, because also NewTaskDialog will use this
+			public void actionPerformed(ActionEvent e) {
+
+				// Note: this method fails is another category is called
+				// "New Category..."
+				// because it returns an index which is not the last one
+				// XXX how do i prevent this problem? Check on values?
+				if (cmbCategory.getSelectedIndex() == (cmbCategory
+						.getItemCount() - 1)) {
+					ControllerInterface.getAction(
+							ControllerInterface.ActionName.NEWCAT)
+							.actionPerformed(null);
+				}
+			}
+		});
+
 		
-		cmbCategory.setBorder(BorderFactory.createTitledBorder(languageBundle
-				.getString("task.taskInput.category")));
+		//---------
+		
+		
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
@@ -219,7 +259,7 @@ public class NewTaskDialog extends JDialog implements Observer {
 	private void updateLanguagePresentation() {
 
 		
-		ResourceBundle languageBundle = ControllerInterface.getLanguageBundle();
+		languageBundle = ControllerInterface.getLanguageBundle();
 		
 		setTitle(languageBundle.getString("newTaskDialog.title"));
 
@@ -260,5 +300,54 @@ public class NewTaskDialog extends JDialog implements Observer {
 			revalidate();
 			repaint();
 		}
+		
+		// Force reload of side panel, to refresh with new category
+		if (msg == DataModel.ChangeMessage.NEW_CATEGORY) {
+			updateCategoryComboBox();
+		}
+
 	}
-}
+
+	/**
+	 * Called to refresh the combo box's content
+	 */
+	private void updateCategoryComboBox() {
+
+		// If we already have a listener, it means that
+		// we are refreshing list, remove listener and all elements
+		if (cmbCategory.getActionListeners().length > 0) {
+			cmbCategory.removeActionListener(cmbCategory
+					.getActionListeners()[0]);
+			cmbCategory.removeAllItems();
+
+		}
+
+		// Then retrieve all values from categories
+		for (String c : ControllerInterface.getCategories().keySet()) {
+			cmbCategory.addItem(c);
+		}
+
+		// Add this special value for adding a task, will register listener
+		cmbCategory.addItem(languageBundle
+				.getString("shared_actions.newcategoryaction.text"));
+
+		cmbCategory.addActionListener(new ActionListener() {
+
+			// If last "special item" is selected, open add category dialog
+			// will be an action, because also NewTaskDialog will use this
+			public void actionPerformed(ActionEvent e) {
+
+				// Note: this method fails is another category is called
+				// "New Category..."
+				// because it returns an index which is not the last one
+				// XXX how do i prevent this problem? Check on values?
+				if (cmbCategory.getSelectedIndex() == (cmbCategory
+						.getItemCount() - 1)) {
+					ControllerInterface.getAction(
+							ControllerInterface.ActionName.NEWCAT)
+							.actionPerformed(null);
+				}
+			}
+		});
+
+	}}
